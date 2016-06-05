@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <semaphores.h>
+
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+#include <../clab5/zassert.h>
+
+
+
+
+int main(int argc, char *argv[]){
+
+	//initialize shared semaphore used to synchronize access to queue
+	int shmg = shmget(getuid()+8841, sizeof(sem_queue), IPC_CREAT);
+	zassert(shmg < 0);
+
+	sem_t *sem_queue = shmat(shmg, NULL, 00644);
+	zassert(sem_queue < 0);
+
+	int smo = sem_init(sem_queue, 1, 0);
+	zassert(smo < 0);
+
+
+
+	return 0;
+}
