@@ -69,22 +69,26 @@ int main(int argc, char *argv[]){
 	struct sockaddr_in sock_in = { 0 };
 	socklen_t slen = sizeof(sock_in);
 
-	if(fork() == 0){ //worker code
-		//TODO: 
-		//if msgrcv returns error because queue is empty and total amount of 
-		//childs > MAX_WORKERS, some of them should exit successively by
-		//locking mutex and checking protected by them variable
-
-		printf("Child started\n");
-
-		struct msg_buf rmsg = { 0 };
-		
-		int ipc_rcv = msgrcv(ipc_id, &rmsg, sizeof(rmsg), MSG_TYPE, 0);
-		printf("Time %d\n", rmsg.a);
-		return 0;
+	int i = 0;
+	while(i < MIN_WORKERS){
+		if(fork() == 0){ //worker code
+			//TODO: 
+			//if msgrcv returns error because queue is empty and total amount of 
+			//childs > MAX_WORKERS, some of them should exit successively by
+			//locking mutex and checking protected by them variable
+	
+			printf("Child started\n");
+	
+			struct msg_buf rmsg = { 0 };
+			
+			int ipc_rcv = msgrcv(ipc_id, &rmsg, sizeof(rmsg), MSG_TYPE, 0);
+			printf("Time %d\n", rmsg.a);
+			printf("Child #%d died\n", i);
+			return 0;
+		}
+		i++;
 	}
-
-	while(1){
+		while(1){
 		int client_fd = accept(sock, (struct sockaddr*)&sock_in, &slen);
 //		if(client_fd < 0 && errno == EINTR){
 //			continue;
