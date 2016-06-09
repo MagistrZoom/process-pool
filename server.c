@@ -44,10 +44,9 @@ struct worker {
 };
 
 struct workers {
-	mutex_t mutex_global_id;
-	int global_id;
 	mutex_t mutex_free_counter;
 	int free_counter;
+	mutex_t mutex_workerlist;
 	struct worker list[CFDS];
 };
 
@@ -66,20 +65,24 @@ void free_handler(int sig){
 }
 
 void do_work(int id){
+	mutex_lock(&workers_protected->mutex_workerlist);
+
 	workers_protected->list[id].used = 1;
-	mutex_unlock(&workers_protected->mutex_global_id);
+	workers_protected->list[id].is_free = 1;
 
-
+	mutex_unlock(&workers_protected->mutex_workerlist);
+	
+	
 	//first of all need to became a client of localserver
-	close(local_sock);
 	int source = connect_server();
 
+	
 	mutex_lock(&workers_protected->mutex_free_counter);
 	
 	workers_protected->free_counter++;
-	workers_protected->list[id].is_free = 1;
 
 	mutex_unlock(&workers_protected->mutex_free_counter);
+
 	
 	printf("Child started\n");
 	
@@ -91,21 +94,26 @@ void do_work(int id){
 		
 		printf("PID #%d received new client fd#%d\n", id, recv_fd);
 
+	
 		mutex_lock(&workers_protected->mutex_free_counter);
 
-		workers_protected->list[id].is_free = 0;
 		workers_protected->free_counter--;
 
 		mutex_unlock(&workers_protected->mutex_free_counter);
 
-		sleep(1);
-
 		char buf[256] = { 0 };
-		sprintf(buf, "Time %d", time(NULL));
+		sprintf(buf, "<<< Time %d", time(NULL));
 		puts(buf);
 		ssize_t written = send(recv_fd, buf, strlen(buf), 0);
 		zassert(written < 0);
 
+
+		mutex_lock(&workers_protected->mutex_workerlist);
+
+		workers_protected->list[id].is_free = 1;
+		
+		mutex_unlock(&workers_protected->mutex_workerlist);
+	
 		
 		mutex_lock(&workers_protected->mutex_free_counter);
 		
@@ -114,14 +122,20 @@ void do_work(int id){
 			break;
 		}
 
-		workers_protected->list[id].is_free = 1;
 		workers_protected->free_counter++;
 
 		mutex_unlock(&workers_protected->mutex_free_counter);
 		
 	}
 
+
+	mutex_lock(&workers_protected->mutex_workerlist);
+
 	workers_protected->list[id].used = 0;
+
+	mutex_unlock(&workers_protected->mutex_workerlist);
+
+
 
 	mutex_unlock(&workers_protected->mutex_free_counter);
 		
@@ -134,25 +148,20 @@ void do_work(int id){
 void initialize_workers() {
 
 	//make base of workers pool
-	
-	mutex_lock(&workers_protected->mutex_global_id);
-		
-	workers_protected->global_id = 0;
-
-	while(workers_protected->global_id < MIN_WORKERS){
-		mutex_unlock(&workers_protected->mutex_global_id);
-
-		mutex_lock(&workers_protected->mutex_global_id);
-
+	int i = 0;
+	while(i++ < MIN_WORKERS){
 		if(fork() == 0){ //worker code
-			do_work(first_unused_in_list(workers_protected->list, CFDS));
-		}
-		mutex_lock(&workers_protected->mutex_global_id);
+			mutex_lock(&workers_protected->mutex_workerlist);
+			
+			int index = first_unused_in_list(workers_protected->list, CFDS);
+			printf("Instaniate: generated process PID #%d\n", index);
+			
+			mutex_unlock(&workers_protected->mutex_workerlist);
 
-		workers_protected->global_id++;
+
+			do_work(index);
+		}
 	}
-	
-	mutex_unlock(&workers_protected->mutex_global_id);
 }
 
 int start_tcp() {
@@ -191,7 +200,7 @@ int first_free_in_list(struct worker *list, int limit){
 	int i;
 	for(i = 0; i < limit; i++){
 		if(list[i].is_free && list[i].used){
-			list[i].is_free = 0;
+			printf("WORKER %d: free %d, used %d, connect %d\n", i, list[i].is_free, list[i].used, list[i].local_fd);
 			return i;
 		}
 	}
@@ -226,12 +235,13 @@ int main(int argc, char *argv[]) {
 	workers_protected = shmat(shared_id, NULL, 0);
 
 	zassert(workers_protected < NULL);
+
+	memset(workers_protected, 0, sizeof(struct workers));
+
 	int mut_init = mutex_init(&workers_protected->mutex_free_counter, USYNC_PROCESS, NULL);
 	zassert(mut_init < 0);
-	mut_init = mutex_init(&workers_protected->mutex_global_id, USYNC_PROCESS, NULL);
+	mut_init = mutex_init(&workers_protected->mutex_workerlist, USYNC_PROCESS, NULL);
 	zassert(mut_init < 0);
-	workers_protected->free_counter = 0;
-	workers_protected->global_id = 0;
 
 
 	//now just init TCP listener
@@ -260,29 +270,54 @@ int main(int argc, char *argv[]) {
 		msgassert(client_fd < 0, ipc_id);
 		printf("### Main loop just got a connection to fd #%d\n", client_fd);
 		
-		mutex_lock(&workers_protected->mutex_free_counter);
-		
-		mutex_lock(&workers_protected->mutex_global_id);
 
-		workers_protected->global_id++;
+		mutex_lock(&workers_protected->mutex_workerlist);
+		
+		int current_free = first_free_in_list(workers_protected->list, CFDS);
+		
+		mutex_unlock(&workers_protected->mutex_workerlist);
+
 
 		//that is easy. If there is no free processes, just create new one
-		printf("Current free counter %d\n", workers_protected->free_counter);
-		if(workers_protected->free_counter == 0)
-			if(fork() == 0)
-				do_work(first_unused_in_list(workers_protected->list, CFDS));
-			
-		mutex_unlock(&workers_protected->mutex_global_id);
+		printf("Current free counter %d\n", current_free);
+		if(current_free == -1){
+			mutex_lock(&workers_protected->mutex_workerlist);
+			int index = first_unused_in_list(workers_protected->list, CFDS);
+			mutex_unlock(&workers_protected->mutex_workerlist);
 
-		mutex_unlock(&workers_protected->mutex_free_counter);
+			if(fork() == 0){
+				do_work(index);
+			} else{
+				struct sockaddr_in local_in = { 0 };
+				socklen_t slen = sizeof(struct sockaddr_in);
+				int lfd = accept(local_sock, (struct sockaddr*)&local_in, &slen);
+
+
+				mutex_lock(&workers_protected->mutex_workerlist);
+
+				workers_protected->list[index].local_fd = lfd;
+
+				mutex_unlock(&workers_protected->mutex_workerlist);
+
+				printf("Accepted local connect from process #%d\n", index);
+			}
+		}
+
 			
 		//then push new client to be handled by one of pool's processes
 		int process_id;
-		while(process_id = first_free_in_list(workers_protected->list, CFDS) < 0){
+		mutex_lock(&workers_protected->mutex_workerlist);
+		while((process_id = first_free_in_list(workers_protected->list, CFDS)) < 0){
+			mutex_unlock(&workers_protected->mutex_workerlist);
 			sleep(1);
 		}
 		
-		printf("Client #%d pushed to handle\n", client_fd);
+		//make it unfree
+		workers_protected->list[process_id].is_free = 0;
+
+		mutex_unlock(&workers_protected->mutex_workerlist);
+		
+		printf("--- Client #%d pushed to handle by process #%d\n", client_fd, process_id);
 		//now process_id is not free
 		int sendfd_res = send_file_descriptor(
 			workers_protected->list[process_id].local_fd, client_fd);

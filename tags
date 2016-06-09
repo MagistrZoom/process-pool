@@ -3335,7 +3335,6 @@ gf_numsrc	/usr/include/netinet/in.h	/^	uint32_t		gf_numsrc;	\/* number of source
 gf_slist	/usr/include/netinet/in.h	/^	struct sockaddr_storage	gf_slist[1];	\/* source address *\/$/;"	m	struct:group_filter	typeref:struct:group_filter::sockaddr_storage
 gid	/usr/include/sys/ipc.h	/^	gid_t		gid;	\/* owner's group id *\/$/;"	m	struct:ipc_perm
 gid_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	uid_t	gid_t;			\/* GID type		*\/$/;"	t
-global_id	server.c	/^	int global_id;$/;"	m	struct:workers	file:
 gr_group	/usr/include/netinet/in.h	/^	struct sockaddr_storage	gr_group;	\/* group address *\/$/;"	m	struct:group_req	typeref:struct:group_req::sockaddr_storage
 gr_interface	/usr/include/netinet/in.h	/^	uint32_t		gr_interface;	\/* interface index *\/$/;"	m	struct:group_req
 group_filter	/usr/include/netinet/in.h	/^struct group_filter {$/;"	s
@@ -3766,8 +3765,8 @@ mutex	/usr/include/sys/mutex.h	/^typedef struct mutex {$/;"	s
 mutex	/usr/include/sys/stream.h	/^	kmutex_t		mutex;$/;"	m	struct:bcache
 mutex	/usr/include/sys/synch.h	/^	lwp_mutex_t	mutex;		\/* used with process-shared rwlocks *\/$/;"	m	struct:_lwp_rwlock
 mutex_free_counter	server.c	/^	mutex_t mutex_free_counter;$/;"	m	struct:workers	file:
-mutex_global_id	server.c	/^	mutex_t mutex_global_id;$/;"	m	struct:workers	file:
 mutex_t	/usr/include/synch.h	/^typedef lwp_mutex_t mutex_t;$/;"	t
+mutex_workerlist	server.c	/^	mutex_t mutex_workerlist;$/;"	m	struct:workers	file:
 naccess	/usr/include/sys/vnode.h	/^	kstat_named_t	naccess;	\/* VOP_ACCESS *\/$/;"	m	struct:vopstats
 naddmap	/usr/include/sys/vnode.h	/^	kstat_named_t	naddmap;	\/* VOP_ADDMAP *\/$/;"	m	struct:vopstats
 name	/usr/include/sys/kstat.h	/^	char		name[KSTAT_STRLEN];	\/* event name *\/$/;"	m	struct:kstat_timer
