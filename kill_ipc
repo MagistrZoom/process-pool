@@ -1,0 +1,19 @@
+#!/bin/bash
+
+ME=`whoami`
+
+IPCS_S=`ipcs -s | grep $ME | ggrep -Eo "0x[0-9a-f]+"`
+IPCS_M=`ipcs -m | grep $ME |  ggrep -Eo "0x[0-9a-f]+"`
+IPCS_Q=`ipcs -q | grep $ME |  ggrep -Eo "0x[0-9a-f]+"`
+
+for id in $IPCS_M; do
+  ipcrm -M $id;
+done
+
+for id in $IPCS_S; do
+  ipcrm -S $id;
+done
+
+for id in $IPCS_Q; do
+  ipcrm -Q $id;
+done
