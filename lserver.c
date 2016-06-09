@@ -103,7 +103,9 @@ int recv_file_descriptor(int socket) {
 	
 	memset(&message, 0, sizeof(struct msghdr));
 	memset(ctrl_buf, 0, CMSG_SPACE(sizeof(int)));
-	
+	char data[1];
+	iov[0].iov_base = data;
+	iov[0].iov_len = 1;
 	message.msg_name = NULL;
 	message.msg_namelen = 0;
 	message.msg_control = ctrl_buf;

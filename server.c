@@ -67,7 +67,6 @@ void free_handler(int sig){
 
 void do_work(int id){
 	workers_protected->list[id].used = 1;
-	workers_protected->list[id].is_free = 1;
 	mutex_unlock(&workers_protected->mutex_global_id);
 
 
@@ -78,6 +77,7 @@ void do_work(int id){
 	mutex_lock(&workers_protected->mutex_free_counter);
 	
 	workers_protected->free_counter++;
+	workers_protected->list[id].is_free = 1;
 
 	mutex_unlock(&workers_protected->mutex_free_counter);
 	
@@ -86,11 +86,14 @@ void do_work(int id){
 	struct msg_buf rmsg = { 0 };
 	
 	while(1){
+		printf("PID #%d is waiting\n", id);
 		int recv_fd = recv_file_descriptor(source);
-		workers_protected->list[id].is_free = 0;
+		
+		printf("PID #%d received new client fd#%d\n", id, recv_fd);
 
 		mutex_lock(&workers_protected->mutex_free_counter);
 
+		workers_protected->list[id].is_free = 0;
 		workers_protected->free_counter--;
 
 		mutex_unlock(&workers_protected->mutex_free_counter);
@@ -112,13 +115,17 @@ void do_work(int id){
 		}
 
 		workers_protected->list[id].is_free = 1;
-
 		workers_protected->free_counter++;
 
 		mutex_unlock(&workers_protected->mutex_free_counter);
+		
 	}
 
 	workers_protected->list[id].used = 0;
+
+	mutex_unlock(&workers_protected->mutex_free_counter);
+		
+
 	printf("Process #%d received kill message. Now %d free processes in the pool\n", 
 			id, workers_protected->free_counter);
 	exit(0);
@@ -129,16 +136,19 @@ void initialize_workers() {
 	//make base of workers pool
 	
 	mutex_lock(&workers_protected->mutex_global_id);
+		
 	workers_protected->global_id = 0;
 
 	while(workers_protected->global_id < MIN_WORKERS){
 		mutex_unlock(&workers_protected->mutex_global_id);
 
 		mutex_lock(&workers_protected->mutex_global_id);
+
 		if(fork() == 0){ //worker code
 			do_work(first_unused_in_list(workers_protected->list, CFDS));
 		}
 		mutex_lock(&workers_protected->mutex_global_id);
+
 		workers_protected->global_id++;
 	}
 	
@@ -169,8 +179,10 @@ int start_tcp() {
 int first_unused_in_list(struct worker *list, int limit){
 	int i;
 	for(i = 0; i < limit; i++){
-		if(!list[i].used)
+		if(!list[i].used){
+			list[i].is_free = 1;
 			return i;
+		}
 	}
 	return -1;
 }
@@ -178,8 +190,10 @@ int first_unused_in_list(struct worker *list, int limit){
 int first_free_in_list(struct worker *list, int limit){
 	int i;
 	for(i = 0; i < limit; i++){
-		if(list[i].is_free && list[i].used)
+		if(list[i].is_free && list[i].used){
+			list[i].is_free = 0;
 			return i;
+		}
 	}
 	return -1;
 }
@@ -253,11 +267,13 @@ int main(int argc, char *argv[]) {
 		workers_protected->global_id++;
 
 		//that is easy. If there is no free processes, just create new one
+		printf("Current free counter %d\n", workers_protected->free_counter);
 		if(workers_protected->free_counter == 0)
-			if(fork() == 0){
+			if(fork() == 0)
 				do_work(first_unused_in_list(workers_protected->list, CFDS));
-			}
 			
+		mutex_unlock(&workers_protected->mutex_global_id);
+
 		mutex_unlock(&workers_protected->mutex_free_counter);
 			
 		//then push new client to be handled by one of pool's processes
@@ -267,6 +283,7 @@ int main(int argc, char *argv[]) {
 		}
 		
 		printf("Client #%d pushed to handle\n", client_fd);
+		//now process_id is not free
 		int sendfd_res = send_file_descriptor(
 			workers_protected->list[process_id].local_fd, client_fd);
 		zassert(sendfd_res < 0);
