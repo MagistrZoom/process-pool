@@ -118,6 +118,7 @@ CMSG_FIRSTHDR	/usr/include/sys/socket.h	375;"	d
 CMSG_LEN	/usr/include/sys/socket.h	394;"	d
 CMSG_NXTHDR	/usr/include/sys/socket.h	379;"	d
 CMSG_SPACE	/usr/include/sys/socket.h	390;"	d
+COND_MAGIC	/usr/include/synch.h	160;"	d
 CPU_INTR_ACTV_HIGH_LEVEL_MASK	/usr/include/sys/machlock.h	105;"	d
 CRCREAT	/usr/include/sys/vnode.h	/^enum create	{ CRCREAT, CRMKNOD, CRMKDIR };	\/* reason for create *\/$/;"	e	enum:create
 CREATE_XATTR_DIR	/usr/include/sys/vnode.h	843;"	d
@@ -141,6 +142,10 @@ DB_CPID	/usr/include/sys/stream.h	326;"	d
 DB_CRED	/usr/include/sys/stream.h	327;"	d
 DB_CREDDEF	/usr/include/sys/stream.h	328;"	d
 DB_TCI	/usr/include/sys/stream.h	332;"	d
+DEFAULTCV	/usr/include/synch.h	185;"	d
+DEFAULTMUTEX	/usr/include/synch.h	170;"	d
+DEFAULTRWLOCK	/usr/include/synch.h	193;"	d
+DEFAULTSEMA	/usr/include/synch.h	189;"	d
 DEFAULTSTKSZ	/usr/include/sys/param.h	372;"	d
 DEFAULT_JUMPPID	/usr/include/sys/param.h	96;"	d
 DEFAULT_JUMPPID	/usr/include/sys/param.h	99;"	d
@@ -276,6 +281,7 @@ EREMCHG	/usr/include/sys/errno.h	140;"	d
 EREMOTE	/usr/include/sys/errno.h	122;"	d
 ERESTART	/usr/include/sys/errno.h	151;"	d
 EROFS	/usr/include/sys/errno.h	76;"	d
+ERRORCHECKMUTEX	/usr/include/synch.h	179;"	d
 ESHUTDOWN	/usr/include/sys/errno.h	182;"	d
 ESOCKTNOSUPPORT	/usr/include/sys/errno.h	164;"	d
 ESPIPE	/usr/include/sys/errno.h	75;"	d
@@ -782,12 +788,23 @@ LE_8	/usr/include/sys/byteorder.h	109;"	d
 LLADDR	/usr/include/net/if_dl.h	79;"	d
 LLONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	587;"	d
 LLONG_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	585;"	d
+LOCK_ERRORCHECK	/usr/include/sys/synch.h	116;"	d
 LOCK_HELD	/usr/include/sys/machlock.h	38;"	d
 LOCK_HELD_VALUE	/usr/include/sys/machlock.h	35;"	d
+LOCK_INITED	/usr/include/sys/synch.h	134;"	d
 LOCK_INIT_CLEAR	/usr/include/sys/machlock.h	36;"	d
 LOCK_INIT_HELD	/usr/include/sys/machlock.h	37;"	d
 LOCK_LEVEL	/usr/include/sys/machlock.h	95;"	d
+LOCK_NORMAL	/usr/include/sys/synch.h	114;"	d
+LOCK_NOTRECOVERABLE	/usr/include/sys/synch.h	133;"	d
+LOCK_OWNERDEAD	/usr/include/sys/synch.h	132;"	d
+LOCK_PRIO_INHERIT	/usr/include/sys/synch.h	118;"	d
+LOCK_PRIO_PROTECT	/usr/include/sys/synch.h	119;"	d
+LOCK_RECURSIVE	/usr/include/sys/synch.h	117;"	d
+LOCK_ROBUST	/usr/include/sys/synch.h	120;"	d
 LOCK_SAMPLE_INTERVAL	/usr/include/sys/machlock.h	54;"	d
+LOCK_SHARED	/usr/include/sys/synch.h	115;"	d
+LOCK_UNMAPPED	/usr/include/sys/synch.h	135;"	d
 LONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	574;"	d
 LONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	581;"	d
 LONG_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	572;"	d
@@ -821,8 +838,8 @@ MAX_CANON	/usr/include/sys/param.h	73;"	d
 MAX_INPUT	/usr/include/sys/param.h	69;"	d
 MAX_MAXPID	/usr/include/sys/param.h	85;"	d
 MAX_TASKID	/usr/include/sys/param.h	84;"	d
-MAX_WAITING_CONNECTIONS	server.c	18;"	d	file:
-MAX_WORKERS	server.c	20;"	d	file:
+MAX_WAITING_CONNECTIONS	server.c	22;"	d	file:
+MAX_WORKERS	server.c	24;"	d	file:
 MCAST_BLOCK_SOURCE	/usr/include/netinet/in.h	1187;"	d
 MCAST_EXCLUDE	/usr/include/netinet/in.h	1044;"	d
 MCAST_INCLUDE	/usr/include/netinet/in.h	1043;"	d
@@ -835,7 +852,7 @@ MHZ_TO_HZ	/usr/include/sys/time.h	269;"	d
 MICROSEC	/usr/include/sys/time.h	186;"	d
 MILLISEC	/usr/include/sys/time.h	185;"	d
 MINSIGSTKSZ	/usr/include/sys/signal.h	151;"	d
-MIN_WORKERS	server.c	19;"	d	file:
+MIN_WORKERS	server.c	23;"	d	file:
 MMU_PAGEMASK	/usr/include/sys/param.h	366;"	d
 MMU_PAGEOFFSET	/usr/include/sys/param.h	365;"	d
 MMU_PAGESHIFT	/usr/include/sys/param.h	364;"	d
@@ -865,7 +882,7 @@ MSG_PEEK	/usr/include/sys/socket.h	324;"	d
 MSG_R	/usr/include/sys/msg.h	35;"	d
 MSG_RWAIT	/usr/include/sys/msg.h	41;"	d
 MSG_TRUNC	/usr/include/sys/socket.h	329;"	d
-MSG_TYPE	server.c	17;"	d	file:
+MSG_TYPE	server.c	21;"	d	file:
 MSG_W	/usr/include/sys/msg.h	36;"	d
 MSG_WAITALL	/usr/include/sys/socket.h	330;"	d
 MSG_WWAIT	/usr/include/sys/msg.h	42;"	d
@@ -876,7 +893,9 @@ MUTEX_DEFAULT	/usr/include/sys/mutex.h	/^	MUTEX_DEFAULT = 6	\/* kernel default m
 MUTEX_DEFAULT	/usr/include/sys/mutex.h	/^	MUTEX_DEFAULT = 6	\/* kernel default mutex *\/$/;"	e	enum:__anon81
 MUTEX_DRIVER	/usr/include/sys/mutex.h	/^	MUTEX_DRIVER = 4,	\/* driver (DDI) mutex *\/$/;"	e	enum:__anon37
 MUTEX_DRIVER	/usr/include/sys/mutex.h	/^	MUTEX_DRIVER = 4,	\/* driver (DDI) mutex *\/$/;"	e	enum:__anon81
+MUTEX_HELD	/usr/include/synch.h	205;"	d
 MUTEX_HELD	/usr/include/sys/mutex.h	67;"	d
+MUTEX_MAGIC	/usr/include/synch.h	158;"	d
 MUTEX_NOT_HELD	/usr/include/sys/mutex.h	68;"	d
 MUTEX_SPIN	/usr/include/sys/mutex.h	/^	MUTEX_SPIN = 1,		\/* block interrupts and spin *\/$/;"	e	enum:__anon37
 MUTEX_SPIN	/usr/include/sys/mutex.h	/^	MUTEX_SPIN = 1,		\/* block interrupts and spin *\/$/;"	e	enum:__anon81
@@ -989,8 +1008,10 @@ NOFILE	/usr/include/sys/param.h	110;"	d
 NONEXCL	/usr/include/sys/vnode.h	/^enum vcexcl	{ NONEXCL, EXCL };		\/* (non)excl create *\/$/;"	e	enum:vcexcl
 NONSYSCALL	/usr/include/sys/vnode.h	844;"	d
 NOPID	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	602;"	d
+NO_COMPETING_THREADS	/usr/include/synch.h	217;"	d
 NO_COMPETING_THREADS	/usr/include/sys/t_lock.h	73;"	d
 NO_FOLLOW	/usr/include/sys/vnode.h	840;"	d
+NO_LOCKS_HELD	/usr/include/synch.h	214;"	d
 NO_LOCKS_HELD	/usr/include/sys/t_lock.h	70;"	d
 NSEC_TO_TICK	/usr/include/sys/time.h	230;"	d
 NSEC_TO_TICK_ROUNDUP	/usr/include/sys/time.h	231;"	d
@@ -1173,6 +1194,8 @@ QWANTWSYNC	/usr/include/sys/stream.h	148;"	d
 QWCLOSE	/usr/include/sys/stream.h	146;"	d
 Q_SQDRAINING	/usr/include/sys/stream.h	162;"	d
 Q_SQQUEUED	/usr/include/sys/stream.h	161;"	d
+RECURSIVEMUTEX	/usr/include/synch.h	176;"	d
+RECURSIVE_ERRORCHECKMUTEX	/usr/include/synch.h	182;"	d
 RLIM32_INFINITY	/usr/include/sys/resource.h	95;"	d
 RLIM32_SAVED_CUR	/usr/include/sys/resource.h	97;"	d
 RLIM32_SAVED_MAX	/usr/include/sys/resource.h	96;"	d
@@ -1206,6 +1229,7 @@ RMFILE	/usr/include/sys/vnode.h	/^enum rm		{ RMFILE, RMDIRECTORY };	\/* rm or rm
 RUSAGE_CHILDREN	/usr/include/sys/resource.h	203;"	d
 RUSAGE_LWP	/usr/include/sys/resource.h	202;"	d
 RUSAGE_SELF	/usr/include/sys/resource.h	201;"	d
+RWL_MAGIC	/usr/include/synch.h	161;"	d
 RWST_HELD	/usr/include/sys/rwstlock.h	39;"	d
 RWST_READ_ENTER	/usr/include/sys/rwstlock.h	52;"	d
 RWST_READ_EXIT	/usr/include/sys/rwstlock.h	54;"	d
@@ -1228,12 +1252,15 @@ RW_DEFAULT	/usr/include/sys/rwlock.h	/^	RW_DEFAULT = 4		\/* kernel default rwloc
 RW_DRIVER	/usr/include/sys/rwlock.h	/^	RW_DRIVER = 2,		\/* driver (DDI) rwlock *\/$/;"	e	enum:__anon38
 RW_DRIVER	/usr/include/sys/rwlock.h	/^	RW_DRIVER = 2,		\/* driver (DDI) rwlock *\/$/;"	e	enum:__anon82
 RW_ISWRITER	/usr/include/sys/rwlock.h	42;"	d
+RW_LOCK_HELD	/usr/include/synch.h	204;"	d
 RW_LOCK_HELD	/usr/include/sys/rwlock.h	41;"	d
 RW_READER	/usr/include/sys/rwlock.h	/^	RW_READER$/;"	e	enum:__anon39
 RW_READER	/usr/include/sys/rwlock.h	/^	RW_READER$/;"	e	enum:__anon83
+RW_READ_HELD	/usr/include/synch.h	202;"	d
 RW_READ_HELD	/usr/include/sys/rwlock.h	39;"	d
 RW_WRITER	/usr/include/sys/rwlock.h	/^	RW_WRITER,$/;"	e	enum:__anon39
 RW_WRITER	/usr/include/sys/rwlock.h	/^	RW_WRITER,$/;"	e	enum:__anon83
+RW_WRITE_HELD	/usr/include/synch.h	203;"	d
 RW_WRITE_HELD	/usr/include/sys/rwlock.h	40;"	d
 R_OK	/usr/include/unistd.h	28;"	d
 SA_NOCLDSTOP	/usr/include/sys/signal.h	113;"	d
@@ -1262,7 +1289,30 @@ SEMA_DEFAULT	/usr/include/sys/semaphore.h	/^	SEMA_DEFAULT,$/;"	e	enum:__anon40
 SEMA_DEFAULT	/usr/include/sys/semaphore.h	/^	SEMA_DEFAULT,$/;"	e	enum:__anon84
 SEMA_DRIVER	/usr/include/sys/semaphore.h	/^	SEMA_DRIVER$/;"	e	enum:__anon40
 SEMA_DRIVER	/usr/include/sys/semaphore.h	/^	SEMA_DRIVER$/;"	e	enum:__anon84
+SEMA_HELD	/usr/include/synch.h	201;"	d
 SEMA_HELD	/usr/include/sys/semaphore.h	36;"	d
+SEMA_MAGIC	/usr/include/synch.h	159;"	d
+SHAREDCV	/usr/include/synch.h	187;"	d
+SHAREDMUTEX	/usr/include/synch.h	173;"	d
+SHAREDRWLOCK	/usr/include/synch.h	195;"	d
+SHAREDSEMA	/usr/include/synch.h	191;"	d
+SHMAT_VALID_FLAGS_MASK	/usr/include/sys/shm.h	78;"	d
+SHMDS_GRANULE	/usr/include/sys/shm.h	86;"	d
+SHMLBA	/usr/include/sys/shm.h	53;"	d
+SHMLBA	/usr/include/sys/shm.h	58;"	d
+SHM_ACCESS_DEFAULT	/usr/include/sys/shm.h	135;"	d
+SHM_ACCESS_LWP	/usr/include/sys/shm.h	136;"	d
+SHM_ACCESS_MANY	/usr/include/sys/shm.h	137;"	d
+SHM_ADV_GET	/usr/include/sys/shm.h	129;"	d
+SHM_ADV_SET	/usr/include/sys/shm.h	130;"	d
+SHM_LOCK	/usr/include/sys/shm.h	123;"	d
+SHM_PAGEABLE	/usr/include/sys/shm.h	73;"	d
+SHM_R	/usr/include/sys/shm.h	64;"	d
+SHM_RDONLY	/usr/include/sys/shm.h	70;"	d
+SHM_RND	/usr/include/sys/shm.h	71;"	d
+SHM_SHARE_MMU	/usr/include/sys/shm.h	72;"	d
+SHM_UNLOCK	/usr/include/sys/shm.h	124;"	d
+SHM_W	/usr/include/sys/shm.h	65;"	d
 SHRT_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	566;"	d
 SHRT_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	565;"	d
 SHUT_RD	/usr/include/sys/socket.h	342;"	d
@@ -1488,6 +1538,12 @@ S_OTHER	/usr/include/vm/seg_enum.h	/^	S_OTHER,		\/* unknown or not touched *\/$/
 S_READ	/usr/include/vm/seg_enum.h	/^	S_READ,			\/* read access attempted *\/$/;"	e	enum:seg_rw
 S_READ_NOCOW	/usr/include/vm/seg_enum.h	/^	S_READ_NOCOW		\/* read access, don't do a copy on write *\/$/;"	e	enum:seg_rw
 S_WRITE	/usr/include/vm/seg_enum.h	/^	S_WRITE,		\/* write access attempted *\/$/;"	e	enum:seg_rw
+THR_BOUND	/usr/include/thread.h	112;"	d
+THR_DAEMON	/usr/include/thread.h	116;"	d
+THR_DETACHED	/usr/include/thread.h	114;"	d
+THR_MIN_STACK	/usr/include/thread.h	102;"	d
+THR_NEW_LWP	/usr/include/thread.h	113;"	d
+THR_SUSPENDED	/usr/include/thread.h	115;"	d
 TICK	/usr/include/sys/param.h	461;"	d
 TICK_TO_MSEC	/usr/include/sys/time.h	215;"	d
 TICK_TO_NSEC	/usr/include/sys/time.h	229;"	d
@@ -1518,6 +1574,10 @@ TRAP_RWATCH	/usr/include/sys/siginfo.h	142;"	d
 TRAP_TRACE	/usr/include/sys/siginfo.h	141;"	d
 TRAP_WWATCH	/usr/include/sys/siginfo.h	143;"	d
 TRAP_XWATCH	/usr/include/sys/siginfo.h	144;"	d
+TRS_INVALID	/usr/include/thread.h	124;"	d
+TRS_LWPID	/usr/include/thread.h	123;"	d
+TRS_NONVOLATILE	/usr/include/thread.h	122;"	d
+TRS_VALID	/usr/include/thread.h	121;"	d
 TYPICALMAXPATHLEN	/usr/include/sys/param.h	185;"	d
 UBSIZE	/usr/include/sys/param.h	152;"	d
 UID_NOACCESS	/usr/include/sys/param.h	81;"	d
@@ -1540,6 +1600,9 @@ USEC_TO_TICK_ROUNDUP	/usr/include/sys/time.h	226;"	d
 USERLIMIT	/usr/include/sys/param.h	369;"	d
 USERLIMIT32	/usr/include/sys/param.h	370;"	d
 USHRT_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	567;"	d
+USYNC_PROCESS	/usr/include/sys/synch.h	111;"	d
+USYNC_PROCESS_ROBUST	/usr/include/sys/synch.h	127;"	d
+USYNC_THREAD	/usr/include/sys/synch.h	110;"	d
 VBAD	/usr/include/sys/vnode.h	/^	VBAD	= 11$/;"	e	enum:vtype
 VBLK	/usr/include/sys/vnode.h	/^	VBLK	= 3,$/;"	e	enum:vtype
 VBSIZE	/usr/include/sys/vnode.h	1024;"	d
@@ -2294,6 +2357,7 @@ _SUNOS_VTOC_16	/usr/include/sys/isa_defs.h	362;"	d
 _SUNOS_VTOC_8	/usr/include/sys/isa_defs.h	437;"	d
 _SUSECONDS_T	/usr/include/sys/time.h	44;"	d
 _SUSECONDS_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	311;"	d
+_SYNCH_H	/usr/include/synch.h	6;"	d
 _SYS_BYTEORDER_H	/usr/include/sys/byteorder.h	13;"	d
 _SYS_CCOMPILE_H	/usr/include/sys/ccompile.h	7;"	d
 _SYS_CONDVAR_H	/usr/include/sys/condvar.h	14;"	d
@@ -2321,6 +2385,7 @@ _SYS_RWLOCK_H	/usr/include/sys/rwlock.h	7;"	d
 _SYS_RWSTLOCK_H	/usr/include/sys/rwstlock.h	7;"	d
 _SYS_SELECT_H	/usr/include/sys/select.h	13;"	d
 _SYS_SEMAPHORE_H	/usr/include/sys/semaphore.h	7;"	d
+_SYS_SHM_H	/usr/include/sys/shm.h	34;"	d
 _SYS_SIGINFO_H	/usr/include/sys/siginfo.h	19;"	d
 _SYS_SIGNAL_H	/usr/include/sys/signal.h	14;"	d
 _SYS_SIGNAL_ISO_H	/usr/include/sys/iso/signal_iso.h	26;"	d
@@ -2329,6 +2394,7 @@ _SYS_SOCKET_IMPL_H	/usr/include/sys/socket_impl.h	34;"	d
 _SYS_STREAM_H	/usr/include/sys/stream.h	13;"	d
 _SYS_STRFT_H	/usr/include/sys/strft.h	7;"	d
 _SYS_STRMDEP_H	/usr/include/sys/strmdep.h	14;"	d
+_SYS_SYNCH_H	/usr/include/sys/synch.h	7;"	d
 _SYS_TIME_H	/usr/include/sys/time.h	19;"	d
 _SYS_TIME_IMPL_H	/usr/include/sys/time_impl.h	17;"	d
 _SYS_TYPES_H	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	22;"	d
@@ -2354,6 +2420,7 @@ _S_un_b	/usr/include/netinet/in.h	280;"	d
 _S_un_w	/usr/include/netinet/in.h	/^		struct { uint16_t s_w1, s_w2; } _S_un_w;$/;"	m	union:in_addr::__anon29	typeref:struct:in_addr::__anon29::__anon31
 _S_un_w	/usr/include/netinet/in.h	/^		struct { uint16_t s_w1, s_w2; } _S_un_w;$/;"	m	union:in_addr::__anon73	typeref:struct:in_addr::__anon73::__anon75
 _S_un_w	/usr/include/netinet/in.h	281;"	d
+_THREAD_H	/usr/include/thread.h	11;"	d
 _TIMER_T	/usr/include/time.h	56;"	d
 _TIMER_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	550;"	d
 _TIME_H	/usr/include/time.h	14;"	d
@@ -2721,6 +2788,10 @@ _l	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^	uint32_t _l
 _l	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^	uint32_t _l[2];$/;"	m	union:__anon7
 _label_t	/usr/include/ia32/sys/machtypes.h	/^typedef	struct	_label_t { long val[6]; } label_t;$/;"	s
 _label_t	/usr/include/ia32/sys/machtypes.h	/^typedef	struct	_label_t { long val[8]; } label_t;$/;"	s
+_lwp_cond	/usr/include/sys/synch.h	/^typedef struct _lwp_cond {$/;"	s
+_lwp_mutex	/usr/include/sys/synch.h	/^typedef struct _lwp_mutex {$/;"	s
+_lwp_rwlock	/usr/include/sys/synch.h	/^typedef struct _lwp_rwlock {$/;"	s
+_lwp_sema	/usr/include/sys/synch.h	/^typedef struct _lwp_sema {$/;"	s
 _mtext	/usr/include/sys/msg.h	/^	char	_mtext[1];	\/* message text *\/$/;"	m	struct:ipcmsgbuf
 _mtype	/usr/include/sys/msg.h	/^	long	_mtype;		\/* message type *\/$/;"	m	struct:ipcmsgbuf
 _once	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	struct _once {$/;"	s
@@ -2749,6 +2820,8 @@ _q	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^	long double
 _q	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^	long double	_q;$/;"	m	union:__anon8
 _q	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^	long double	_q;$/;"	m	union:__anon9
 _quad	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef struct _quad { int val[2]; } quad_t;	\/* used by UFS *\/$/;"	s
+_rwlock	/usr/include/synch.h	/^typedef struct _rwlock {$/;"	s
+_sema	/usr/include/synch.h	/^typedef struct _sema {$/;"	s
 _sigaction	/usr/include/sys/signal.h	/^		caddr32_t	_sigaction;$/;"	m	union:sigaction32::__anon93
 _sigaction	/usr/include/sys/signal.h	/^		void (*_sigaction)(int, siginfo_t *, void *);$/;"	m	union:sigaction::__anon92
 _ss_align	/usr/include/sys/socket_impl.h	/^	sockaddr_maxalign_t _ss_align;$/;"	m	struct:sockaddr_storage
@@ -2795,6 +2868,7 @@ b_rptr	/usr/include/sys/stream.h	/^	unsigned char	*b_rptr;$/;"	m	struct:msgb
 b_wptr	/usr/include/sys/stream.h	/^	unsigned char	*b_wptr;$/;"	m	struct:msgb
 bcache	/usr/include/sys/stream.h	/^typedef	struct	bcache {$/;"	s
 bcache_t	/usr/include/sys/stream.h	/^} bcache_t;$/;"	t	typeref:struct:bcache
+bcptype	/usr/include/sys/synch.h	/^			uint16_t bcptype;$/;"	m	union:_lwp_mutex::__anon123::__anon124
 bind	/usr/include/sys/socket.h	410;"	d
 blkcnt64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	blkcnt_t	blkcnt64_t;	\/* count of file blocks *\/$/;"	t
 blkcnt64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef longlong_t	blkcnt64_t;	\/* count of file blocks *\/$/;"	t
@@ -2821,6 +2895,7 @@ canenable	/usr/include/sys/stream.h	700;"	d
 cc_caller_id	/usr/include/sys/vnode.h	/^	u_longlong_t	cc_caller_id;	\/* Identifier for (set of) caller(s) *\/$/;"	m	struct:caller_context
 cc_pid	/usr/include/sys/vnode.h	/^	pid_t		cc_pid;		\/* Process ID of the caller *\/$/;"	m	struct:caller_context
 cc_sysid	/usr/include/sys/vnode.h	/^	int		cc_sysid;	\/* System ID, used for remote calls *\/$/;"	m	struct:caller_context
+ceiling	/usr/include/sys/synch.h	/^		uint8_t		ceiling;$/;"	m	struct:_lwp_mutex::__anon123
 cgid	/usr/include/sys/ipc.h	/^	gid_t		cgid;	\/* creator's group id *\/$/;"	m	struct:ipc_perm
 checkperm	/usr/include/sys/signal.h	/^	int	checkperm;			\/* check perm or not	*\/$/;"	m	struct:__anon94
 cksum	/usr/include/sys/stream.h	/^		} cksum;$/;"	m	union:datab::__anon33	typeref:struct:datab::__anon33::__anon34
@@ -2837,12 +2912,17 @@ cmsg_level	/usr/include/sys/socket.h	/^	int		cmsg_level;	\/* originating protoco
 cmsg_type	/usr/include/sys/socket.h	/^	int		cmsg_type;	\/* protocol-specific type *\/$/;"	m	struct:cmsghdr
 cmsghdr	/usr/include/sys/socket.h	/^struct cmsghdr {$/;"	s
 cnt_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	short		cnt_t;		\/* ?<count> type *\/$/;"	t
+cond_t	/usr/include/synch.h	/^typedef lwp_cond_t cond_t;$/;"	t
 connect	/usr/include/sys/socket.h	411;"	d
 copyreq	/usr/include/sys/stream.h	/^	struct copyreq	copyreq;$/;"	m	union:ioctypes	typeref:struct:ioctypes::copyreq
 copyreq	/usr/include/sys/stream.h	/^struct copyreq {$/;"	s
 copyresp	/usr/include/sys/stream.h	/^	struct copyresp	copyresp;$/;"	m	union:ioctypes	typeref:struct:ioctypes::copyresp
 copyresp	/usr/include/sys/stream.h	/^struct copyresp {$/;"	s
+count	/usr/include/synch.h	/^	uint32_t	count;		\/* semaphore count *\/$/;"	m	struct:_sema
 count	/usr/include/sys/strft.h	/^	int count;$/;"	m	struct:ftflw
+count	/usr/include/sys/synch.h	/^	uint32_t	count;		\/* semaphore count *\/$/;"	m	struct:_lwp_sema
+count_type1	/usr/include/sys/synch.h	/^				uint8_t	count_type1;$/;"	m	struct:_lwp_mutex::__anon123::__anon124::__anon125
+count_type2	/usr/include/sys/synch.h	/^				uint8_t	count_type2;$/;"	m	struct:_lwp_mutex::__anon123::__anon124::__anon125
 cp_cmd	/usr/include/sys/stream.h	/^	int	cp_cmd;			\/* ioctl command (from ioc_cmd) *\/$/;"	m	struct:copyresp
 cp_cr	/usr/include/sys/stream.h	/^	cred_t	*cp_cr;			\/* full credentials (from ioc_cmd) *\/$/;"	m	struct:copyresp
 cp_cr	/usr/include/sys/stream.h	/^	cred_t	*cp_cr;			\/* full credentials *\/$/;"	m	struct:copyresp
@@ -2888,6 +2968,9 @@ data	/usr/include/sys/stream.h	/^		unsigned char data[8];$/;"	m	union:datab::__a
 data	/usr/include/sys/stream.h	/^		unsigned char data[8];$/;"	m	union:datab::__anon77
 data	/usr/include/sys/strft.h	/^	ushort_t data;	\/* event data *\/$/;"	m	struct:ftevnt
 data	/usr/include/sys/strft.h	/^	ushort_t data;$/;"	m	struct:ftflwe
+data	/usr/include/sys/synch.h	/^	upad64_t	data;		\/* optional data *\/$/;"	m	struct:_lwp_sema
+data	/usr/include/sys/synch.h	/^	upad64_t data;$/;"	m	struct:_lwp_cond
+data	/usr/include/sys/synch.h	/^	upad64_t data;$/;"	m	struct:_lwp_mutex
 data_type	/usr/include/sys/kstat.h	/^	uchar_t	data_type;		\/* data type *\/$/;"	m	struct:kstat_named
 datab	/usr/include/sys/stream.h	/^typedef struct datab {$/;"	s
 datamsg	/usr/include/sys/stream.h	706;"	d
@@ -2950,8 +3033,14 @@ ferror	/usr/include/iso/stdio_iso.h	/^inline int ferror(FILE *_p) { return _p->_
 fgetpos	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	233;"	d
 fgetpos64	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	253;"	d
 first	/usr/include/sys/strft.h	/^	struct ftblk first;$/;"	m	struct:fthdr	typeref:struct:fthdr::ftblk
+flag	/usr/include/sys/synch.h	/^		uint8_t		flag[4];$/;"	m	struct:_lwp_cond::__anon129
+flag1	/usr/include/sys/synch.h	/^		uint16_t	flag1;$/;"	m	struct:_lwp_mutex::__anon123
+flag2	/usr/include/sys/synch.h	/^		uint8_t		flag2;$/;"	m	struct:_lwp_mutex::__anon123
 flags	/usr/include/sys/stream.h	/^			uint16_t flags;$/;"	m	struct:datab::__anon33::__anon34
 flags	/usr/include/sys/stream.h	/^			uint16_t flags;$/;"	m	struct:datab::__anon77::__anon78
+flags	/usr/include/sys/synch.h	/^	uint8_t		flags[8];	\/* last byte reserved for waiters *\/$/;"	m	struct:_lwp_sema
+flags	/usr/include/sys/synch.h	/^	} flags;$/;"	m	struct:_lwp_cond	typeref:struct:_lwp_cond::__anon129
+flags	/usr/include/sys/synch.h	/^	} flags;$/;"	m	struct:_lwp_mutex	typeref:struct:_lwp_mutex::__anon123
 fopen	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	230;"	d
 fopen64	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	250;"	d
 fpos64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	/^typedef __longlong_t	fpos64_t;$/;"	t
@@ -2959,6 +3048,7 @@ fpos64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	/^typedef fp
 fpos_t	/usr/include/iso/stdio_iso.h	/^typedef	__longlong_t	fpos_t;$/;"	t	namespace:std
 fpos_t	/usr/include/iso/stdio_iso.h	/^typedef long		fpos_t;$/;"	t	namespace:std
 free_arg	/usr/include/sys/stream.h	/^	caddr_t	free_arg;$/;"	m	struct:free_rtn
+free_counter	server.c	/^	int free_counter;$/;"	m	struct:workers	file:
 free_func	/usr/include/sys/stream.h	/^	void	(*free_func)();$/;"	m	struct:free_rtn
 free_handler	server.c	/^void free_handler(int sig){$/;"	f	signature:(int sig)
 free_rtn	/usr/include/sys/stream.h	/^typedef struct free_rtn {$/;"	s
@@ -3078,6 +3168,7 @@ in_prefix_t	/usr/include/netinet/in.h	/^} in_prefix_t;$/;"	t	typeref:struct:__an
 index_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	short		index_t;$/;"	t
 infod	/usr/include/sys/stream.h	/^typedef struct infod {$/;"	s
 infod_t	/usr/include/sys/stream.h	/^} infod_t;$/;"	t	typeref:struct:infod
+initialize_workers	server.c	/^void initialize_workers(){$/;"	f
 inittstamp	/usr/include/sys/strft.h	38;"	d
 ino64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	ino_t		ino64_t;	\/* expanded inode type *\/$/;"	t
 ino64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef u_longlong_t	ino64_t;	\/* expanded inode type	*\/$/;"	t
@@ -3266,10 +3357,14 @@ lloff_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} lloff
 lloff_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} lloff_t;$/;"	t	typeref:union:__anon56
 lobyte	/usr/include/sys/param.h	156;"	d
 lobyte	/usr/include/sys/param.h	162;"	d
+lock	/usr/include/sys/synch.h	/^	} lock;$/;"	m	struct:_lwp_mutex	typeref:union:_lwp_mutex::__anon126
+lock32	/usr/include/sys/synch.h	/^		} lock32;$/;"	m	union:_lwp_mutex::__anon126	typeref:struct:_lwp_mutex::__anon126::__anon128
+lock64	/usr/include/sys/synch.h	/^		} lock64;$/;"	m	union:_lwp_mutex::__anon126	typeref:struct:_lwp_mutex::__anon126::__anon127
 lock_t	/usr/include/ia32/sys/machtypes.h	/^typedef	unsigned char	lock_t;		\/* lock work for busy wait *\/$/;"	t
 lock_type	/usr/include/vm/seg_enum.h	/^enum lock_type {$/;"	g
 lockf	/usr/include/unistd.h	199;"	d
 lockf64	/usr/include/unistd.h	220;"	d
+lockword	/usr/include/sys/synch.h	/^			uint32_t lockword;$/;"	m	struct:_lwp_mutex::__anon126::__anon128
 longlong_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	long long		longlong_t;$/;"	t
 longlong_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} longlong_t;$/;"	t	typeref:union:__anon2
 longlong_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} longlong_t;$/;"	t	typeref:union:__anon46
@@ -3277,12 +3372,23 @@ loword	/usr/include/sys/param.h	158;"	d
 loword	/usr/include/sys/param.h	164;"	d
 lseek	/usr/include/unistd.h	195;"	d
 lseek64	/usr/include/unistd.h	216;"	d
+lwp_cond_t	/usr/include/sys/synch.h	/^} lwp_cond_t;$/;"	t	typeref:struct:_lwp_cond
 lwp_getdatamodel	/usr/include/sys/model.h	193;"	d
+lwp_mutex_t	/usr/include/sys/synch.h	/^} lwp_mutex_t;$/;"	t	typeref:struct:_lwp_mutex
+lwp_rwlock_t	/usr/include/sys/synch.h	/^} lwp_rwlock_t;$/;"	t	typeref:struct:_lwp_rwlock
+lwp_sema_t	/usr/include/sys/synch.h	/^} lwp_sema_t;$/;"	t	typeref:struct:_lwp_sema
+magic	/usr/include/synch.h	/^	uint16_t	magic;$/;"	m	struct:_rwlock
+magic	/usr/include/synch.h	/^	uint16_t	magic;$/;"	m	struct:_sema
+magic	/usr/include/sys/synch.h	/^		uint16_t	magic;$/;"	m	struct:_lwp_mutex::__anon123
+magic	/usr/include/sys/synch.h	/^		uint16_t 	magic;$/;"	m	struct:_lwp_cond::__anon129
+magic	/usr/include/sys/synch.h	/^	uint16_t	magic;$/;"	m	struct:_lwp_rwlock
+magic	/usr/include/sys/synch.h	/^	uint16_t 	magic;$/;"	m	struct:_lwp_sema
 main	client.c	/^int main(void){$/;"	f	signature:(void)
 main	server.c	/^int main(int argc, char *argv[]){$/;"	f	signature:(int argc, char *argv[])
 major_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef uint_t	major_t;	\/* major part of device number *\/$/;"	t
 major_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef ulong_t	major_t;	\/* (historical version) *\/$/;"	t
 max_time	/usr/include/sys/kstat.h	/^	hrtime_t	max_time;		\/* longest event duration *\/$/;"	m	struct:kstat_timer
+mbcp_type_un	/usr/include/sys/synch.h	/^		} mbcp_type_un;$/;"	m	struct:_lwp_mutex::__anon123	typeref:union:_lwp_mutex::__anon123::__anon124
 mblk_t	/usr/include/sys/stream.h	/^} mblk_t;$/;"	t	typeref:struct:msgb
 memchr	/usr/include/iso/string_iso.h	/^	inline void *memchr(void * __s, int __c, size_t __n) {$/;"	f	signature:(void * __s, int __c, size_t __n)
 mi_hiwat	/usr/include/sys/stream.h	/^	size_t	mi_hiwat;		\/* hi-water mark *\/$/;"	m	struct:module_info
@@ -3365,8 +3471,13 @@ msgsnap_nmsg	/usr/include/sys/msg.h	/^	size_t	msgsnap_nmsg;	\/* number of messag
 msgsnap_size	/usr/include/sys/msg.h	/^	size_t	msgsnap_size;	\/* bytes consumed\/required in the buffer *\/$/;"	m	struct:msgsnap_head
 msqid_ds	/usr/include/sys/msg.h	/^struct msqid_ds {$/;"	s
 mtype	server.c	/^	int mtype;$/;"	m	struct:msg_buf	file:
+mtype_rcount	/usr/include/sys/synch.h	/^			} mtype_rcount;$/;"	m	union:_lwp_mutex::__anon123::__anon124	typeref:struct:_lwp_mutex::__anon123::__anon124::__anon125
+mutex	/usr/include/synch.h	/^	mutex_t		mutex;		\/* used with process-shared rwlocks *\/$/;"	m	struct:_rwlock
 mutex	/usr/include/sys/mutex.h	/^typedef struct mutex {$/;"	s
 mutex	/usr/include/sys/stream.h	/^	kmutex_t		mutex;$/;"	m	struct:bcache
+mutex	/usr/include/sys/synch.h	/^	lwp_mutex_t	mutex;		\/* used with process-shared rwlocks *\/$/;"	m	struct:_lwp_rwlock
+mutex_free_counter	server.c	/^	mutex_t mutex_free_counter;$/;"	m	struct:workers	file:
+mutex_t	/usr/include/synch.h	/^typedef lwp_mutex_t mutex_t;$/;"	t
 naccess	/usr/include/sys/vnode.h	/^	kstat_named_t	naccess;	\/* VOP_ACCESS *\/$/;"	m	struct:vopstats
 naddmap	/usr/include/sys/vnode.h	/^	kstat_named_t	naddmap;	\/* VOP_ADDMAP *\/$/;"	m	struct:vopstats
 name	/usr/include/sys/kstat.h	/^	char		name[KSTAT_STRLEN];	\/* event name *\/$/;"	m	struct:kstat_timer
@@ -3459,6 +3570,8 @@ offset	/usr/include/sys/vnode.h	/^	int offset;			\/* byte offset within ops vect
 offset_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	longlong_t	offset_t;$/;"	t
 omsghdr	/usr/include/sys/socket.h	/^struct omsghdr {$/;"	s
 omsghdr32	/usr/include/sys/socket.h	/^struct omsghdr32 {$/;"	s
+owner64	/usr/include/sys/synch.h	/^		upad64_t owner64;$/;"	m	union:_lwp_mutex::__anon126
+ownerpid	/usr/include/sys/synch.h	/^			uint32_t ownerpid;$/;"	m	struct:_lwp_mutex::__anon126::__anon128
 p_lid	/usr/include/sys/procset.h	/^	id_t		p_lid;	\/* The id of the left operand.	*\/$/;"	m	struct:procset
 p_lidtype	/usr/include/sys/procset.h	/^	idtype_t	p_lidtype;$/;"	m	struct:procset
 p_op	/usr/include/sys/procset.h	/^	idop_t		p_op;	\/* The operator connection the	*\/$/;"	m	struct:procset
@@ -3467,9 +3580,12 @@ p_ridtype	/usr/include/sys/procset.h	/^	idtype_t	p_ridtype;$/;"	m	struct:procset
 pad	/usr/include/sys/ipc.h	/^	int		pad[4]; \/* reserve area *\/$/;"	m	struct:ipc_perm
 pad	/usr/include/sys/stream.h	/^			uint16_t pad;$/;"	m	struct:datab::__anon33::__anon34
 pad	/usr/include/sys/stream.h	/^			uint16_t pad;$/;"	m	struct:datab::__anon77::__anon78
+pad	/usr/include/sys/synch.h	/^			uint8_t	pad[8];$/;"	m	struct:_lwp_mutex::__anon126::__anon127
 pad	/usr/include/sys/vnode.h	/^	char pad[64 - sizeof (rwstlock_t) - 2 * sizeof (void *) - \\$/;"	m	struct:vn_vfslocks_entry
+pad1	/usr/include/synch.h	/^	upad64_t	pad1[3];	\/* reserved for a mutex_t *\/$/;"	m	struct:_sema
 pad128_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} pad128_t;$/;"	t	typeref:union:__anon52
 pad128_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} pad128_t;$/;"	t	typeref:union:__anon8
+pad2	/usr/include/synch.h	/^	upad64_t 	pad2[2];	\/* reserved for a cond_t *\/$/;"	m	struct:_sema
 pad64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef int64_t		pad64_t;$/;"	t
 pad64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} pad64_t;$/;"	t	typeref:union:__anon50
 pad64_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^} pad64_t;$/;"	t	typeref:union:__anon6
@@ -3596,6 +3712,10 @@ queue_t	/usr/include/sys/stream.h	/^} queue_t;$/;"	t	typeref:struct:queue
 rcnt	/usr/include/sys/kstat.h	/^	uint_t	rcnt;		\/* count of elements in run state *\/$/;"	m	struct:kstat_io
 read_bytes	/usr/include/sys/vnode.h	/^	kstat_named_t	read_bytes;$/;"	m	struct:vopstats
 readdir_bytes	/usr/include/sys/vnode.h	/^	kstat_named_t	readdir_bytes;$/;"	m	struct:vopstats
+readercv	/usr/include/synch.h	/^	cond_t		readercv;	\/* used only to indicate ownership *\/$/;"	m	struct:_rwlock
+readercv	/usr/include/sys/synch.h	/^	lwp_cond_t	readercv;	\/* used only to indicate ownership *\/$/;"	m	struct:_lwp_rwlock
+readers	/usr/include/synch.h	/^	int32_t		readers;	\/* rwstate word *\/$/;"	m	struct:_rwlock
+readers	/usr/include/sys/synch.h	/^	int32_t		readers;	\/* rwstate word *\/$/;"	m	struct:_lwp_rwlock
 reads	/usr/include/sys/kstat.h	/^	uint_t		reads;		\/* number of read operations *\/$/;"	m	struct:kstat_io
 recvmsg	/usr/include/sys/socket.h	412;"	d
 resv	/usr/include/sys/kstat.h	/^	uchar_t		resv;			\/* reserved *\/$/;"	m	struct:kstat_timer
@@ -3655,6 +3775,7 @@ ru_utime	/usr/include/sys/resource.h	/^	struct timeval ru_utime;	\/* user time u
 ru_utime	/usr/include/sys/resource.h	/^	struct timeval32 ru_utime;	\/* user time used *\/$/;"	m	struct:rusage32	typeref:struct:rusage32::timeval32
 rusage	/usr/include/sys/resource.h	/^struct	rusage {$/;"	s
 rusage32	/usr/include/sys/resource.h	/^struct	rusage32 {$/;"	s
+rwlock_t	/usr/include/synch.h	/^} rwlock_t;$/;"	t	typeref:struct:_rwlock
 rwst_count	/usr/include/sys/rwstlock.h	/^	intptr_t	rwst_count;$/;"	m	struct:rwstlock
 rwst_lock	/usr/include/sys/rwstlock.h	/^	kmutex_t	rwst_lock;$/;"	m	struct:rwstlock
 rwst_rcv	/usr/include/sys/rwstlock.h	/^	kcondvar_t	rwst_rcv;$/;"	m	struct:rwstlock
@@ -3705,12 +3826,33 @@ sdl_slen	/usr/include/net/if_dl.h	/^	uchar_t	sdl_slen;	\/* link layer selector l
 sdl_type	/usr/include/net/if_dl.h	/^	uchar_t	sdl_type;	\/* interface type *\/$/;"	m	struct:sockaddr_dl
 seg_rw	/usr/include/vm/seg_enum.h	/^enum seg_rw {$/;"	g
 select	/usr/include/sys/select.h	80;"	d
+sema_t	/usr/include/synch.h	/^} sema_t;$/;"	t	typeref:struct:_sema
 sendmsg	/usr/include/sys/socket.h	413;"	d
 sendto	/usr/include/sys/socket.h	414;"	d
 seq	/usr/include/sys/ipc.h	/^	uint_t		seq;	\/* slot usage sequence number *\/$/;"	m	struct:ipc_perm
 setprocset	/usr/include/sys/procset.h	114;"	d
 setrlimit	/usr/include/sys/resource.h	214;"	d
 setrlimit64	/usr/include/sys/resource.h	229;"	d
+shared_id	server.c	/^int shared_id;$/;"	v
+shm_allocated	/usr/include/sys/shm.h	/^	uint64_t	shm_allocated;	\/* mem allocated, for OSM *\/$/;"	m	struct:shmid_ds
+shm_amp	/usr/include/sys/shm.h	/^	void		*shm_amp;	\/* unused *\/$/;"	m	struct:shmid_ds
+shm_atime	/usr/include/sys/shm.h	/^	time_t		shm_atime;	\/* last shmat time *\/$/;"	m	struct:shmid_ds
+shm_cnattch	/usr/include/sys/shm.h	/^	ulong_t		shm_cnattch;	\/* number of ISM attaches *\/$/;"	m	struct:shmid_ds
+shm_cpid	/usr/include/sys/shm.h	/^	pid_t		shm_cpid;	\/* pid of creator *\/$/;"	m	struct:shmid_ds
+shm_ctime	/usr/include/sys/shm.h	/^	time_t		shm_ctime;	\/* last change time *\/$/;"	m	struct:shmid_ds
+shm_dtime	/usr/include/sys/shm.h	/^	time_t		shm_dtime;	\/* last shmdt time *\/$/;"	m	struct:shmid_ds
+shm_flags	/usr/include/sys/shm.h	/^	uintptr_t	shm_flags;	\/* if 1 the shm_gransize is valid *\/$/;"	m	struct:shmid_ds
+shm_gransize	/usr/include/sys/shm.h	/^	uint64_t	shm_gransize;	\/* granule size *\/$/;"	m	struct:shmid_ds
+shm_lkcnt	/usr/include/sys/shm.h	/^	ushort_t	shm_lkcnt;	\/* number of times it is being locked *\/$/;"	m	struct:shmid_ds
+shm_lpid	/usr/include/sys/shm.h	/^	pid_t		shm_lpid;	\/* pid of last shmop *\/$/;"	m	struct:shmid_ds
+shm_nattch	/usr/include/sys/shm.h	/^	shmatt_t	shm_nattch;	\/* number of attaches *\/$/;"	m	struct:shmid_ds
+shm_pad1	/usr/include/sys/shm.h	/^	int32_t		shm_pad1;	\/* reserved for time_t expansion *\/$/;"	m	struct:shmid_ds
+shm_pad2	/usr/include/sys/shm.h	/^	int32_t		shm_pad2;	\/* reserved for time_t expansion *\/$/;"	m	struct:shmid_ds
+shm_pad4	/usr/include/sys/shm.h	/^	int64_t		shm_pad4[1];	\/* reserve area *\/$/;"	m	struct:shmid_ds
+shm_perm	/usr/include/sys/shm.h	/^	struct ipc_perm	shm_perm;	\/* operation permission struct *\/$/;"	m	struct:shmid_ds	typeref:struct:shmid_ds::ipc_perm
+shm_segsz	/usr/include/sys/shm.h	/^	size_t		shm_segsz;	\/* size of segment in bytes *\/$/;"	m	struct:shmid_ds
+shmatt_t	/usr/include/sys/shm.h	/^typedef unsigned long shmatt_t;$/;"	t
+shmid_ds	/usr/include/sys/shm.h	/^struct shmid_ds {$/;"	s
 si_addr	/usr/include/sys/siginfo.h	452;"	d
 si_band	/usr/include/sys/siginfo.h	457;"	d
 si_code	/usr/include/sys/siginfo.h	/^	int 	si_code;			\/* code from above	*\/$/;"	m	struct:k_siginfo
@@ -3939,6 +4081,8 @@ tdeltats	/usr/include/sys/strft.h	46;"	d
 tell	/usr/include/unistd.h	200;"	d
 tell64	/usr/include/unistd.h	221;"	d
 thread	/usr/include/sys/strft.h	/^	void *thread;$/;"	m	struct:fthdr
+thread_key_t	/usr/include/thread.h	/^typedef unsigned int thread_key_t;$/;"	t
+thread_t	/usr/include/thread.h	/^typedef unsigned int thread_t;$/;"	t
 time_t	/usr/include/iso/time_iso.h	/^typedef	long	time_t;$/;"	t	namespace:std
 time_t	/usr/include/sys/time.h	/^typedef	long	time_t;		\/* time of day in seconds *\/$/;"	t
 time_t	/usr/include/sys/time_impl.h	/^typedef	long	time_t;		\/* time of day in seconds *\/$/;"	t
@@ -3988,6 +4132,11 @@ tv_nsec	/usr/include/sys/time_impl.h	/^	long		tv_nsec;	\/* and nanoseconds *\/$/
 tv_sec	/usr/include/sys/time.h	/^	time_t		tv_sec;		\/* seconds *\/$/;"	m	struct:timeval
 tv_sec	/usr/include/sys/time_impl.h	/^	time_t		tv_sec;		\/* seconds *\/$/;"	m	struct:timespec
 tv_usec	/usr/include/sys/time.h	/^	suseconds_t	tv_usec;	\/* and microseconds *\/$/;"	m	struct:timeval
+type	/usr/include/synch.h	/^	uint16_t	type;$/;"	m	struct:_rwlock
+type	/usr/include/synch.h	/^	uint16_t	type;$/;"	m	struct:_sema
+type	/usr/include/sys/synch.h	/^		uint16_t 	type;$/;"	m	struct:_lwp_cond::__anon129
+type	/usr/include/sys/synch.h	/^	uint16_t	type;$/;"	m	struct:_lwp_rwlock
+type	/usr/include/sys/synch.h	/^	uint16_t 	type;$/;"	m	struct:_lwp_sema
 tz_dsttime	/usr/include/sys/time.h	/^	int	tz_dsttime;	\/* type of dst correction *\/$/;"	m	struct:timezone
 tz_minuteswest	/usr/include/sys/time.h	/^	int	tz_minuteswest;	\/* minutes west of Greenwich *\/$/;"	m	struct:timezone
 u16	/usr/include/sys/stream.h	/^				uint16_t u16;$/;"	m	union:datab::__anon33::__anon34::__anon35
@@ -4232,7 +4381,12 @@ vtype_t	/usr/include/sys/vnode.h	/^} vtype_t;$/;"	t	typeref:enum:vtype
 wcnt	/usr/include/sys/kstat.h	/^	uint_t	wcnt;		\/* count of elements in wait state *\/$/;"	m	struct:kstat_io
 wlastupdate	/usr/include/sys/kstat.h	/^	hrtime_t wlastupdate;	\/* last time wait queue changed *\/$/;"	m	struct:kstat_io
 wlentime	/usr/include/sys/kstat.h	/^	hrtime_t wlentime;	\/* cumulative wait length*time product *\/$/;"	m	struct:kstat_io
+worker	server.c	/^void worker(int id){$/;"	f	signature:(int id)
+workers	server.c	/^struct workers {$/;"	s	file:
+workers_protected	server.c	/^struct workers *workers_protected;$/;"	v	typeref:struct:workers
 write_bytes	/usr/include/sys/vnode.h	/^	kstat_named_t	write_bytes;$/;"	m	struct:vopstats
+writercv	/usr/include/synch.h	/^	cond_t		writercv;	\/* used only to indicate ownership *\/$/;"	m	struct:_rwlock
+writercv	/usr/include/sys/synch.h	/^	lwp_cond_t	writercv;	\/* used only to indicate ownership *\/$/;"	m	struct:_lwp_rwlock
 writes	/usr/include/sys/kstat.h	/^	uint_t		writes;		\/* number of write operations *\/$/;"	m	struct:kstat_io
 wtime	/usr/include/sys/kstat.h	/^	hrtime_t wtime;		\/* cumulative wait (pre-service) time *\/$/;"	m	struct:kstat_io
 zassert	../clab5/zassert.h	13;"	d

@@ -5,8 +5,12 @@
 
 #include <sys/ipc.h>
 #include <sys/msg.h>
+#include <sys/shm.h>
 
 #include <sys/socket.h>
+
+#include <thread.h>
+#include <synch.h>
 
 #include <errno.h>
 
@@ -23,12 +27,50 @@ struct msg_buf{
 	int mtype;
 	int a;
 };
+struct workers {
+	mutex_t mutex_free_counter;
+	int free_counter;
+};
+
+struct workers *workers_protected;
 
 int ipc_id;
+int shared_id;
+
 void free_handler(int sig){
-	int ipc_ctl = msgctl(ipc_id, IPC_RMID, 0);
+	//TODO:
+	//cleanup
 	exit(0);
 }
+
+void worker(int id){
+	//TODO: 
+	//if msgrcv returns error because queue is empty and total amount of 
+	//childs > MAX_WORKERS, some of them should exit successively by
+	//locking mutex and checking protected by them variable
+	
+	printf("Child started\n");
+	
+	struct msg_buf rmsg = { 0 };
+	
+	int ipc_rcv = msgrcv(ipc_id, &rmsg, sizeof(rmsg), MSG_TYPE, 0);
+	printf("Time %d\n", rmsg.a);
+	printf("Child #%d died\n", id);
+	exit(0);
+}
+
+void initialize_workers(){
+	int i = 0;
+
+	//make base of workers pool
+	while(i < MIN_WORKERS){
+		if(fork() == 0){ //worker code
+			worker(i);
+		}
+		i++;
+	}
+}
+
 
 int main(int argc, char *argv[]){
 
@@ -56,7 +98,22 @@ int main(int argc, char *argv[]){
 	int ipc_key = getuid()+8841;
 	ipc_id = msgget(ipc_key, IPC_EXCL | IPC_CREAT | 0600);
 	zassert(ipc_id < 0);
+	
+	//TODO:
+	//Make a shared memory with amount of workers protected by mutex 
+	int shared_key = getuid()+8842;
+	int shared_id = shmget(shared_key, sizeof(struct workers), IPC_CREAT | IPC_EXCL | 0600);
+	msgassert(shared_id < 0, ipc_id);
 
+	//init a interprocess mutex and  worker counter protected by them
+	workers_protected = shmat(shared_id, NULL, 0);
+
+	zassert(workers_protected < NULL);
+	int mut_init = mutex_init(&workers_protected->mutex_free_counter, USYNC_PROCESS, NULL);
+	workers_protected->free_counter = 0;
+	zassert(mut_init < 0);
+
+	//now just init TCP listener
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	msgassert(sock < 0, ipc_id);
 	
@@ -69,30 +126,11 @@ int main(int argc, char *argv[]){
 	struct sockaddr_in sock_in = { 0 };
 	socklen_t slen = sizeof(sock_in);
 
-	int i = 0;
-	while(i < MIN_WORKERS){
-		if(fork() == 0){ //worker code
-			//TODO: 
-			//if msgrcv returns error because queue is empty and total amount of 
-			//childs > MAX_WORKERS, some of them should exit successively by
-			//locking mutex and checking protected by them variable
-	
-			printf("Child started\n");
-	
-			struct msg_buf rmsg = { 0 };
-			
-			int ipc_rcv = msgrcv(ipc_id, &rmsg, sizeof(rmsg), MSG_TYPE, 0);
-			printf("Time %d\n", rmsg.a);
-			printf("Child #%d died\n", i);
-			return 0;
-		}
-		i++;
-	}
-		while(1){
+
+	initialize_workers();
+
+	while(1){
 		int client_fd = accept(sock, (struct sockaddr*)&sock_in, &slen);
-//		if(client_fd < 0 && errno == EINTR){
-//			continue;
-//		}
 		msgassert(client_fd < 0, ipc_id);
 
 		struct msg_buf msg = { 
@@ -102,6 +140,13 @@ int main(int argc, char *argv[]){
 
 		int ipc_snd = msgsnd(ipc_id, &msg, sizeof(struct msg_buf), 0);
 		msgassert(ipc_snd < 0, ipc_id);
+		
+		//TODO:
+		//there are will be code which sends (protected)free_counter-MAX_WORKERS
+		//messages of type 2 (each worker which takes that message must die)
+		//
+		//
+		//
 	}
 
 	int ipc_ctl = msgctl(ipc_id, IPC_RMID, 0);

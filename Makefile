@@ -7,7 +7,7 @@ SRCS=$(wildcard *.c)
 build: ctags server client;
 
 server: server.o
-	$(LD) $< $(LFLAGS) $@
+	$(LD) $< -lthread $(LFLAGS) $@
 client: client.o
 	$(LD) $< $(LFLAGS) $@
 	
