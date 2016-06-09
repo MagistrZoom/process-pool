@@ -838,8 +838,8 @@ MAX_CANON	/usr/include/sys/param.h	73;"	d
 MAX_INPUT	/usr/include/sys/param.h	69;"	d
 MAX_MAXPID	/usr/include/sys/param.h	85;"	d
 MAX_TASKID	/usr/include/sys/param.h	84;"	d
-MAX_WAITING_CONNECTIONS	server.c	22;"	d	file:
-MAX_WORKERS	server.c	24;"	d	file:
+MAX_WAITING_CONNECTIONS	server.c	24;"	d	file:
+MAX_WORKERS	server.c	26;"	d	file:
 MCAST_BLOCK_SOURCE	/usr/include/netinet/in.h	1187;"	d
 MCAST_EXCLUDE	/usr/include/netinet/in.h	1044;"	d
 MCAST_INCLUDE	/usr/include/netinet/in.h	1043;"	d
@@ -852,7 +852,7 @@ MHZ_TO_HZ	/usr/include/sys/time.h	269;"	d
 MICROSEC	/usr/include/sys/time.h	186;"	d
 MILLISEC	/usr/include/sys/time.h	185;"	d
 MINSIGSTKSZ	/usr/include/sys/signal.h	151;"	d
-MIN_WORKERS	server.c	23;"	d	file:
+MIN_WORKERS	server.c	25;"	d	file:
 MMU_PAGEMASK	/usr/include/sys/param.h	366;"	d
 MMU_PAGEOFFSET	/usr/include/sys/param.h	365;"	d
 MMU_PAGESHIFT	/usr/include/sys/param.h	364;"	d
@@ -874,6 +874,7 @@ MSG_DONTROUTE	/usr/include/sys/socket.h	325;"	d
 MSG_DONTWAIT	/usr/include/sys/socket.h	335;"	d
 MSG_DUPCTRL	/usr/include/sys/socket.h	331;"	d
 MSG_EOR	/usr/include/sys/socket.h	327;"	d
+MSG_KILL_TYPE	server.c	22;"	d	file:
 MSG_MAXIOVLEN	/usr/include/sys/socket.h	339;"	d
 MSG_NOERROR	/usr/include/sys/msg.h	47;"	d
 MSG_NOTIFICATION	/usr/include/sys/socket.h	336;"	d
@@ -3111,6 +3112,7 @@ gf_numsrc	/usr/include/netinet/in.h	/^	uint32_t		gf_numsrc;	\/* number of source
 gf_slist	/usr/include/netinet/in.h	/^	struct sockaddr_storage	gf_slist[1];	\/* source address *\/$/;"	m	struct:group_filter	typeref:struct:group_filter::sockaddr_storage
 gid	/usr/include/sys/ipc.h	/^	gid_t		gid;	\/* owner's group id *\/$/;"	m	struct:ipc_perm
 gid_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	uid_t	gid_t;			\/* GID type		*\/$/;"	t
+global_id	server.c	/^	int global_id;$/;"	m	struct:workers	file:
 gr_group	/usr/include/netinet/in.h	/^	struct sockaddr_storage	gr_group;	\/* group address *\/$/;"	m	struct:group_req	typeref:struct:group_req::sockaddr_storage
 gr_interface	/usr/include/netinet/in.h	/^	uint32_t		gr_interface;	\/* interface index *\/$/;"	m	struct:group_req
 group_filter	/usr/include/netinet/in.h	/^struct group_filter {$/;"	s
@@ -3477,6 +3479,7 @@ mutex	/usr/include/sys/mutex.h	/^typedef struct mutex {$/;"	s
 mutex	/usr/include/sys/stream.h	/^	kmutex_t		mutex;$/;"	m	struct:bcache
 mutex	/usr/include/sys/synch.h	/^	lwp_mutex_t	mutex;		\/* used with process-shared rwlocks *\/$/;"	m	struct:_lwp_rwlock
 mutex_free_counter	server.c	/^	mutex_t mutex_free_counter;$/;"	m	struct:workers	file:
+mutex_global_id	server.c	/^	mutex_t mutex_global_id;$/;"	m	struct:workers	file:
 mutex_t	/usr/include/synch.h	/^typedef lwp_mutex_t mutex_t;$/;"	t
 naccess	/usr/include/sys/vnode.h	/^	kstat_named_t	naccess;	\/* VOP_ACCESS *\/$/;"	m	struct:vopstats
 naddmap	/usr/include/sys/vnode.h	/^	kstat_named_t	naddmap;	\/* VOP_ADDMAP *\/$/;"	m	struct:vopstats
