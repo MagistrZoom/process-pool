@@ -19,7 +19,10 @@ int main(void){
 
 	int con = connect(sock, (struct sockaddr*)&saddr, sizeof(saddr));
 	zassert(con < 0);
-
-	printf("Connected\n");
+	
+	char buf[256] = { 0 };
+	ssize_t rd = recv(sock, buf, 256, 0);
+	zassert(rd < 0);
+	puts(buf);
 	return 0;
 }

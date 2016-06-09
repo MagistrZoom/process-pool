@@ -1,0 +1,4604 @@
+
+s191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ clear
+[H[Js191941@helios:/home/s191941/unix/clab6$ ./server
+Child started
+Child started
+^Cs191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ ls
+bp           client       client.c     client.o     Makefile     screenlog.0  server       server.c     server.o     tags
+s191941@helios:/home/s191941/unix/clab6$ ipcs 
+IPC status from <running system> as of  9 июня 2016 г. 17:12:16 MSK
+T         ID      KEY        MODE        OWNER    GROUP
+Message Queues:
+q   83886118   0x3104e    --rw-------  s191941    studs
+Shared Memory:
+m  184549397   0x3104f    --rw-------  s191941    studs
+m   67108887   0x29b      --rw-rw-rw-  s191968    studs
+m 1795162120   0x258      --rw-rw-rw-  s191968    studs
+m 1677721639   0x29a      --rw-rw-rw-  s191968    studs
+m          3   0x3ef9bacc --rw-r-----   oracle      dba
+m          2   0          --rw-r-----   oracle      dba
+m          1   0          --rw-r-----   oracle      dba
+Semaphores:
+s          3   0x837aea38 --ra-r-----   oracle      dba
+s191941@helios:/home/s191941/unix/clab6$ ipcsrm [K[K[K[K[Kr[Kcrm -q 83886118
+s191941@helios:/home/s191941/unix/clab6$ ipcrm -m 184549397
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:86: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ man sch[Kh[K[Khmat
+Reformatting page.  Please Wait... done
+[?1049h[?1h=
+System Calls                                             shmop(2)
+
+NAME
+     shmop, shmat, shmdt - shared memory operations
+
+SYNOPSIS
+     #include <sys/types.h>
+     #include <sys/shm.h>
+
+     void *shmat(int [4mshmid[24m, const void *[4mshmaddr[24m, int [4mshmflg[24m);
+
+     int shmdt(char *[4mshmaddr[24m);
+
+  Standard conforming
+     int shmdt(const void *[4mshmaddr[24m);
+
+[3m/tmp/mpR0aWKX [23m[K[K [KESCESC[KOO[KBB[KDESCRIPTION
+:[K[K[?1l>[?1049ls191941@helios:/home/s191941/unix/clab6$ man shmctl
+Reformatting page.  Please Wait... done
+[?1049h[?1h=
+System Calls                                            shmctl(2)
+
+NAME
+     shmctl - shared memory control operations
+
+SYNOPSIS
+     #include <sys/types.h>
+     #include <sys/ipc.h>
+     #include <sys/shm.h>
+
+     int shmctl(int [4mshmid[24m, int [4mcmd[24m, struct shmid_ds *[4mbuf[24m);
+
+DESCRIPTION
+     The shmctl() function provides a variety  of  shared  memory
+     control  operations  as  specified  by  [4mcmd[24m.  The permission
+     required for a shared memory control operation is  given  as
+[3m/tmp/mpBZaGOX [23m[K[K/[KRR[K[KRR[KMM[KII[KDD[K[1;1H
+[2;1HSystem Calls                                            shmctl(2)
+[3;1H
+[4;1HNAME
+[5;1H     shmctl - shared memory control operations
+[6;1H
+[7;1HSYNOPSIS
+[8;1H     #include <sys/types.h>
+[9;1H     #include <sys/ipc.h>
+[10;1H     #include <sys/shm.h>
+[11;1H
+[12;1H     int shmctl(int [4mshmid[24m, int [4mcmd[24m, struct shmid_ds *[4mbuf[24m);
+[13;1H
+[14;1HDESCRIPTION
+[15;1H     The shmctl() function provides a variety  of  shared  memory
+[16;1H     control  operations  as  specified  by  [4mcmd[24m.  The permission
+[17;1H     required for a shared memory control operation is  given  as
+[18;1H[1;1H
+[2;1HSystem Calls                                            shmctl(2)
+[3;1H
+[4;1HNAME
+[5;1H     shmctl - shared memory control operations
+[6;1H
+[7;1HSYNOPSIS
+[8;1H     #include <sys/types.h>
+[9;1H     #include <sys/ipc.h>
+[10;1H     #include <sys/shm.h>
+[11;1H
+[12;1H     int shmctl(int [4mshmid[24m, int [4mcmd[24m, struct shmid_ds *[4mbuf[24m);
+[13;1H
+[14;1HDESCRIPTION
+[15;1H     The shmctl() function provides a variety  of  shared  memory
+[16;1H     control  operations  as  specified  by  [4mcmd[24m.  The permission
+[17;1H     required for a shared memory control operation is  given  as
+[18;1H...skipping...
+     IPC_[3mRMID[23m      Remove the shared memory identifier  specified
+                   by  [4mshmid[24m  from the system. The segment refer-
+                   enced by the identifier will be destroyed when
+                   all  processes  with the segment attached have
+                   either detached the segment or exited. If  the
+                   segment  is  not  attached to any process when
+                   IPC_[3mRMID[23m is  invoked,  it  will  be  destroyed
+                   immediately. This command can be executed only
+                   by a process that has  appropriate  privileges
+                   or  an effective user ID equal to the value of
+                   shm_perm.cuid  or  shm_perm.uid  in  the  data
+                   structure associated with [4mshmid[24m.
+
+     SHM_LOCK      Lock the shared memory  segment  specified  by
+                   [4mshmid[24m  in memory. This command can be executed
+                   only  by  a  process  that   has   appropriate
+                   privileges.
+:[K[K[H[J[HM     required for a shared memory control operation is  given  as
+[HM     control  operations  as  specified  by  [4mcmd[24m.  The permission
+[HM     The shmctl() function provides a variety  of  shared  memory
+[HMDESCRIPTION
+[HM
+[HM     int shmctl(int [4mshmid[24m, int [4mcmd[24m, struct shmid_ds *[4mbuf[24m);
+[HM
+[HM     #include <sys/shm.h>
+[HM     #include <sys/ipc.h>
+[HM     #include <sys/types.h>
+[HMSYNOPSIS
+[HM
+[HM     shmctl - shared memory control operations
+[HMNAME
+[HM
+[HMSystem Calls                                            shmctl(2)
+[HM
+[18;1H[K:[K[Kmark: [K:[K[K[K:[K[K     {[4mtoken[24m},  where  [4mtoken[24m is the type of permission needed. The
+:[K[K[?1l>[?1049ls191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmakeman shmctl[1Pat[4Pgmakeipcrm -m 184549397[1Pq 83886118s [K[3Pls./server
+Child started
+Child started
+^COld child #2 listening for a connectionOld child #2 listening for a connections191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Err on line: 147
+File exists
+s191941@helios:/home/s191941/unix/clab6$ ls
+bp           client       client.c     client.o     Makefile     screenlog.0  server       server.c     server.o     tags
+s191941@helios:/home/s191941/unix/clab6$ ipcs
+IPC status from <running system> as of  9 июня 2016 г. 17:15:11 MSK
+T         ID      KEY        MODE        OWNER    GROUP
+Message Queues:
+Shared Memory:
+m  301989913   0x3104f    --rw-------  s191941    studs
+m   67108887   0x29b      --rw-rw-rw-  s191968    studs
+m 1795162120   0x258      --rw-rw-rw-  s191968    studs
+m 1677721639   0x29a      --rw-rw-rw-  s191968    studs
+m          3   0x3ef9bacc --rw-r-----   oracle      dba
+m          2   0          --rw-r-----   oracle      dba
+m          1   0          --rw-r-----   oracle      dba
+Semaphores:
+s          3   0x837aea38 --ra-r-----   oracle      dba
+s191941@helios:/home/s191941/unix/clab6$ ipcm[Krm -m 301989913
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmakeipcrm -m 301989913s[K[2Pls./server
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #2 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ipcs
+IPC status from <running system> as of  9 июня 2016 г. 17:17:02 MSK
+T         ID      KEY        MODE        OWNER    GROUP
+Message Queues:
+Shared Memory:
+m   67108887   0x29b      --rw-rw-rw-  s191968    studs
+m 1795162120   0x258      --rw-rw-rw-  s191968    studs
+m 1677721639   0x29a      --rw-rw-rw-  s191968    studs
+m          3   0x3ef9bacc --rw-r-----   oracle      dba
+m          2   0          --rw-r-----   oracle      dba
+m          1   0          --rw-r-----   oracle      dba
+Semaphores:
+s          3   0x837aea38 --ra-r-----   oracle      dba
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake[1Pipcs./server
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+s191941@helios:/home/s191941/unix/clab6$ ic[Kpcs
+IPC status from <running system> as of  9 июня 2016 г. 17:18:22 MSK
+T         ID      KEY        MODE        OWNER    GROUP
+Message Queues:
+Shared Memory:
+m   67108887   0x29b      --rw-rw-rw-  s191968    studs
+m 1795162120   0x258      --rw-rw-rw-  s191968    studs
+m 1677721639   0x29a      --rw-rw-rw-  s191968    studs
+m          3   0x3ef9bacc --rw-r-----   oracle      dba
+m          2   0          --rw-r-----   oracle      dba
+m          1   0          --rw-r-----   oracle      dba
+Semaphores:
+s          3   0x837aea38 --ra-r-----   oracle      dba
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake[1Pipcsgmake./server
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ ls
+bp           client       client.c     client.o     Makefile     screenlog.0  server       server.c     server.o     tags
+s191941@helios:/home/s191941/unix/clab6$ ls
+bp           client       client.c     client.o     Makefile     screenlog.0  server       server.c     server.o     tags
+s191941@helios:/home/s191941/unix/clab6$ ipcs[K[K[K[Ktop
+top: warning: this terminal can only display 12 processes.
+....
+[?1049h[H[Jload averages:  0.75,  0.41,  0.37[1;128H17:19:56
+2253 processes:2251 sleeping, 1 stopped, 1 on cpu
+CPU states:     % idle,     % user,     % kernel,     % iowait,     % swap
+Memory: 128G real, 12G free, 20G swap in use, 122G swap free
+
+   PID USERNAME LWP PRI NICE  SIZE   RES STATE    TIME    CPU COMMAND
+   207 daemon     1  59    0    0K    0K sleep  476.9H  0.70% rcapd
+ 23956 s191941    1  59    0   10M 5704K sleep    0:05  0.02% vim
+ 10485 s191941    1  59    0 5248K 1944K sleep    0:00  0.02% screen
+   551 ds        41  59    0    0K    0K sleep   34.6H  0.01% ns-slapd
+  2377 oracle     1 101  -20    0K    0K sleep  375:27  0.01% oracle
+ 22939 root      24  59  -10   76M   30M sleep  179:54  0.01% java
+ 27141 s191941    1  49    0 5584K 2636K cpu/0    0:00  0.01% top
+ 12483 oracle    58  59    0    0K    0K sleep  152:49  0.00% java
+  2403 oracle    11  59    0    0K    0K sleep  145:55  0.00% oracle
+  2405 oracle     1  59    0    0K    0K sleep  133:32  0.00% oracle
+ 29849 root      36  59    0  158M   48M sleep   39:56  0.00% java
+     1 root       1  59    0 2804K 1508K sleep   36:00  0.00% init[5;1H[18;1H[K[?1049ls191941@helios:/home/s191941/unix/clab6$ q[Kgmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake[2Ptop[1Pls./server
+Child started
+Old child #0 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Child started
+Old child #0 listening for a connection
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+Child started
+Old child #0 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #2 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+server.c: In function `initialize_workers':
+server.c:212: error: syntax error at end of input
+gmake: *** [server.o] Error 1
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #2 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ m[Kgmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #4 listening for a connection
+Child started
+Old child #5 listening for a connection
+Child started
+Old child #6 listening for a connection
+Child started
+Old child #7 listening for a connection
+Child started
+Old child #8 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ./server
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #4 listening for a connection
+Child started
+Old child #5 listening for a connection
+Child started
+Old child #6 listening for a connection
+Child started
+Old child #7 listening for a connection
+Child started
+Old child #8 listening for a connection
+Child started
+Old child #9 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ./server
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #4 listening for a connection
+Child started
+Child started
+Old child #5 listening for a connection
+Old child #6 listening for a connection
+Child started
+Old child #7 listening for a connection
+Child started
+Old child #8 listening for a connection
+Child started
+Old child #9 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ./server
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #4 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #5 listening for a connection
+Child started
+Old child #6 listening for a connection
+Child started
+Old child #7 listening for a connection
+Child started
+Old child #8 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ./server[3Pgmake./server[3Pgmake./server[3Pgmake./server[3Pgmake./server[K
+s191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #5 listening for a connection
+Child started
+Old child #4 listening for a connection
+Child started
+Child started
+Old child #7 listening for a connection
+Old child #6 listening for a connection
+Child started
+Old child #8 listening for a connection
+Child started
+Old child #9 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ./server[3Pgmake./server[3Pgmake./server[3Pgmake./server[3Pgmake./server[K'
+> 
+> 
+> 
+s191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ top
+top: warning: this terminal can only display 12 processes.
+....
+[?1049h[H[Jload averages:  0.43,  0.49,  0.41[1;128H17:23:30
+2254 processes:2251 sleeping, 1 stopped, 2 on cpu
+CPU states:     % idle,     % user,     % kernel,     % iowait,     % swap
+Memory: 128G real, 12G free, 20G swap in use, 122G swap free
+
+   PID USERNAME LWP PRI NICE  SIZE   RES STATE    TIME    CPU COMMAND
+   207 daemon     1   0    0    0K    0K cpu/0  476.9H  0.87% rcapd
+   174 s191944    1  59    0 8808K 6004K sleep    0:00  0.01% vim
+   551 ds        41  59    0    0K    0K sleep   34.6H  0.01% ns-slapd
+  2377 oracle     1 101  -20    0K    0K sleep  375:27  0.01% oracle
+ 22939 root      24  59  -10   76M   30M sleep  179:54  0.01% java
+ 12483 oracle    58  59    0    0K    0K sleep  152:49  0.01% java
+  5536 s191944    1  59    0 5648K 2152K sleep    0:12  0.01% gnu_screen
+ 23956 s191941    1  59    0   10M 5708K sleep    0:05  0.01% vim
+ 21450 s191944    1  59    0   13M 7588K sleep    0:03  0.01% sshd
+  2405 oracle     1  59    0    0K    0K sleep  133:32  0.00% oracle
+ 29849 root      36  59    0  158M   48M sleep   39:56  0.00% java
+ 13310 noaccess  18  59    0  163M  135M sleep    0:36  0.00% java[5;1H[1;16H 0.43,  0.49,  0.41[1;128H17:23:31
+[2;19H2[2;42H1[3;13H[3;13H94.1[3;25H 0.5[3;37H 5.4[3;51H 0.0[3;65H 0.0
+
+[7;42Hsleep[7;59H98[8;6H6[8;14H1[8;30H5652K 2764K cpu/7[8;63Htop[9;4H174 s191944    [9;30H8808K 6004[9;50H 0:00[9;63Hvim[K[10;3H 551 ds        41  59    [10;49H 34.6H[10;63Hns-slapd[11;2H 2377 oracle     1 101  -20    0K    0K[11;49H375:27[11;63Horacle[12;2H22939 root      24[12;26H-10   76M   30M[12;50H79:54[16;2H12483[16;18H58[16;50H52:49[16;63Hjava[K[17;2H 2405 oracle     1[17;31H  0K    0K[17;49H133:32[17;63Horacle[18;2H29849 root      36[18;32H58M   48[18;50H39:5[5;1H[18;1H[K[?1049ls191941@helios:/home/s191941/unix/clab6$ ps
+   PID TTY         TIME CMD
+   177 pts/36      0:00 ps
+ 10487 pts/36      0:00 bash
+s191941@helios:/home/s191941/unix/clab6$ ps
+   PID TTY         TIME CMD
+   318 pts/36      0:00 ps
+ 10487 pts/36      0:00 bash
+s191941@helios:/home/s191941/unix/clab6$ pstop[2P'
+
+MM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C./server
+[K
+[KMM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pgmake./server
+Child started
+Child started
+Old child #2 listening for a connection
+Old child #1 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #4 listening for a connection
+Child started
+Old child #5 listening for a connection
+Child started
+Old child #6 listening for a connection
+Child started
+Old child #7 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ./server
+Child started
+Old child #1 listening for a connection
+Child started
+Old child #2 listening for a connection
+Child started
+Child started
+Old child #5 listening for a connection
+Old child #4 listening for a connection
+Child started
+Old child #3 listening for a connection
+Child started
+Old child #6 listening for a connection
+Child started
+Old child #7 listening for a connection
+Child started
+Old child #8 listening for a connection
+Child started
+Old child #9 listening for a connection
+Child started
+Old child #10 listening for a connection
+^[[A^[[A^[[A^[[A^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[B^[[A^[[A^[[A^[[A
+
+^Cs191941@helios:/home/s191941/unix/clab6$ ./serverps[Ktop[2P'
+
+MM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C./server
+[K
+[KMM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[3Pgmake./server[3Pgmake./server[3Pgmake./server[3Pgmake./server[3Pgmake./server[3Pgmake./server'       
+
+MM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ctop
+[K
+[KMM[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Pps./server[K
+s191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ 
+s191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Child started
+Old child #2 listening for a connection
+Child started
+Old child #2 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ ga[Kmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+ID #2
+Child started
+Old child #2 listening for a connection
+ID #2
+Child started
+Old child #2 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ gmake
+gcc -M client.c server.c | gsed -e 's@[\\ ]@\n@g' | \
+                gsed -e "/\.o:/d; /^$/d;" | ctags --fields=+S -L -
+gcc server.c -c -o server.o
+server.c: In function `worker':
+server.c:89: warning: initialization makes pointer from integer without a cast
+gcc server.o -lthread -lnsl -lsocket -o server
+s191941@helios:/home/s191941/unix/clab6$ gmake./server
+Main ID #0
+Main ID #0
+Main ID #0
+Main ID #0
+Main ID #0
+Main ID #0
+ID #1
+Child started
+Old child #1 listening for a connection
+ID #2
+Child started
+Old child #2 listening for a connection
+ID #3
+Child started
+Old child #3 listening for a connection
+ID #4
+Child started
+Old child #5 listening for a connection
+ID #5
+Child started
+Old child #5 listening for a connection
+ID #6
+Child started
+Old child #6 listening for a connection
+^Cs191941@helios:/home/s191941/unix/clab6$ exit

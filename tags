@@ -869,6 +869,7 @@ MSGMARKNEXT	/usr/include/sys/stream.h	388;"	d
 MSGNOGET	/usr/include/sys/stream.h	387;"	d
 MSGNOLOOP	/usr/include/sys/stream.h	384;"	d
 MSGNOTMARKNEXT	/usr/include/sys/stream.h	389;"	d
+MSG_ALERT_TYPE	server.c	21;"	d	file:
 MSG_CTRUNC	/usr/include/sys/socket.h	328;"	d
 MSG_DONTROUTE	/usr/include/sys/socket.h	325;"	d
 MSG_DONTWAIT	/usr/include/sys/socket.h	335;"	d
@@ -883,7 +884,6 @@ MSG_PEEK	/usr/include/sys/socket.h	324;"	d
 MSG_R	/usr/include/sys/msg.h	35;"	d
 MSG_RWAIT	/usr/include/sys/msg.h	41;"	d
 MSG_TRUNC	/usr/include/sys/socket.h	329;"	d
-MSG_TYPE	server.c	21;"	d	file:
 MSG_W	/usr/include/sys/msg.h	36;"	d
 MSG_WAITALL	/usr/include/sys/socket.h	330;"	d
 MSG_WWAIT	/usr/include/sys/msg.h	42;"	d
@@ -3994,6 +3994,7 @@ so_minpsz	/usr/include/sys/stream.h	/^	ssize_t	so_minpsz;		\/* minimum read pack
 so_readopt	/usr/include/sys/stream.h	/^	short	so_readopt;		\/* read option *\/$/;"	m	struct:stroptions
 so_tail	/usr/include/sys/stream.h	/^	ushort_t so_tail;		\/* space available at the end *\/$/;"	m	struct:stroptions
 so_wroff	/usr/include/sys/stream.h	/^	ushort_t so_wroff;		\/* write offset *\/$/;"	m	struct:stroptions
+sock	server.c	/^int sock;$/;"	v
 sockaddr	/usr/include/sys/socket_impl.h	/^struct sockaddr {$/;"	s
 sockaddr_dl	/usr/include/net/if_dl.h	/^struct sockaddr_dl {$/;"	s
 sockaddr_in	/usr/include/netinet/in.h	/^struct sockaddr_in {$/;"	s
@@ -4384,7 +4385,7 @@ vtype_t	/usr/include/sys/vnode.h	/^} vtype_t;$/;"	t	typeref:enum:vtype
 wcnt	/usr/include/sys/kstat.h	/^	uint_t	wcnt;		\/* count of elements in wait state *\/$/;"	m	struct:kstat_io
 wlastupdate	/usr/include/sys/kstat.h	/^	hrtime_t wlastupdate;	\/* last time wait queue changed *\/$/;"	m	struct:kstat_io
 wlentime	/usr/include/sys/kstat.h	/^	hrtime_t wlentime;	\/* cumulative wait length*time product *\/$/;"	m	struct:kstat_io
-worker	server.c	/^void worker(int id){$/;"	f	signature:(int id)
+worker	server.c	/^void worker(int id, int fd){$/;"	f	signature:(int id, int fd)
 workers	server.c	/^struct workers {$/;"	s	file:
 workers_protected	server.c	/^struct workers *workers_protected;$/;"	v	typeref:struct:workers
 write_bytes	/usr/include/sys/vnode.h	/^	kstat_named_t	write_bytes;$/;"	m	struct:vopstats
