@@ -104,7 +104,6 @@ void send_directory_content(int fd, char *dir){
 	strcat(buf, "\n");
 
 	int wr = write(fd, buf, strlen(buf));
-	printf("%d\n", wr);
 
 }
 
@@ -113,7 +112,6 @@ void parse_command(int fd){
 
 	int rd; 
 	while((rd = read(fd, buf, PATH_MAX - 1)) > 0){
-		puts(buf);
 		//telnet
 		char *cr = strchr(buf, '\r');
 		if(cr != NULL){
@@ -324,7 +322,6 @@ int main(int argc, char *argv[]) {
 		struct sockaddr_in sock_in = { 0 };
 		socklen_t slen = sizeof(struct sockaddr_in);
 
-		puts("Before accept");
 		int client_fd = accept(sock, (struct sockaddr*)&sock_in, &slen);
 		zassert(client_fd < 0);
 		printf("### Main loop just got a connection to fd #%d\n", client_fd);
@@ -333,6 +330,8 @@ int main(int argc, char *argv[]) {
 		mutex_lock(&workers_protected->mutex_workerlist);
 
 		int current_free = first_free_in_list(workers_protected->list, CFDS);
+		if(current_free == -1)
+			first_unused_in_list(workers_protected->list, CFDS);
 		
 		mutex_unlock(&workers_protected->mutex_workerlist);
 
