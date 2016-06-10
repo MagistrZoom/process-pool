@@ -30,6 +30,7 @@
 
 #define CFDS 256
 
+
 int send_file_descriptor(int socket, int fd_to_send);
 int recv_file_descriptor(int socket);
 int create_server();
@@ -66,39 +67,48 @@ void free_handler(int sig){
 	exit(0);
 }
 
-void *memmem(const void *l, size_t l_len, const void *s, size_t s_len) {
-	register char *cur, *last;
-	const char *cl = (const char *)l;
-	const char *cs = (const char *)s;
-
-	/* we need something to compare */
-	if (l_len == 0 || s_len == 0)
-		return NULL;
-
-	/* "s" must be smaller or equal to "l" */
-	if (l_len < s_len)
-		return NULL;
-
-	/* special case where s_len == 1 */
-	if (s_len == 1)
-		return memchr(l, (int)*cs, l_len);
-
-	/* the last position where its possible to find "s" in "l" */
-	last = (char *)cl + l_len - s_len;
-
-	for (cur = (char *)cl; cur <= last; cur++)
-		if (cur[0] == cs[0] && memcmp(cur, cs, s_len) == 0)
-			return cur;
-
-	return NULL;
-}
-
 void send_directory_content(int fd, char *dir){
+	char buf[32*PATH_MAX] = { 0 };
+
+	struct dirent *dirent;
+	DIR *dirp = opendir(dir);
+	if(dirp == NULL){
+		strcat(buf, "Invalid argument: ");
+		strcat(buf, dir);
+		strcat(buf, "\n");
+
+		int w = write(fd, buf, strlen(buf));
+
+		return;
+	}
+	int sz = strlen(dir)+3+1;
+	strcat(buf, dir);
+	strcat(buf, ":\n");
+	while((dirent = readdir(dirp)) != NULL){
+		if((sz + strlen(dirent->d_name) + 1) > 32*PATH_MAX){
+			printf("Bad directory\n");
+			break;
+		} else {
+			strcat(buf, dirent->d_name);
+			strcat(buf, "\n");
+		}
+	}
+
+	strcat(buf, "\n");
+
+	int wr = write(fd, buf, strlen(buf));
 
 }
 
 void parse_command(int fd){
-	
+	char buf[PATH_MAX] = { 0 };
+
+	int rd = read(fd, buf, PATH_MAX - 1);	
+	zassert(rd < 0);
+	if(rd > 0){
+		//buf- name of file to print
+		send_directory_content(fd, buf);
+	}
 }
 
 void do_work(int id){

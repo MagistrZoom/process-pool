@@ -3923,7 +3923,6 @@ max_time	/usr/include/sys/kstat.h	/^	hrtime_t	max_time;		\/* longest event durat
 mbcp_type_un	/usr/include/sys/synch.h	/^		} mbcp_type_un;$/;"	m	struct:_lwp_mutex::__anon167	typeref:union:_lwp_mutex::__anon167::__anon168
 mblk_t	/usr/include/sys/stream.h	/^} mblk_t;$/;"	t	typeref:struct:msgb
 memchr	/usr/include/iso/string_iso.h	/^	inline void *memchr(void * __s, int __c, size_t __n) {$/;"	f	signature:(void * __s, int __c, size_t __n)
-memmem	server.c	/^void *memmem(const void *l, size_t l_len, const void *s, size_t s_len) {$/;"	f	signature:(const void *l, size_t l_len, const void *s, size_t s_len)
 mi_hiwat	/usr/include/sys/stream.h	/^	size_t	mi_hiwat;		\/* hi-water mark *\/$/;"	m	struct:module_info
 mi_idname	/usr/include/sys/stream.h	/^	char 	*mi_idname;		\/* module name *\/$/;"	m	struct:module_info
 mi_idnum	/usr/include/sys/stream.h	/^	ushort_t mi_idnum;		\/* module id number *\/$/;"	m	struct:module_info

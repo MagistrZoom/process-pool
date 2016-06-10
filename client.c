@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 		zassert(wr < 0);
 		int rd = read(sock, buf, BUFSIZE);
 		zassert(rd < 0);
-		wr = write(0, buf, rd);
+		wr = write(STDOUT_FILENO, buf, rd);
 		zassert(wr < 0);
 	}
 	
