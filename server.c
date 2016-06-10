@@ -16,14 +16,17 @@
 
 #include <signal.h>
 
+#include <string.h>
+
+#include <limits.h>
+
+#include <dirent.h>
+
 #include "../clab5/zassert.h"
 
-#define MSG_ALERT_TYPE 1
-#define MSG_KILL_TYPE 2
-
 #define MAX_WAITING_CONNECTIONS 8
-#define MIN_WORKERS 1
-#define MAX_WORKERS 2
+#define MIN_WORKERS 2
+#define MAX_WORKERS 4
 
 #define CFDS 256
 
@@ -53,15 +56,49 @@ struct workers {
 
 struct workers *workers_protected;
 
-int ipc_id;
 int shared_id;
 int sock, local_sock;
 
 void free_handler(int sig){
-	msgctl(ipc_id, IPC_RMID, 0);
 	shmctl(shared_id, IPC_RMID, 0);
 	close(sock);
+	close(local_sock);
 	exit(0);
+}
+
+void *memmem(const void *l, size_t l_len, const void *s, size_t s_len) {
+	register char *cur, *last;
+	const char *cl = (const char *)l;
+	const char *cs = (const char *)s;
+
+	/* we need something to compare */
+	if (l_len == 0 || s_len == 0)
+		return NULL;
+
+	/* "s" must be smaller or equal to "l" */
+	if (l_len < s_len)
+		return NULL;
+
+	/* special case where s_len == 1 */
+	if (s_len == 1)
+		return memchr(l, (int)*cs, l_len);
+
+	/* the last position where its possible to find "s" in "l" */
+	last = (char *)cl + l_len - s_len;
+
+	for (cur = (char *)cl; cur <= last; cur++)
+		if (cur[0] == cs[0] && memcmp(cur, cs, s_len) == 0)
+			return cur;
+
+	return NULL;
+}
+
+void send_directory_content(int fd, char *dir){
+
+}
+
+void parse_command(int fd){
+	
 }
 
 void do_work(int id){
@@ -86,8 +123,6 @@ void do_work(int id){
 	
 	printf("Child started\n");
 	
-	struct msg_buf rmsg = { 0 };
-	
 	while(1){
 		printf("PID #%d is waiting\n", id);
 		int recv_fd = recv_file_descriptor(source);
@@ -101,11 +136,12 @@ void do_work(int id){
 
 		mutex_unlock(&workers_protected->mutex_free_counter);
 
-		char buf[256] = { 0 };
-		sprintf(buf, "<<< Time %d", time(NULL));
-		puts(buf);
-		ssize_t written = send(recv_fd, buf, strlen(buf), 0);
-		zassert(written < 0);
+
+		parse_command(recv_fd);	
+
+
+		int cls = close(recv_fd);
+		zassert(cls < 0);
 
 
 		mutex_lock(&workers_protected->mutex_workerlist);
@@ -164,23 +200,23 @@ void initialize_workers() {
 	}
 }
 
-int start_tcp() {
+int start_tcp(char *addr, int port) {
 	struct sockaddr_in saddr = {
 		.sin_family = AF_INET,
-		.sin_port 	= htons(35812),
-		.sin_addr = INADDR_ANY
+		.sin_port 	= htons(port),
+		.sin_addr.s_addr = inet_addr(addr)
 	};
 
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
-	msgassert(sock < 0, ipc_id);
+	zassert(sock < 0);
 	int sopt = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
-    msgassert(sopt < 0, ipc_id);
+    zassert(sopt < 0);
 	
 	int bnd = bind(sock, (struct sockaddr*)&saddr, sizeof(saddr));
-	msgassert(bnd < 0, ipc_id);
+	zassert(bnd < 0);
 
 	int ls = listen(sock, MAX_WAITING_CONNECTIONS);
-	msgassert(ls < 0, ipc_id);
+	zassert(ls < 0);
 
 	return sock;
 }
@@ -208,6 +244,10 @@ int first_free_in_list(struct worker *list, int limit){
 }
 
 int main(int argc, char *argv[]) {
+	if(argc < 3){
+		printf("usage: ./server host port\n");
+		return 0;
+	}
 
 	struct sigaction f_act = (struct sigaction){
 		.sa_flags = SA_RESTART | SA_NOCLDWAIT
@@ -222,14 +262,9 @@ int main(int argc, char *argv[]) {
 	sig_ret = sigaction(SIGINT, &f_act, NULL);
 	zassert(sig_ret < 0);
 
-	//message queue used to deliver to workers request handling
-	int ipc_key = getuid()+8841;
-	ipc_id = msgget(ipc_key, IPC_EXCL | IPC_CREAT | 0600);
-	zassert(ipc_id < 0);
-	
 	int shared_key = getuid()+8842;
 	shared_id = shmget(shared_key, sizeof(struct workers), IPC_CREAT | IPC_EXCL | 0600);
-	msgassert(shared_id < 0, ipc_id);
+	zassert(shared_id < 0);
 
 	//init a interprocess mutex and  worker counter protected by them
 	workers_protected = shmat(shared_id, NULL, 0);
@@ -245,11 +280,11 @@ int main(int argc, char *argv[]) {
 
 
 	//now just init TCP listener
-	sock = start_tcp();
-	printf("TCP is on: %d\n", sock);
+	int port;
+	sscanf(argv[2], "%d", &port);
+	sock = start_tcp(argv[1], port);
 	
 	local_sock = create_server();
-	printf("unix socket is on: %d\n", local_sock);
 
 	//MIN_WORKERS pool
 	initialize_workers();
@@ -267,7 +302,7 @@ int main(int argc, char *argv[]) {
 		socklen_t slen = sizeof(struct sockaddr_in);
 
 		int client_fd = accept(sock, (struct sockaddr*)&sock_in, &slen);
-		msgassert(client_fd < 0, ipc_id);
+		zassert(client_fd < 0);
 		printf("### Main loop just got a connection to fd #%d\n", client_fd);
 		
 
@@ -279,7 +314,6 @@ int main(int argc, char *argv[]) {
 
 
 		//that is easy. If there is no free processes, just create new one
-		printf("Current free counter %d\n", current_free);
 		if(current_free == -1){
 			mutex_lock(&workers_protected->mutex_workerlist);
 			int index = first_unused_in_list(workers_protected->list, CFDS);
@@ -322,6 +356,9 @@ int main(int argc, char *argv[]) {
 		int sendfd_res = send_file_descriptor(
 			workers_protected->list[process_id].local_fd, client_fd);
 		zassert(sendfd_res < 0);
+
+		int cls = close(client_fd);
+		zassert(cls < 0);
 	}
 
 	free_handler(0);

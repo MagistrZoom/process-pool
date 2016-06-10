@@ -37,6 +37,8 @@ AF_UNIX	/usr/include/sys/socket.h	185;"	d
 AF_UNSPEC	/usr/include/sys/socket.h	184;"	d
 AF_X25	/usr/include/sys/socket.h	204;"	d
 ARGSBASE	/usr/include/sys/param.h	371;"	d
+ARG_MAX	/usr/include/limits.h	51;"	d
+ARG_MAX	/usr/include/limits.h	53;"	d
 ATTR_COMM	/usr/include/sys/vnode.h	1017;"	d
 ATTR_EXEC	/usr/include/sys/vnode.h	1016;"	d
 ATTR_HINT	/usr/include/sys/vnode.h	1018;"	d
@@ -64,6 +66,10 @@ AT_SYMLINK_NOFOLLOW	/usr/include/sys/fcntl.h	321;"	d
 AT_TIMES	/usr/include/sys/vnode.h	466;"	d
 AT_TYPE	/usr/include/sys/vnode.h	442;"	d
 AT_UID	/usr/include/sys/vnode.h	444;"	d
+BC_BASE_MAX	/usr/include/limits.h	148;"	d
+BC_DIM_MAX	/usr/include/limits.h	149;"	d
+BC_SCALE_MAX	/usr/include/limits.h	150;"	d
+BC_STRING_MAX	/usr/include/limits.h	151;"	d
 BE_16	/usr/include/sys/byteorder.h	101;"	d
 BE_16	/usr/include/sys/byteorder.h	114;"	d
 BE_32	/usr/include/sys/byteorder.h	102;"	d
@@ -86,6 +92,7 @@ BSWAP_32	/usr/include/sys/byteorder.h	88;"	d
 BSWAP_64	/usr/include/sys/byteorder.h	89;"	d
 BSWAP_8	/usr/include/sys/byteorder.h	86;"	d
 BUFSIZ	/usr/include/iso/stdio_iso.h	104;"	d
+BUFSIZE	client.c	16;"	d	file:
 BUS_ADRALN	/usr/include/sys/machsig.h	93;"	d
 BUS_ADRERR	/usr/include/sys/machsig.h	94;"	d
 BUS_OBJERR	/usr/include/sys/machsig.h	96;"	d
@@ -100,13 +107,21 @@ CANTMASK0	/usr/include/sys/signal.h	257;"	d
 CANTMASK1	/usr/include/sys/signal.h	258;"	d
 CDELAY	/usr/include/sys/param.h	292;"	d
 CDLIMIT	/usr/include/sys/param.h	149;"	d
-CFDS	server.c	28;"	d	file:
+CFDS	server.c	31;"	d	file:
+CHARCLASS_NAME_MAX	/usr/include/limits.h	179;"	d
+CHAR_BIT	/usr/include/iso/limits_iso.h	37;"	d
+CHAR_MAX	/usr/include/iso/limits_iso.h	46;"	d
+CHAR_MAX	/usr/include/iso/limits_iso.h	49;"	d
+CHAR_MIN	/usr/include/iso/limits_iso.h	45;"	d
+CHAR_MIN	/usr/include/iso/limits_iso.h	48;"	d
+CHILD_MAX	/usr/include/limits.h	254;"	d
 CLD_CONTINUED	/usr/include/sys/siginfo.h	159;"	d
 CLD_DUMPED	/usr/include/sys/siginfo.h	156;"	d
 CLD_EXITED	/usr/include/sys/siginfo.h	154;"	d
 CLD_KILLED	/usr/include/sys/siginfo.h	155;"	d
 CLD_STOPPED	/usr/include/sys/siginfo.h	158;"	d
 CLD_TRAPPED	/usr/include/sys/siginfo.h	157;"	d
+CLK_TCK	/usr/include/limits.h	278;"	d
 CLK_TCK	/usr/include/time.h	148;"	d
 CLOCKS_PER_SEC	/usr/include/iso/time_iso.h	67;"	d
 CLOCK_HIGHRES	/usr/include/sys/time_impl.h	107;"	d
@@ -125,6 +140,7 @@ CMSG_FIRSTHDR	/usr/include/sys/socket.h	375;"	d
 CMSG_LEN	/usr/include/sys/socket.h	394;"	d
 CMSG_NXTHDR	/usr/include/sys/socket.h	379;"	d
 CMSG_SPACE	/usr/include/sys/socket.h	390;"	d
+COLL_WEIGHTS_MAX	/usr/include/limits.h	152;"	d
 COND_MAGIC	/usr/include/synch.h	160;"	d
 CPU_INTR_ACTV_HIGH_LEVEL_MASK	/usr/include/sys/machlock.h	105;"	d
 CRCREAT	/usr/include/sys/vnode.h	/^enum create	{ CRCREAT, CRMKNOD, CRMKDIR };	\/* reason for create *\/$/;"	e	enum:create
@@ -147,6 +163,9 @@ DATAMODEL_NONE	/usr/include/sys/model.h	35;"	d
 DBLK_COOKED	/usr/include/sys/stream.h	368;"	d
 DBLK_REFMAX	/usr/include/sys/stream.h	283;"	d
 DBLK_REFMIN	/usr/include/sys/stream.h	367;"	d
+DBL_DIG	/usr/include/limits.h	199;"	d
+DBL_MAX	/usr/include/limits.h	201;"	d
+DBL_MIN	/usr/include/limits.h	214;"	d
 DB_CPID	/usr/include/sys/stream.h	326;"	d
 DB_CRED	/usr/include/sys/stream.h	327;"	d
 DB_CREDDEF	/usr/include/sys/stream.h	328;"	d
@@ -164,8 +183,15 @@ DEF_IOV_MAX	/usr/include/sys/stream.h	607;"	d
 DELAY	/usr/include/sys/param.h	291;"	d
 DEV_BSHIFT	/usr/include/sys/param.h	229;"	d
 DEV_BSIZE	/usr/include/sys/param.h	228;"	d
+DIR	/usr/include/dirent.h	/^} DIR;				\/* stream data from opendir() *\/$/;"	t	typeref:struct:__anon174
+DIR	/usr/include/dirent.h	/^} DIR;				\/* stream data from opendir() *\/$/;"	t	typeref:struct:__anon175
+DIRBUF	/usr/include/dirent.h	30;"	d
 DIRECTIO_OFF	/usr/include/sys/fcntl.h	285;"	d
 DIRECTIO_ON	/usr/include/sys/fcntl.h	286;"	d
+DIRENT32_NAMELEN	/usr/include/sys/dirent.h	69;"	d
+DIRENT32_RECLEN	/usr/include/sys/dirent.h	67;"	d
+DIRENT64_NAMELEN	/usr/include/sys/dirent.h	65;"	d
+DIRENT64_RECLEN	/usr/include/sys/dirent.h	63;"	d
 DISP_LEVEL	/usr/include/sys/machlock.h	96;"	d
 DISP_LOCK_DESTROY	/usr/include/sys/t_lock.h	61;"	d
 DISP_LOCK_HELD	/usr/include/sys/t_lock.h	60;"	d
@@ -310,11 +336,13 @@ EWOULDBLOCK	/usr/include/sys/errno.h	188;"	d
 EXCL	/usr/include/sys/vnode.h	/^enum vcexcl	{ NONEXCL, EXCL };		\/* (non)excl create *\/$/;"	e	enum:vcexcl
 EXDEV	/usr/include/sys/errno.h	64;"	d
 EXFULL	/usr/include/sys/errno.h	102;"	d
+EXPR_NEST_MAX	/usr/include/limits.h	153;"	d
 FAMOUS_PIDS	/usr/include/sys/param.h	91;"	d
 FAMOUS_PID_FSFLUSH	/usr/include/sys/param.h	90;"	d
 FAMOUS_PID_INIT	/usr/include/sys/param.h	88;"	d
 FAMOUS_PID_PAGEOUT	/usr/include/sys/param.h	89;"	d
 FAMOUS_PID_SCHED	/usr/include/sys/param.h	87;"	d
+FCHR_MAX	/usr/include/limits.h	234;"	d
 FC_ALIGN	/usr/include/vm/faultcode.h	51;"	d
 FC_CODE	/usr/include/vm/faultcode.h	59;"	d
 FC_ERRNO	/usr/include/vm/faultcode.h	60;"	d
@@ -338,6 +366,9 @@ FILENAME_MAX	/usr/include/iso/stdio_iso.h	136;"	d
 FILLSET0	/usr/include/sys/signal.h	251;"	d
 FILLSET1	/usr/include/sys/signal.h	252;"	d
 FIXINC_WRAP_STDIO_H_STDIO_STDARG_H	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	11;"	d
+FLT_DIG	/usr/include/limits.h	204;"	d
+FLT_MAX	/usr/include/limits.h	206;"	d
+FLT_MIN	/usr/include/limits.h	218;"	d
 FLUSHALL	/usr/include/sys/stream.h	668;"	d
 FLUSHDATA	/usr/include/sys/stream.h	669;"	d
 FOLLOW	/usr/include/sys/vnode.h	841;"	d
@@ -536,7 +567,43 @@ INFOD_COPYOUT	/usr/include/sys/stream.h	631;"	d
 INFOD_COUNT	/usr/include/sys/stream.h	630;"	d
 INFOD_FIRSTBYTES	/usr/include/sys/stream.h	628;"	d
 INFPSZ	/usr/include/sys/stream.h	663;"	d
+INT16_MAX	/usr/include/sys/int_limits.h	65;"	d
+INT16_MIN	/usr/include/sys/int_limits.h	189;"	d
+INT32_MAX	/usr/include/sys/int_limits.h	66;"	d
+INT32_MIN	/usr/include/sys/int_limits.h	190;"	d
+INT64_MAX	/usr/include/sys/int_limits.h	68;"	d
+INT64_MAX	/usr/include/sys/int_limits.h	70;"	d
+INT64_MIN	/usr/include/sys/int_limits.h	192;"	d
+INT64_MIN	/usr/include/sys/int_limits.h	194;"	d
+INT8_MAX	/usr/include/sys/int_limits.h	63;"	d
+INT8_MIN	/usr/include/sys/int_limits.h	187;"	d
+INTMAX_MAX	/usr/include/sys/int_limits.h	83;"	d
+INTMAX_MAX	/usr/include/sys/int_limits.h	85;"	d
+INTMAX_MIN	/usr/include/sys/int_limits.h	198;"	d
+INTMAX_MIN	/usr/include/sys/int_limits.h	200;"	d
+INTPTR_MAX	/usr/include/sys/int_limits.h	133;"	d
+INTPTR_MAX	/usr/include/sys/int_limits.h	136;"	d
+INTPTR_MIN	/usr/include/sys/int_limits.h	223;"	d
+INTPTR_MIN	/usr/include/sys/int_limits.h	225;"	d
+INT_FAST16_MAX	/usr/include/sys/int_limits.h	113;"	d
+INT_FAST16_MIN	/usr/include/sys/int_limits.h	215;"	d
+INT_FAST32_MAX	/usr/include/sys/int_limits.h	114;"	d
+INT_FAST32_MIN	/usr/include/sys/int_limits.h	216;"	d
+INT_FAST64_MAX	/usr/include/sys/int_limits.h	116;"	d
+INT_FAST64_MIN	/usr/include/sys/int_limits.h	218;"	d
+INT_FAST8_MAX	/usr/include/sys/int_limits.h	111;"	d
+INT_FAST8_MIN	/usr/include/sys/int_limits.h	213;"	d
+INT_LEAST16_MAX	/usr/include/sys/int_limits.h	97;"	d
+INT_LEAST16_MIN	/usr/include/sys/int_limits.h	206;"	d
+INT_LEAST32_MAX	/usr/include/sys/int_limits.h	98;"	d
+INT_LEAST32_MIN	/usr/include/sys/int_limits.h	207;"	d
+INT_LEAST64_MAX	/usr/include/sys/int_limits.h	100;"	d
+INT_LEAST64_MIN	/usr/include/sys/int_limits.h	209;"	d
+INT_LEAST8_MAX	/usr/include/sys/int_limits.h	95;"	d
+INT_LEAST8_MIN	/usr/include/sys/int_limits.h	204;"	d
+INT_MAX	/usr/include/iso/limits_iso.h	58;"	d
 INT_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	569;"	d
+INT_MIN	/usr/include/iso/limits_iso.h	57;"	d
 INT_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	568;"	d
 IN_AUTOCONF_MASK	/usr/include/netinet/in.h	348;"	d
 IN_AUTOCONF_NET	/usr/include/netinet/in.h	347;"	d
@@ -576,6 +643,7 @@ IOC_LP64	/usr/include/sys/stream.h	478;"	d
 IOC_MODELS	/usr/include/sys/stream.h	476;"	d
 IOC_NATIVE	/usr/include/sys/stream.h	479;"	d
 IOC_NONE	/usr/include/sys/stream.h	480;"	d
+IOV_MAX	/usr/include/limits.h	229;"	d
 IPC_ALLOC	/usr/include/sys/ipc.h	46;"	d
 IPC_CREAT	/usr/include/sys/ipc.h	47;"	d
 IPC_EXCL	/usr/include/sys/ipc.h	48;"	d
@@ -862,8 +930,11 @@ LE_64	/usr/include/sys/byteorder.h	107;"	d
 LE_64	/usr/include/sys/byteorder.h	112;"	d
 LE_8	/usr/include/sys/byteorder.h	104;"	d
 LE_8	/usr/include/sys/byteorder.h	109;"	d
+LINE_MAX	/usr/include/limits.h	154;"	d
 LLADDR	/usr/include/net/if_dl.h	79;"	d
+LLONG_MAX	/usr/include/iso/limits_iso.h	76;"	d
 LLONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	587;"	d
+LLONG_MIN	/usr/include/iso/limits_iso.h	74;"	d
 LLONG_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	585;"	d
 LOCK_ERRORCHECK	/usr/include/sys/synch.h	116;"	d
 LOCK_HELD	/usr/include/sys/machlock.h	38;"	d
@@ -882,8 +953,15 @@ LOCK_ROBUST	/usr/include/sys/synch.h	120;"	d
 LOCK_SAMPLE_INTERVAL	/usr/include/sys/machlock.h	54;"	d
 LOCK_SHARED	/usr/include/sys/synch.h	115;"	d
 LOCK_UNMAPPED	/usr/include/sys/synch.h	135;"	d
+LOGNAME_MAX	/usr/include/limits.h	282;"	d
+LONG_BIT	/usr/include/limits.h	192;"	d
+LONG_BIT	/usr/include/limits.h	194;"	d
+LONG_MAX	/usr/include/iso/limits_iso.h	63;"	d
+LONG_MAX	/usr/include/iso/limits_iso.h	70;"	d
 LONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	574;"	d
 LONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	581;"	d
+LONG_MIN	/usr/include/iso/limits_iso.h	61;"	d
+LONG_MIN	/usr/include/iso/limits_iso.h	68;"	d
 LONG_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	572;"	d
 LONG_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	579;"	d
 LOOKUP_XATTR	/usr/include/sys/vnode.h	842;"	d
@@ -899,6 +977,7 @@ MAXFRAG	/usr/include/sys/param.h	230;"	d
 MAXIOCBSZ	/usr/include/sys/stream.h	685;"	d
 MAXLINK	/usr/include/sys/param.h	104;"	d
 MAXNAMELEN	/usr/include/sys/param.h	187;"	d
+MAXNAMLEN	/usr/include/dirent.h	29;"	d
 MAXOFF32_T	/usr/include/sys/param.h	232;"	d
 MAXOFFSET_T	/usr/include/sys/param.h	236;"	d
 MAXOFFSET_T	/usr/include/sys/param.h	240;"	d
@@ -911,13 +990,16 @@ MAXPROJID	/usr/include/sys/param.h	103;"	d
 MAXSIG	/usr/include/sys/signal.h	148;"	d
 MAXSYMLINKS	/usr/include/sys/param.h	186;"	d
 MAXUID	/usr/include/sys/param.h	102;"	d
+MAX_CANON	/usr/include/limits.h	57;"	d
 MAX_CANON	/usr/include/sys/param.h	73;"	d
+MAX_INPUT	/usr/include/limits.h	61;"	d
 MAX_INPUT	/usr/include/sys/param.h	69;"	d
 MAX_MAXPID	/usr/include/sys/param.h	85;"	d
 MAX_PENDING	lserver.c	14;"	d	file:
 MAX_TASKID	/usr/include/sys/param.h	84;"	d
-MAX_WAITING_CONNECTIONS	server.c	24;"	d	file:
-MAX_WORKERS	server.c	26;"	d	file:
+MAX_WAITING_CONNECTIONS	server.c	27;"	d	file:
+MAX_WORKERS	server.c	29;"	d	file:
+MB_LEN_MAX	/usr/include/iso/limits_iso.h	42;"	d
 MCAST_BLOCK_SOURCE	/usr/include/netinet/in.h	1187;"	d
 MCAST_EXCLUDE	/usr/include/netinet/in.h	1044;"	d
 MCAST_INCLUDE	/usr/include/netinet/in.h	1043;"	d
@@ -930,7 +1012,7 @@ MHZ_TO_HZ	/usr/include/sys/time.h	269;"	d
 MICROSEC	/usr/include/sys/time.h	186;"	d
 MILLISEC	/usr/include/sys/time.h	185;"	d
 MINSIGSTKSZ	/usr/include/sys/signal.h	151;"	d
-MIN_WORKERS	server.c	25;"	d	file:
+MIN_WORKERS	server.c	28;"	d	file:
 MMU_PAGEMASK	/usr/include/sys/param.h	366;"	d
 MMU_PAGEOFFSET	/usr/include/sys/param.h	365;"	d
 MMU_PAGESHIFT	/usr/include/sys/param.h	364;"	d
@@ -947,13 +1029,11 @@ MSGMARKNEXT	/usr/include/sys/stream.h	388;"	d
 MSGNOGET	/usr/include/sys/stream.h	387;"	d
 MSGNOLOOP	/usr/include/sys/stream.h	384;"	d
 MSGNOTMARKNEXT	/usr/include/sys/stream.h	389;"	d
-MSG_ALERT_TYPE	server.c	21;"	d	file:
 MSG_CTRUNC	/usr/include/sys/socket.h	328;"	d
 MSG_DONTROUTE	/usr/include/sys/socket.h	325;"	d
 MSG_DONTWAIT	/usr/include/sys/socket.h	335;"	d
 MSG_DUPCTRL	/usr/include/sys/socket.h	331;"	d
 MSG_EOR	/usr/include/sys/socket.h	327;"	d
-MSG_KILL_TYPE	server.c	22;"	d	file:
 MSG_MAXIOVLEN	/usr/include/sys/socket.h	339;"	d
 MSG_NOERROR	/usr/include/sys/msg.h	47;"	d
 MSG_NOTIFICATION	/usr/include/sys/socket.h	336;"	d
@@ -1078,10 +1158,17 @@ NDPP	/usr/include/sys/param.h	422;"	d
 NETCONFIG	/usr/include/sys/netconfig.h	22;"	d
 NETPATH	/usr/include/sys/netconfig.h	23;"	d
 NFDBITS	/usr/include/sys/select.h	104;"	d
+NGROUPS_MAX	/usr/include/limits.h	64;"	d
 NGROUPS_MAX_DEFAULT	/usr/include/sys/param.h	127;"	d
 NGROUPS_OLDMAX	/usr/include/sys/param.h	121;"	d
 NGROUPS_UMAX	/usr/include/sys/param.h	120;"	d
 NGROUPS_UMIN	/usr/include/sys/param.h	119;"	d
+NL_ARGMAX	/usr/include/limits.h	181;"	d
+NL_LANGMAX	/usr/include/limits.h	183;"	d
+NL_MSGMAX	/usr/include/limits.h	184;"	d
+NL_NMAX	/usr/include/limits.h	185;"	d
+NL_SETMAX	/usr/include/limits.h	186;"	d
+NL_TEXTMAX	/usr/include/limits.h	187;"	d
 NMOUNT	/usr/include/sys/param.h	106;"	d
 NODEIDMASK	/usr/include/sys/fcntl.h	85;"	d
 NODEV	/usr/include/sys/param.h	259;"	d
@@ -1120,8 +1207,10 @@ NULL	/usr/include/unistd.h	163;"	d
 NULL	/usr/include/unistd.h	165;"	d
 NULLVP	/usr/include/sys/vnode.h	1028;"	d
 NULLVPP	/usr/include/sys/vnode.h	1029;"	d
+NZERO	/usr/include/limits.h	188;"	d
 NZERO	/usr/include/sys/param.h	132;"	d
 OPENFAIL	/usr/include/sys/stream.h	649;"	d
+OPEN_MAX	/usr/include/limits.h	256;"	d
 O_ACCMODE	/usr/include/sys/fcntl.h	278;"	d
 O_APPEND	/usr/include/sys/fcntl.h	36;"	d
 O_CREAT	/usr/include/sys/fcntl.h	55;"	d
@@ -1148,6 +1237,9 @@ PAGEOFFSET	/usr/include/sys/param.h	463;"	d
 PAGESHIFT	/usr/include/sys/param.h	360;"	d
 PAGESIZE	/usr/include/sys/param.h	359;"	d
 PAGESIZE	/usr/include/sys/param.h	462;"	d
+PASS_MAX	/usr/include/limits.h	174;"	d
+PASS_MAX	/usr/include/limits.h	176;"	d
+PATH_MAX	/usr/include/limits.h	67;"	d
 PERIM_INNER	/usr/include/sys/stream.h	690;"	d
 PERIM_OUTER	/usr/include/sys/stream.h	691;"	d
 PERMMASK	/usr/include/sys/vnode.h	486;"	d
@@ -1186,8 +1278,11 @@ PF_SNA	/usr/include/sys/socket.h	232;"	d
 PF_UNIX	/usr/include/sys/socket.h	222;"	d
 PF_UNSPEC	/usr/include/sys/socket.h	221;"	d
 PF_X25	/usr/include/sys/socket.h	241;"	d
+PID_MAX	/usr/include/limits.h	235;"	d
 PIL_MAX	/usr/include/sys/machlock.h	92;"	d
+PIPE_BUF	/usr/include/limits.h	72;"	d
 PIPE_BUF	/usr/include/sys/param.h	199;"	d
+PIPE_MAX	/usr/include/limits.h	259;"	d
 PIPE_MAX	/usr/include/sys/param.h	203;"	d
 POINTER_INVALIDATE	/usr/include/sys/kmem.h	86;"	d
 POINTER_IS_VALID	/usr/include/sys/kmem.h	85;"	d
@@ -1229,10 +1324,18 @@ PRIO_USER	/usr/include/sys/resource.h	32;"	d
 PRIO_ZONE	/usr/include/sys/resource.h	38;"	d
 PROF_SIG	/usr/include/sys/siginfo.h	187;"	d
 PROTO_SDP	/usr/include/netinet/in.h	178;"	d
+PTHREAD_DESTRUCTOR_ITERATIONS	/usr/include/limits.h	307;"	d
+PTHREAD_KEYS_MAX	/usr/include/limits.h	308;"	d
+PTHREAD_STACK_MIN	/usr/include/limits.h	305;"	d
+PTHREAD_THREADS_MAX	/usr/include/limits.h	309;"	d
 PTR24_ALIGN	/usr/include/sys/machlock.h	118;"	d
 PTR24_BASE	/usr/include/sys/machlock.h	119;"	d
 PTR24_LSB	/usr/include/sys/machlock.h	116;"	d
 PTR24_MSB	/usr/include/sys/machlock.h	117;"	d
+PTRDIFF_MAX	/usr/include/sys/int_limits.h	142;"	d
+PTRDIFF_MAX	/usr/include/sys/int_limits.h	144;"	d
+PTRDIFF_MIN	/usr/include/sys/int_limits.h	230;"	d
+PTRDIFF_MIN	/usr/include/sys/int_limits.h	232;"	d
 P_ALL	/usr/include/sys/procset.h	/^	P_ALL,		\/* All processes.			*\/$/;"	e	enum:idtype
 P_CID	/usr/include/sys/procset.h	/^	P_CID,		\/* A scheduling class identifier.	*\/$/;"	e	enum:idtype
 P_CPUID	/usr/include/sys/procset.h	/^	P_CPUID,	\/* CPU identifier.			*\/$/;"	e	enum:idtype
@@ -1300,6 +1403,8 @@ Q_SQDRAINING	/usr/include/sys/stream.h	162;"	d
 Q_SQQUEUED	/usr/include/sys/stream.h	161;"	d
 RECURSIVEMUTEX	/usr/include/synch.h	176;"	d
 RECURSIVE_ERRORCHECKMUTEX	/usr/include/synch.h	182;"	d
+RE_DUP_MAX	/usr/include/limits.h	156;"	d
+RE_DUP_MAX	/usr/include/limits.h	158;"	d
 RLIM32_INFINITY	/usr/include/sys/resource.h	95;"	d
 RLIM32_SAVED_CUR	/usr/include/sys/resource.h	97;"	d
 RLIM32_SAVED_MAX	/usr/include/sys/resource.h	96;"	d
@@ -1378,6 +1483,8 @@ SA_ONSTACK	/usr/include/sys/signal.h	123;"	d
 SA_RESETHAND	/usr/include/sys/signal.h	124;"	d
 SA_RESTART	/usr/include/sys/signal.h	125;"	d
 SA_SIGINFO	/usr/include/sys/signal.h	131;"	d
+SCHAR_MAX	/usr/include/iso/limits_iso.h	39;"	d
+SCHAR_MIN	/usr/include/iso/limits_iso.h	38;"	d
 SCM_RIGHTS	/usr/include/sys/socket.h	142;"	d
 SCM_UCRED	/usr/include/sys/socket.h	145;"	d
 SCTRSHFT	/usr/include/sys/param.h	153;"	d
@@ -1428,7 +1535,9 @@ SHM_RND	/usr/include/sys/shm.h	71;"	d
 SHM_SHARE_MMU	/usr/include/sys/shm.h	72;"	d
 SHM_UNLOCK	/usr/include/sys/shm.h	124;"	d
 SHM_W	/usr/include/sys/shm.h	65;"	d
+SHRT_MAX	/usr/include/iso/limits_iso.h	55;"	d
 SHRT_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	566;"	d
+SHRT_MIN	/usr/include/iso/limits_iso.h	54;"	d
 SHRT_MIN	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	565;"	d
 SHUT_RD	/usr/include/sys/socket.h	342;"	d
 SHUT_RDWR	/usr/include/sys/socket.h	344;"	d
@@ -1492,6 +1601,8 @@ SIGWINCH	/usr/include/sys/iso/signal_iso.h	57;"	d
 SIGXCPU	/usr/include/sys/iso/signal_iso.h	68;"	d
 SIGXFSZ	/usr/include/sys/iso/signal_iso.h	69;"	d
 SIGXRES	/usr/include/sys/iso/signal_iso.h	76;"	d
+SIG_ATOMIC_MAX	/usr/include/sys/int_limits.h	162;"	d
+SIG_ATOMIC_MIN	/usr/include/sys/int_limits.h	237;"	d
 SIG_BLOCK	/usr/include/sys/iso/signal_iso.h	114;"	d
 SIG_DFL	/usr/include/sys/iso/signal_iso.h	100;"	d
 SIG_DFL	/usr/include/sys/iso/signal_iso.h	107;"	d
@@ -1514,6 +1625,8 @@ SIZEOF_PTR	/usr/include/sys/model.h	125;"	d
 SIZEOF_PTR	/usr/include/sys/model.h	172;"	d
 SIZEOF_STRUCT	/usr/include/sys/model.h	130;"	d
 SIZEOF_STRUCT	/usr/include/sys/model.h	174;"	d
+SIZE_MAX	/usr/include/sys/int_limits.h	155;"	d
+SIZE_MAX	/usr/include/sys/int_limits.h	157;"	d
 SI_ASYNCIO	/usr/include/sys/siginfo.h	124;"	d
 SI_CANQUEUE	/usr/include/sys/siginfo.h	440;"	d
 SI_DTRACE	/usr/include/sys/siginfo.h	118;"	d
@@ -1602,11 +1715,13 @@ SO_UNIX_CLOSE	/usr/include/sys/socket.h	152;"	d
 SO_USELOOPBACK	/usr/include/sys/socket.h	109;"	d
 SO_WROFF	/usr/include/sys/stream.h	577;"	d
 SPIN_LOCK	/usr/include/sys/machlock.h	46;"	d
+SSIZE_MAX	/usr/include/limits.h	41;"	d
 SS_DISABLE	/usr/include/sys/signal.h	155;"	d
 SS_ONSTACK	/usr/include/sys/signal.h	154;"	d
 STDERR_FILENO	/usr/include/unistd.h	171;"	d
 STDIN_FILENO	/usr/include/unistd.h	169;"	d
 STDOUT_FILENO	/usr/include/unistd.h	170;"	d
+STD_BLK	/usr/include/limits.h	261;"	d
 STRHIGH	/usr/include/sys/stream.h	679;"	d
 STRLOW	/usr/include/sys/stream.h	680;"	d
 STRUCT_BUF	/usr/include/sys/model.h	123;"	d
@@ -1647,8 +1762,11 @@ STR_FTEVENT_MBLK	/usr/include/sys/strft.h	281;"	d
 STR_FTEVENT_MSG	/usr/include/sys/strft.h	316;"	d
 STR_TSEVENT_MBLK	/usr/include/sys/strft.h	289;"	d
 STR_TSEVENT_MSG	/usr/include/sys/strft.h	328;"	d
+SYMLINK_MAX	/usr/include/limits.h	70;"	d
 SYSIDMASK	/usr/include/sys/fcntl.h	83;"	d
 SYSNAME	/usr/include/sys/param.h	169;"	d
+SYSPID_MAX	/usr/include/limits.h	264;"	d
+SYS_NMLN	/usr/include/limits.h	267;"	d
 S_CREATE	/usr/include/vm/seg_enum.h	/^	S_CREATE,		\/* create if page doesn't exist *\/$/;"	e	enum:seg_rw
 S_EXEC	/usr/include/vm/seg_enum.h	/^	S_EXEC,			\/* execution access attempted *\/$/;"	e	enum:seg_rw
 S_OTHER	/usr/include/vm/seg_enum.h	/^	S_OTHER,		\/* unknown or not touched *\/$/;"	e	enum:seg_rw
@@ -1684,6 +1802,7 @@ TIMEVAL_TO_TICK	/usr/include/sys/time.h	260;"	d
 TIMEVAL_TO_TICK_ROUNDUP	/usr/include/sys/time.h	263;"	d
 TIMEVAL_TO_TIMEVAL32	/usr/include/sys/time.h	62;"	d
 TMP_MAX	/usr/include/iso/stdio_iso.h	141;"	d
+TMP_MAX	/usr/include/limits.h	75;"	d
 TRANSPARENT	/usr/include/sys/stream.h	674;"	d
 TRAP_BRKPT	/usr/include/sys/siginfo.h	140;"	d
 TRAP_DTRACE	/usr/include/sys/siginfo.h	145;"	d
@@ -1695,11 +1814,32 @@ TRS_INVALID	/usr/include/thread.h	124;"	d
 TRS_LWPID	/usr/include/thread.h	123;"	d
 TRS_NONVOLATILE	/usr/include/thread.h	122;"	d
 TRS_VALID	/usr/include/thread.h	121;"	d
+TTYNAME_MAX	/usr/include/limits.h	283;"	d
 TYPICALMAXPATHLEN	/usr/include/sys/param.h	185;"	d
 UBSIZE	/usr/include/sys/param.h	152;"	d
+UCHAR_MAX	/usr/include/iso/limits_iso.h	40;"	d
+UID_MAX	/usr/include/limits.h	262;"	d
 UID_NOACCESS	/usr/include/sys/param.h	81;"	d
 UID_NOBODY	/usr/include/sys/param.h	76;"	d
 UID_UNKNOWN	/usr/include/sys/param.h	78;"	d
+UINT16_MAX	/usr/include/sys/int_limits.h	74;"	d
+UINT32_MAX	/usr/include/sys/int_limits.h	75;"	d
+UINT64_MAX	/usr/include/sys/int_limits.h	77;"	d
+UINT64_MAX	/usr/include/sys/int_limits.h	79;"	d
+UINT8_MAX	/usr/include/sys/int_limits.h	73;"	d
+UINTMAX_MAX	/usr/include/sys/int_limits.h	89;"	d
+UINTMAX_MAX	/usr/include/sys/int_limits.h	91;"	d
+UINTPTR_MAX	/usr/include/sys/int_limits.h	134;"	d
+UINTPTR_MAX	/usr/include/sys/int_limits.h	137;"	d
+UINT_FAST16_MAX	/usr/include/sys/int_limits.h	120;"	d
+UINT_FAST32_MAX	/usr/include/sys/int_limits.h	121;"	d
+UINT_FAST64_MAX	/usr/include/sys/int_limits.h	123;"	d
+UINT_FAST8_MAX	/usr/include/sys/int_limits.h	119;"	d
+UINT_LEAST16_MAX	/usr/include/sys/int_limits.h	104;"	d
+UINT_LEAST32_MAX	/usr/include/sys/int_limits.h	105;"	d
+UINT_LEAST64_MAX	/usr/include/sys/int_limits.h	107;"	d
+UINT_LEAST8_MAX	/usr/include/sys/int_limits.h	103;"	d
+UINT_MAX	/usr/include/iso/limits_iso.h	59;"	d
 UINT_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	570;"	d
 UIO_COPY_CACHED	/usr/include/sys/uio.h	108;"	d
 UIO_COPY_DEFAULT	/usr/include/sys/uio.h	107;"	d
@@ -1708,7 +1848,10 @@ UIO_SYSSPACE	/usr/include/sys/uio.h	/^typedef enum uio_seg { UIO_USERSPACE, UIO_
 UIO_USERISPACE	/usr/include/sys/uio.h	/^typedef enum uio_seg { UIO_USERSPACE, UIO_SYSSPACE, UIO_USERISPACE } uio_seg_t;$/;"	e	enum:uio_seg
 UIO_USERSPACE	/usr/include/sys/uio.h	/^typedef enum uio_seg { UIO_USERSPACE, UIO_SYSSPACE, UIO_USERISPACE } uio_seg_t;$/;"	e	enum:uio_seg
 UIO_WRITE	/usr/include/sys/uio.h	/^typedef enum uio_rw { UIO_READ, UIO_WRITE } uio_rw_t;$/;"	e	enum:uio_rw
+ULLONG_MAX	/usr/include/iso/limits_iso.h	78;"	d
 ULLONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	589;"	d
+ULONG_MAX	/usr/include/iso/limits_iso.h	65;"	d
+ULONG_MAX	/usr/include/iso/limits_iso.h	71;"	d
 ULONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	576;"	d
 ULONG_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	582;"	d
 UPDATE_VPATH	/usr/include/sys/vnode.h	845;"	d
@@ -1716,7 +1859,9 @@ USEC_TO_TICK	/usr/include/sys/time.h	225;"	d
 USEC_TO_TICK_ROUNDUP	/usr/include/sys/time.h	226;"	d
 USERLIMIT	/usr/include/sys/param.h	369;"	d
 USERLIMIT32	/usr/include/sys/param.h	370;"	d
+USHRT_MAX	/usr/include/iso/limits_iso.h	56;"	d
 USHRT_MAX	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	567;"	d
+USI_MAX	/usr/include/limits.h	263;"	d
 USYNC_PROCESS	/usr/include/sys/synch.h	111;"	d
 USYNC_PROCESS_ROBUST	/usr/include/sys/synch.h	127;"	d
 USYNC_THREAD	/usr/include/sys/synch.h	110;"	d
@@ -1903,6 +2048,11 @@ V_WRITE	/usr/include/sys/vnode.h	/^enum v_mode { V_READ, V_WRITE, V_RDORWR, V_RD
 V_WRITELOCK_FALSE	/usr/include/sys/vnode.h	858;"	d
 V_WRITELOCK_TRUE	/usr/include/sys/vnode.h	857;"	d
 V_XATTRDIR	/usr/include/sys/vnode.h	346;"	d
+WCHAR_MAX	/usr/include/sys/int_limits.h	171;"	d
+WCHAR_MIN	/usr/include/sys/int_limits.h	246;"	d
+WINT_MAX	/usr/include/sys/int_limits.h	176;"	d
+WINT_MIN	/usr/include/sys/int_limits.h	251;"	d
+WORD_BIT	/usr/include/limits.h	190;"	d
 W_OK	/usr/include/unistd.h	29;"	d
 X_OK	/usr/include/unistd.h	30;"	d
 _ACL_ACE_ENABLED	/usr/include/sys/unistd.h	317;"	d
@@ -1913,6 +2063,9 @@ _ALIGNMENT_REQUIRED	/usr/include/sys/isa_defs.h	224;"	d
 _ALIGNMENT_REQUIRED	/usr/include/sys/isa_defs.h	287;"	d
 _ALIGNMENT_REQUIRED	/usr/include/sys/isa_defs.h	351;"	d
 _ALIGNMENT_REQUIRED	/usr/include/sys/isa_defs.h	432;"	d
+_ARG_MAX32	/usr/include/limits.h	48;"	d
+_ARG_MAX64	/usr/include/limits.h	49;"	d
+_ARPA_INET_H	/usr/include/arpa/inet.h	38;"	d
 _BIG_ENDIAN	/usr/include/sys/isa_defs.h	417;"	d
 _BIT_FIELDS_HTOL	/usr/include/sys/isa_defs.h	420;"	d
 _BIT_FIELDS_LTOH	/usr/include/sys/isa_defs.h	211;"	d
@@ -1938,6 +2091,7 @@ _CHAR_IS_SIGNED	/usr/include/sys/isa_defs.h	422;"	d
 _CLOCKID_T	/usr/include/time.h	51;"	d
 _CLOCKID_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	545;"	d
 _CLOCK_T	/usr/include/iso/time_iso.h	58;"	d
+_CLOCK_T	/usr/include/limits.h	273;"	d
 _CLOCK_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	540;"	d
 _CMSG_DATA_ALIGN	/usr/include/sys/socket.h	370;"	d
 _CMSG_DATA_ALIGNMENT	/usr/include/sys/socket.h	367;"	d
@@ -1987,6 +2141,7 @@ _CS_XBS5_LPBIG_OFFBIG_CFLAGS	/usr/include/sys/unistd.h	62;"	d
 _CS_XBS5_LPBIG_OFFBIG_LDFLAGS	/usr/include/sys/unistd.h	63;"	d
 _CS_XBS5_LPBIG_OFFBIG_LIBS	/usr/include/sys/unistd.h	64;"	d
 _CS_XBS5_LPBIG_OFFBIG_LINTFLAGS	/usr/include/sys/unistd.h	65;"	d
+_DIRENT_H	/usr/include/dirent.h	14;"	d
 _DMA_USES_PHYSADDR	/usr/include/sys/isa_defs.h	242;"	d
 _DMA_USES_PHYSADDR	/usr/include/sys/isa_defs.h	305;"	d
 _DMA_USES_PHYSADDR	/usr/include/sys/isa_defs.h	363;"	d
@@ -2059,6 +2214,7 @@ _IOWRT	/usr/include/iso/stdio_iso.h	127;"	d
 _IPADDR_T	/usr/include/netinet/in.h	98;"	d
 _ISO_CPP_14882_1998	/usr/include/sys/feature_tests.h	362;"	d
 _ISO_C_9899_1999	/usr/include/sys/feature_tests.h	368;"	d
+_ISO_LIMITS_ISO_H	/usr/include/iso/limits_iso.h	26;"	d
 _ISO_SIGNAL_ISO_H	/usr/include/iso/signal_iso.h	26;"	d
 _ISO_STDARG_C99_H	/usr/include/iso/stdarg_c99.h	14;"	d
 _ISO_STDARG_ISO_H	/usr/include/iso/stdarg_iso.h	26;"	d
@@ -2074,6 +2230,7 @@ _LFS64_ASYNCHRONOUS_IO	/usr/include/unistd.h	181;"	d
 _LFS64_LARGEFILE	/usr/include/unistd.h	179;"	d
 _LFS64_STDIO	/usr/include/unistd.h	180;"	d
 _LFS_LARGEFILE	/usr/include/unistd.h	178;"	d
+_LIMITS_H	/usr/include/limits.h	13;"	d
 _LITTLE_ENDIAN	/usr/include/sys/isa_defs.h	208;"	d
 _LITTLE_ENDIAN	/usr/include/sys/isa_defs.h	267;"	d
 _LITTLE_ENDIAN	/usr/include/sys/isa_defs.h	331;"	d
@@ -2129,6 +2286,8 @@ _OBP	/usr/include/sys/isa_defs.h	441;"	d
 _OFF_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/stdio.h	157;"	d
 _OFF_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	139;"	d
 _OLD_IPV6_RECVDSTOPTS	/usr/include/netinet/in.h	1156;"	d
+_PASS_MAX	/usr/include/limits.h	171;"	d
+_PASS_MAX_XPG	/usr/include/limits.h	170;"	d
 _PC_2_SYMLINKS	/usr/include/sys/unistd.h	291;"	d
 _PC_ACCESS_FILTERING	/usr/include/sys/unistd.h	295;"	d
 _PC_ACL_ENABLED	/usr/include/sys/unistd.h	292;"	d
@@ -2162,39 +2321,60 @@ _POINTER_ALIGNMENT	/usr/include/sys/isa_defs.h	285;"	d
 _POINTER_ALIGNMENT	/usr/include/sys/isa_defs.h	349;"	d
 _POINTER_ALIGNMENT	/usr/include/sys/isa_defs.h	455;"	d
 _POINTER_ALIGNMENT	/usr/include/sys/isa_defs.h	480;"	d
+_POSIX2_BC_BASE_MAX	/usr/include/limits.h	137;"	d
+_POSIX2_BC_DIM_MAX	/usr/include/limits.h	138;"	d
+_POSIX2_BC_SCALE_MAX	/usr/include/limits.h	139;"	d
+_POSIX2_BC_STRING_MAX	/usr/include/limits.h	140;"	d
+_POSIX2_CHARCLASS_NAME_MAX	/usr/include/limits.h	146;"	d
 _POSIX2_CHAR_TERM	/usr/include/sys/unistd.h	359;"	d
+_POSIX2_COLL_WEIGHTS_MAX	/usr/include/limits.h	141;"	d
 _POSIX2_C_BIND	/usr/include/sys/unistd.h	362;"	d
 _POSIX2_C_BIND	/usr/include/sys/unistd.h	369;"	d
 _POSIX2_C_DEV	/usr/include/sys/unistd.h	363;"	d
 _POSIX2_C_DEV	/usr/include/sys/unistd.h	370;"	d
 _POSIX2_C_VERSION	/usr/include/sys/unistd.h	342;"	d
 _POSIX2_C_VERSION	/usr/include/sys/unistd.h	344;"	d
+_POSIX2_EXPR_NEST_MAX	/usr/include/limits.h	142;"	d
 _POSIX2_FORT_RUN	/usr/include/sys/unistd.h	364;"	d
 _POSIX2_FORT_RUN	/usr/include/sys/unistd.h	371;"	d
+_POSIX2_LINE_MAX	/usr/include/limits.h	143;"	d
 _POSIX2_LOCALEDEF	/usr/include/sys/unistd.h	365;"	d
 _POSIX2_LOCALEDEF	/usr/include/sys/unistd.h	372;"	d
+_POSIX2_RE_DUP_MAX	/usr/include/limits.h	144;"	d
 _POSIX2_SW_DEV	/usr/include/sys/unistd.h	366;"	d
 _POSIX2_SW_DEV	/usr/include/sys/unistd.h	373;"	d
 _POSIX2_UPE	/usr/include/sys/unistd.h	367;"	d
 _POSIX2_UPE	/usr/include/sys/unistd.h	374;"	d
 _POSIX2_VERSION	/usr/include/sys/unistd.h	329;"	d
 _POSIX2_VERSION	/usr/include/sys/unistd.h	331;"	d
+_POSIX_AIO_LISTIO_MAX	/usr/include/limits.h	83;"	d
+_POSIX_AIO_MAX	/usr/include/limits.h	84;"	d
+_POSIX_ARG_MAX	/usr/include/limits.h	85;"	d
 _POSIX_ASYNCHRONOUS_IO	/usr/include/unistd.h	86;"	d
 _POSIX_ASYNCHRONOUS_IO	/usr/include/unistd.h	99;"	d
 _POSIX_ASYNC_IO	/usr/include/unistd.h	77;"	d
 _POSIX_BARRIERS	/usr/include/unistd.h	135;"	d
+_POSIX_CHILD_MAX	/usr/include/limits.h	87;"	d
+_POSIX_CHILD_MAX	/usr/include/limits.h	89;"	d
+_POSIX_CLOCKRES_MIN	/usr/include/limits.h	91;"	d
 _POSIX_CLOCK_SELECTION	/usr/include/unistd.h	136;"	d
 _POSIX_C_SOURCE	/usr/include/sys/feature_tests.h	264;"	d
 _POSIX_C_SOURCE	/usr/include/sys/feature_tests.h	265;"	d
 _POSIX_C_SOURCE	/usr/include/sys/feature_tests.h	273;"	d
 _POSIX_C_SOURCE	/usr/include/sys/feature_tests.h	274;"	d
 _POSIX_C_SOURCE	/usr/include/sys/feature_tests.h	28;"	d
+_POSIX_DELAYTIMER_MAX	/usr/include/limits.h	92;"	d
 _POSIX_FSYNC	/usr/include/unistd.h	100;"	d
 _POSIX_FSYNC	/usr/include/unistd.h	87;"	d
+_POSIX_HOST_NAME_MAX	/usr/include/limits.h	128;"	d
 _POSIX_IPV6	/usr/include/unistd.h	137;"	d
 _POSIX_JOB_CONTROL	/usr/include/unistd.h	78;"	d
+_POSIX_LINK_MAX	/usr/include/limits.h	93;"	d
+_POSIX_LOGIN_NAME_MAX	/usr/include/limits.h	122;"	d
 _POSIX_MAPPED_FILES	/usr/include/unistd.h	101;"	d
 _POSIX_MAPPED_FILES	/usr/include/unistd.h	88;"	d
+_POSIX_MAX_CANON	/usr/include/limits.h	94;"	d
+_POSIX_MAX_INPUT	/usr/include/limits.h	95;"	d
 _POSIX_MEMLOCK	/usr/include/unistd.h	102;"	d
 _POSIX_MEMLOCK	/usr/include/unistd.h	89;"	d
 _POSIX_MEMLOCK_RANGE	/usr/include/unistd.h	103;"	d
@@ -2204,6 +2384,16 @@ _POSIX_MEMORY_PROTECTION	/usr/include/unistd.h	91;"	d
 _POSIX_MESSAGE_PASSING	/usr/include/unistd.h	105;"	d
 _POSIX_MESSAGE_PASSING	/usr/include/unistd.h	92;"	d
 _POSIX_MONOTONIC_CLOCK	/usr/include/unistd.h	138;"	d
+_POSIX_MQ_OPEN_MAX	/usr/include/limits.h	96;"	d
+_POSIX_MQ_PRIO_MAX	/usr/include/limits.h	97;"	d
+_POSIX_NAME_MAX	/usr/include/limits.h	98;"	d
+_POSIX_NGROUPS_MAX	/usr/include/limits.h	100;"	d
+_POSIX_NGROUPS_MAX	/usr/include/limits.h	104;"	d
+_POSIX_OPEN_MAX	/usr/include/limits.h	101;"	d
+_POSIX_OPEN_MAX	/usr/include/limits.h	105;"	d
+_POSIX_PATH_MAX	/usr/include/limits.h	102;"	d
+_POSIX_PATH_MAX	/usr/include/limits.h	106;"	d
+_POSIX_PIPE_BUF	/usr/include/limits.h	108;"	d
 _POSIX_PRIORITY_SCHEDULING	/usr/include/unistd.h	106;"	d
 _POSIX_PRIORITY_SCHEDULING	/usr/include/unistd.h	93;"	d
 _POSIX_RAW_SOCKETS	/usr/include/unistd.h	139;"	d
@@ -2211,14 +2401,23 @@ _POSIX_READER_WRITER_LOCKS	/usr/include/unistd.h	140;"	d
 _POSIX_REALTIME_SIGNALS	/usr/include/unistd.h	107;"	d
 _POSIX_REALTIME_SIGNALS	/usr/include/unistd.h	94;"	d
 _POSIX_REGEXP	/usr/include/sys/unistd.h	378;"	d
+_POSIX_RE_DUP_MAX	/usr/include/limits.h	129;"	d
+_POSIX_RTSIG_MAX	/usr/include/limits.h	109;"	d
 _POSIX_SAVED_IDS	/usr/include/unistd.h	79;"	d
 _POSIX_SEMAPHORES	/usr/include/unistd.h	108;"	d
 _POSIX_SEMAPHORES	/usr/include/unistd.h	95;"	d
+_POSIX_SEM_NSEMS_MAX	/usr/include/limits.h	110;"	d
+_POSIX_SEM_VALUE_MAX	/usr/include/limits.h	111;"	d
 _POSIX_SHARED_MEMORY_OBJECTS	/usr/include/unistd.h	109;"	d
 _POSIX_SHARED_MEMORY_OBJECTS	/usr/include/unistd.h	96;"	d
 _POSIX_SHELL	/usr/include/sys/unistd.h	379;"	d
+_POSIX_SIGQUEUE_MAX	/usr/include/limits.h	112;"	d
 _POSIX_SPAWN	/usr/include/unistd.h	141;"	d
 _POSIX_SPIN_LOCKS	/usr/include/unistd.h	142;"	d
+_POSIX_SSIZE_MAX	/usr/include/limits.h	113;"	d
+_POSIX_STREAM_MAX	/usr/include/limits.h	114;"	d
+_POSIX_SYMLINK_MAX	/usr/include/limits.h	130;"	d
+_POSIX_SYMLOOP_MAX	/usr/include/limits.h	131;"	d
 _POSIX_SYNCHRONIZED_IO	/usr/include/unistd.h	110;"	d
 _POSIX_SYNCHRONIZED_IO	/usr/include/unistd.h	97;"	d
 _POSIX_SYNC_IO	/usr/include/unistd.h	80;"	d
@@ -2228,6 +2427,8 @@ _POSIX_THREAD_ATTR_STACKADDR	/usr/include/unistd.h	119;"	d
 _POSIX_THREAD_ATTR_STACKADDR	/usr/include/unistd.h	127;"	d
 _POSIX_THREAD_ATTR_STACKSIZE	/usr/include/unistd.h	120;"	d
 _POSIX_THREAD_ATTR_STACKSIZE	/usr/include/unistd.h	128;"	d
+_POSIX_THREAD_DESTRUCTOR_ITERATIONS	/usr/include/limits.h	123;"	d
+_POSIX_THREAD_KEYS_MAX	/usr/include/limits.h	124;"	d
 _POSIX_THREAD_PRIORITY_SCHEDULING	/usr/include/unistd.h	122;"	d
 _POSIX_THREAD_PRIORITY_SCHEDULING	/usr/include/unistd.h	130;"	d
 _POSIX_THREAD_PRIO_INHERIT	/usr/include/unistd.h	150;"	d
@@ -2238,9 +2439,14 @@ _POSIX_THREAD_PROCESS_SHARED	/usr/include/unistd.h	121;"	d
 _POSIX_THREAD_PROCESS_SHARED	/usr/include/unistd.h	129;"	d
 _POSIX_THREAD_SAFE_FUNCTIONS	/usr/include/unistd.h	117;"	d
 _POSIX_THREAD_SAFE_FUNCTIONS	/usr/include/unistd.h	125;"	d
+_POSIX_THREAD_THREADS_MAX	/usr/include/limits.h	125;"	d
 _POSIX_TIMEOUTS	/usr/include/unistd.h	143;"	d
 _POSIX_TIMERS	/usr/include/unistd.h	123;"	d
 _POSIX_TIMERS	/usr/include/unistd.h	131;"	d
+_POSIX_TIMER_MAX	/usr/include/limits.h	115;"	d
+_POSIX_TTY_NAME_MAX	/usr/include/limits.h	126;"	d
+_POSIX_TZNAME_MAX	/usr/include/limits.h	117;"	d
+_POSIX_TZNAME_MAX	/usr/include/limits.h	119;"	d
 _POSIX_VDISABLE	/usr/include/sys/param.h	64;"	d
 _POSIX_VDISABLE	/usr/include/unistd.h	158;"	d
 _POSIX_VERSION	/usr/include/sys/unistd.h	321;"	d
@@ -2449,6 +2655,7 @@ _SIGVAL	/usr/include/time.h	102;"	d
 _SIZE_T	/usr/include/iso/stdio_iso.h	78;"	d
 _SIZE_T	/usr/include/iso/string_iso.h	41;"	d
 _SIZE_T	/usr/include/iso/time_iso.h	49;"	d
+_SIZE_T	/usr/include/limits.h	295;"	d
 _SIZE_T	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	509;"	d
 _SOCKLEN_T	/usr/include/netinet/in.h	45;"	d
 _SOCKLEN_T	/usr/include/sys/socket.h	52;"	d
@@ -2485,9 +2692,11 @@ _SYS_BYTEORDER_H	/usr/include/sys/byteorder.h	13;"	d
 _SYS_CCOMPILE_H	/usr/include/sys/ccompile.h	7;"	d
 _SYS_CONDVAR_H	/usr/include/sys/condvar.h	14;"	d
 _SYS_CRED_H	/usr/include/sys/cred.h	33;"	d
+_SYS_DIRENT_H	/usr/include/sys/dirent.h	14;"	d
 _SYS_ERRNO_H	/usr/include/sys/errno.h	7;"	d
 _SYS_FCNTL_H	/usr/include/sys/fcntl.h	14;"	d
 _SYS_FEATURE_TESTS_H	/usr/include/sys/feature_tests.h	6;"	d
+_SYS_INT_LIMITS_H	/usr/include/sys/int_limits.h	7;"	d
 _SYS_INT_TYPES_H	/usr/include/sys/int_types.h	7;"	d
 _SYS_IPC_H	/usr/include/sys/ipc.h	15;"	d
 _SYS_ISA_DEFS_H	/usr/include/sys/isa_defs.h	6;"	d
@@ -2565,6 +2774,9 @@ _VM_FAULTCODE_H	/usr/include/vm/faultcode.h	35;"	d
 _VM_SEG_ENUM_H	/usr/include/vm/seg_enum.h	35;"	d
 _VOID	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	645;"	d
 _XOPEN_ENH_I18N	/usr/include/sys/unistd.h	357;"	d
+_XOPEN_IOV_MAX	/usr/include/limits.h	225;"	d
+_XOPEN_NAME_MAX	/usr/include/limits.h	226;"	d
+_XOPEN_PATH_MAX	/usr/include/limits.h	227;"	d
 _XOPEN_REALTIME	/usr/include/sys/unistd.h	356;"	d
 _XOPEN_SHM	/usr/include/sys/unistd.h	358;"	d
 _XOPEN_SOURCE	/usr/include/sys/feature_tests.h	275;"	d
@@ -3041,6 +3253,8 @@ addr	/usr/include/sys/kstat.h	/^			} addr;$/;"	m	struct:kstat_named::__anon85::_
 addtdelta	/usr/include/sys/strft.h	142;"	d
 align	/usr/include/sys/stream.h	/^	uint_t			align;$/;"	m	struct:bcache
 alloc	/usr/include/sys/stream.h	/^	int			alloc;$/;"	m	struct:bcache
+alphasort	/usr/include/dirent.h	66;"	d
+alphsort64	/usr/include/dirent.h	79;"	d
 asctime_r	/usr/include/time.h	/^asctime_r(const struct tm *_RESTRICT_KYWD __tm, char *_RESTRICT_KYWD __buf)$/;"	f	signature:(const struct tm *_RESTRICT_KYWD __tm, char *_RESTRICT_KYWD __buf)
 asctime_r	/usr/include/time.h	278;"	d
 asctime_r	/usr/include/time.h	320;"	d
@@ -3100,6 +3314,7 @@ cksum_val	/usr/include/sys/stream.h	/^			} cksum_val;    \/* used to store calcu
 cksum_val	/usr/include/sys/stream.h	/^			} cksum_val;    \/* used to store calculated cksum *\/$/;"	m	struct:datab::__anon76::__anon77	typeref:union:datab::__anon76::__anon77::__anon78
 clearerr	/usr/include/iso/stdio_iso.h	/^inline void clearerr(FILE *_p) { _p->_flag &= ~(_IOERR | _IOEOF); }$/;"	f	namespace:std	signature:(FILE *_p)
 clock_t	/usr/include/iso/time_iso.h	/^typedef	long	clock_t;$/;"	t	namespace:std
+clock_t	/usr/include/limits.h	/^typedef long	clock_t;$/;"	t
 clock_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	long		clock_t; \/* relative time in a specified resolution *\/$/;"	t
 clockid_t	/usr/include/time.h	/^typedef int	clockid_t;$/;"	t
 clockid_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	int	clockid_t;	\/* clock identifier type *\/$/;"	t
@@ -3156,12 +3371,28 @@ cuid	/usr/include/sys/ipc.h	/^	uid_t		cuid;	\/* creator's user id *\/$/;"	m	stru
 d	/usr/include/sys/kstat.h	/^		double		d;$/;"	m	union:kstat_named::__anon130
 d	/usr/include/sys/kstat.h	/^		double		d;$/;"	m	union:kstat_named::__anon42
 d	/usr/include/sys/kstat.h	/^		double		d;$/;"	m	union:kstat_named::__anon85
+d_buf	/usr/include/dirent.h	/^	char	*d_buf;		\/* directory block *\/$/;"	m	struct:__anon175
 d_bytes	/usr/include/sys/stream.h	/^	int		d_bytes;	\/* mblk(s) byte count *\/$/;"	m	struct:infod
 d_cmd	/usr/include/sys/stream.h	/^	unsigned char	d_cmd;		\/* info info request command *\/$/;"	m	struct:infod
 d_count	/usr/include/sys/stream.h	/^	int		d_count;	\/* count of mblk(s) *\/$/;"	m	struct:infod
+d_fd	/usr/include/dirent.h	/^	int	d_fd;		\/* file descriptor *\/$/;"	m	struct:__anon175
+d_ino	/usr/include/sys/dirent.h	/^	ino32_t		d_ino;		\/* "inode number" of entry *\/$/;"	m	struct:dirent32
+d_ino	/usr/include/sys/dirent.h	/^	ino64_t		d_ino;		\/* "inode number" of entry *\/$/;"	m	struct:dirent64
+d_ino	/usr/include/sys/dirent.h	/^	ino_t		d_ino;		\/* "inode number" of entry *\/$/;"	m	struct:dirent
 d_iov	/usr/include/sys/stream.h	/^	iovec_t d_iov[DEF_IOV_MAX];	\/* iov referenced by uio *\/$/;"	m	struct:struiod
+d_loc	/usr/include/dirent.h	/^	int	d_loc;		\/* offset in block *\/$/;"	m	struct:__anon175
 d_mp	/usr/include/sys/stream.h	/^	mblk_t		*d_mp;		\/* pointer to mblk (chain) *\/$/;"	m	struct:struiod
+d_name	/usr/include/sys/dirent.h	/^	char		d_name[1];	\/* name of file *\/$/;"	m	struct:dirent
+d_name	/usr/include/sys/dirent.h	/^	char		d_name[1];	\/* name of file *\/$/;"	m	struct:dirent32
+d_name	/usr/include/sys/dirent.h	/^	char		d_name[1];	\/* name of file *\/$/;"	m	struct:dirent64
+d_off	/usr/include/sys/dirent.h	/^	off32_t		d_off;		\/* offset of disk directory entry *\/$/;"	m	struct:dirent32
+d_off	/usr/include/sys/dirent.h	/^	off64_t		d_off;		\/* offset of disk directory entry *\/$/;"	m	struct:dirent64
+d_off	/usr/include/sys/dirent.h	/^	off_t		d_off;		\/* offset of disk directory entry *\/$/;"	m	struct:dirent
+d_reclen	/usr/include/sys/dirent.h	/^	uint16_t	d_reclen;	\/* length of this record *\/$/;"	m	struct:dirent32
+d_reclen	/usr/include/sys/dirent.h	/^	unsigned short	d_reclen;	\/* length of this record *\/$/;"	m	struct:dirent
+d_reclen	/usr/include/sys/dirent.h	/^	unsigned short	d_reclen;	\/* length of this record *\/$/;"	m	struct:dirent64
 d_res	/usr/include/sys/stream.h	/^	unsigned char	d_res;		\/* info info command results *\/$/;"	m	struct:infod
+d_size	/usr/include/dirent.h	/^	int	d_size;		\/* amount of valid data *\/$/;"	m	struct:__anon175
 d_uio	/usr/include/sys/stream.h	/^	uio_t		d_uio;		\/* uio info *\/$/;"	m	struct:struiod
 d_uiop	/usr/include/sys/stream.h	/^	uio_t		*d_uiop;	\/* pointer to uio struct *\/$/;"	m	struct:infod
 daddr_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	long		daddr_t;	\/* <disk address> type *\/$/;"	t
@@ -3201,9 +3432,21 @@ db_type	/usr/include/sys/stream.h	/^	unsigned char	db_type;$/;"	m	struct:datab
 dblk_cache	/usr/include/sys/stream.h	/^	struct kmem_cache	*dblk_cache;$/;"	m	struct:bcache	typeref:struct:bcache::kmem_cache
 dblk_t	/usr/include/sys/stream.h	/^} dblk_t;$/;"	t	typeref:struct:datab
 dbtob	/usr/include/sys/param.h	248;"	d
+dd_buf	/usr/include/dirent.h	/^	char	*dd_buf;	\/* directory block *\/$/;"	m	struct:__anon174
+dd_fd	/usr/include/dirent.h	/^	int	dd_fd;		\/* file descriptor *\/$/;"	m	struct:__anon174
+dd_loc	/usr/include/dirent.h	/^	int	dd_loc;		\/* offset in block *\/$/;"	m	struct:__anon174
+dd_size	/usr/include/dirent.h	/^	int	dd_size;	\/* amount of valid data *\/$/;"	m	struct:__anon174
 defaultFunc	/usr/include/sys/vnode.h	/^	fs_generic_func_p defaultFunc;	\/* default function *\/$/;"	m	struct:fs_operation_trans_def
 destroy	/usr/include/sys/stream.h	/^	int			destroy;$/;"	m	struct:bcache
 dev_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef ulong_t	dev_t;			\/* expanded device type *\/$/;"	t
+dirent	/usr/include/sys/dirent.h	/^typedef struct dirent {$/;"	s
+dirent32	/usr/include/sys/dirent.h	/^typedef	struct dirent32 {$/;"	s
+dirent32_t	/usr/include/sys/dirent.h	/^} dirent32_t;$/;"	t	typeref:struct:dirent32
+dirent64	/usr/include/sys/dirent.h	/^typedef struct dirent64 {$/;"	s
+dirent64	/usr/include/sys/dirent.h	96;"	d
+dirent64_t	/usr/include/sys/dirent.h	/^} dirent64_t;$/;"	t	typeref:struct:dirent64
+dirent64_t	/usr/include/sys/dirent.h	97;"	d
+dirent_t	/usr/include/sys/dirent.h	/^} dirent_t;$/;"	t	typeref:struct:dirent
 diskaddr_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	u_longlong_t	diskaddr_t;$/;"	t
 disp_lock_t	/usr/include/sys/machlock.h	/^typedef	lock_t	disp_lock_t;		\/* dispatcher lock type *\/$/;"	t
 dkblock	/usr/include/sys/param.h	211;"	d
@@ -3322,6 +3565,8 @@ getdate_err	/usr/include/time.h	172;"	d
 getdate_err	/usr/include/time.h	173;"	d
 getdate_err	/usr/include/time.h	210;"	d
 getdate_err	/usr/include/time.h	211;"	d
+getdents	/usr/include/sys/dirent.h	87;"	d
+getdents64	/usr/include/sys/dirent.h	95;"	d
 getlogin_r	/usr/include/unistd.h	/^getlogin_r(char *__name, int __len)$/;"	f	signature:(char *__name, int __len)
 getlogin_r	/usr/include/unistd.h	922;"	d
 getlogin_r	/usr/include/unistd.h	964;"	d
@@ -3455,7 +3700,6 @@ ip_mreq	/usr/include/netinet/in.h	/^struct ip_mreq {$/;"	s
 ip_mreq_source	/usr/include/netinet/in.h	/^struct ip_mreq_source {$/;"	s
 ip_msfilter	/usr/include/netinet/in.h	/^struct ip_msfilter {$/;"	s
 ipaddr_t	/usr/include/netinet/in.h	/^typedef uint32_t ipaddr_t;$/;"	t
-ipc_id	server.c	/^int ipc_id;$/;"	v
 ipc_perm	/usr/include/sys/ipc.h	/^struct ipc_perm {$/;"	s
 ipcmsgbuf	/usr/include/sys/msg.h	/^struct ipcmsgbuf {$/;"	s
 ipi6_addr	/usr/include/netinet/in.h	/^	struct in6_addr		ipi6_addr;	\/* src\/dst IPv6 address *\/$/;"	m	struct:in6_pktinfo	typeref:struct:in6_pktinfo::in6_addr
@@ -3671,7 +3915,7 @@ magic	/usr/include/sys/synch.h	/^		uint16_t	magic;$/;"	m	struct:_lwp_mutex::__an
 magic	/usr/include/sys/synch.h	/^		uint16_t 	magic;$/;"	m	struct:_lwp_cond::__anon173
 magic	/usr/include/sys/synch.h	/^	uint16_t	magic;$/;"	m	struct:_lwp_rwlock
 magic	/usr/include/sys/synch.h	/^	uint16_t 	magic;$/;"	m	struct:_lwp_sema
-main	client.c	/^int main(void){$/;"	f	signature:(void)
+main	client.c	/^int main(int argc, char* argv[]) {$/;"	f	signature:(int argc, char* argv[])
 main	server.c	/^int main(int argc, char *argv[]) {$/;"	f	signature:(int argc, char *argv[])
 major_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef uint_t	major_t;	\/* major part of device number *\/$/;"	t
 major_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef ulong_t	major_t;	\/* (historical version) *\/$/;"	t
@@ -3679,6 +3923,7 @@ max_time	/usr/include/sys/kstat.h	/^	hrtime_t	max_time;		\/* longest event durat
 mbcp_type_un	/usr/include/sys/synch.h	/^		} mbcp_type_un;$/;"	m	struct:_lwp_mutex::__anon167	typeref:union:_lwp_mutex::__anon167::__anon168
 mblk_t	/usr/include/sys/stream.h	/^} mblk_t;$/;"	t	typeref:struct:msgb
 memchr	/usr/include/iso/string_iso.h	/^	inline void *memchr(void * __s, int __c, size_t __n) {$/;"	f	signature:(void * __s, int __c, size_t __n)
+memmem	server.c	/^void *memmem(const void *l, size_t l_len, const void *s, size_t s_len) {$/;"	f	signature:(const void *l, size_t l_len, const void *s, size_t s_len)
 mi_hiwat	/usr/include/sys/stream.h	/^	size_t	mi_hiwat;		\/* hi-water mark *\/$/;"	m	struct:module_info
 mi_idname	/usr/include/sys/stream.h	/^	char 	*mi_idname;		\/* module name *\/$/;"	m	struct:module_info
 mi_idnum	/usr/include/sys/stream.h	/^	ushort_t mi_idnum;		\/* module id number *\/$/;"	m	struct:module_info
@@ -3894,6 +4139,7 @@ pad_mutex	/usr/include/sys/mutex.h	/^typedef struct pad_mutex {$/;"	s
 pad_mutex_t	/usr/include/sys/mutex.h	/^} pad_mutex_t;$/;"	t	typeref:struct:pad_mutex
 pad_pad	/usr/include/sys/mutex.h	/^	char		pad_pad[64 - sizeof (kmutex_t)];$/;"	m	struct:pad_mutex
 paddr_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	uint64_t	paddr_t;$/;"	t
+parse_command	server.c	/^void parse_command(int fd){$/;"	f	signature:(int fd)
 perm	/usr/include/sys/signal.h	/^	int	perm;				\/* flag for EPERM	*\/$/;"	m	struct:__anon138
 perr	../clab5/zassert.h	/^int perr(int err){                                $/;"	f	signature:(int err)
 pfn_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef	ulong_t		pfn_t;		\/* page frame number *\/$/;"	t
@@ -4015,7 +4261,16 @@ queue	/usr/include/sys/stream.h	/^typedef struct	queue {$/;"	s
 queue_t	/usr/include/sys/stream.h	/^} queue_t;$/;"	t	typeref:struct:queue
 rcnt	/usr/include/sys/kstat.h	/^	uint_t	rcnt;		\/* count of elements in run state *\/$/;"	m	struct:kstat_io
 read_bytes	/usr/include/sys/vnode.h	/^	kstat_named_t	read_bytes;$/;"	m	struct:vopstats
+readdir	/usr/include/dirent.h	64;"	d
+readdir64	/usr/include/dirent.h	77;"	d
+readdir64_r	/usr/include/dirent.h	206;"	d
+readdir64_r	/usr/include/dirent.h	266;"	d
 readdir_bytes	/usr/include/sys/vnode.h	/^	kstat_named_t	readdir_bytes;$/;"	m	struct:vopstats
+readdir_r	/usr/include/dirent.h	/^readdir_r(DIR *_RESTRICT_KYWD __dp, struct dirent *_RESTRICT_KYWD __ent,$/;"	f	signature:(DIR *_RESTRICT_KYWD __dp, struct dirent *_RESTRICT_KYWD __ent, struct dirent **_RESTRICT_KYWD __res)
+readdir_r	/usr/include/dirent.h	182;"	d
+readdir_r	/usr/include/dirent.h	212;"	d
+readdir_r	/usr/include/dirent.h	241;"	d
+readdir_r	/usr/include/dirent.h	272;"	d
 readercv	/usr/include/synch.h	/^	cond_t		readercv;	\/* used only to indicate ownership *\/$/;"	m	struct:_rwlock
 readercv	/usr/include/sys/synch.h	/^	lwp_cond_t	readercv;	\/* used only to indicate ownership *\/$/;"	m	struct:_lwp_rwlock
 readers	/usr/include/synch.h	/^	int32_t		readers;	\/* rwstate word *\/$/;"	m	struct:_rwlock
@@ -4025,6 +4280,7 @@ recv_file_descriptor	lserver.c	/^int recv_file_descriptor(int socket) {$/;"	f	si
 recvmsg	/usr/include/sys/socket.h	412;"	d
 resv	/usr/include/sys/kstat.h	/^	uchar_t		resv;			\/* reserved *\/$/;"	m	struct:kstat_timer
 revents	/usr/include/sys/poll.h	/^	short revents;			\/* events that occurred on fd *\/$/;"	m	struct:pollfd
+rewinddir	/usr/include/dirent.h	144;"	d
 rlastupdate	/usr/include/sys/kstat.h	/^	hrtime_t rlastupdate;	\/* last time run queue changed *\/$/;"	m	struct:kstat_io
 rlentime	/usr/include/sys/kstat.h	/^	hrtime_t rlentime;	\/* cumulative run length*time product *\/$/;"	m	struct:kstat_io
 rlim32_t	/usr/include/sys/resource.h	/^typedef	uint32_t	rlim32_t;$/;"	t
@@ -4128,6 +4384,8 @@ sa_resv	/usr/include/sys/signal.h	/^	int sa_resv[2];$/;"	m	struct:sigaction
 sa_resv	/usr/include/sys/signal.h	/^	int32_t		sa_resv[2];$/;"	m	struct:sigaction32
 sa_sigaction	/usr/include/sys/signal.h	94;"	d
 saveaddr	/usr/include/sys/strmdep.h	37;"	d
+scandir	/usr/include/dirent.h	65;"	d
+scandir64	/usr/include/dirent.h	78;"	d
 sdl_alen	/usr/include/net/if_dl.h	/^	uchar_t	sdl_alen;	\/* link level address length *\/$/;"	m	struct:sockaddr_dl
 sdl_data	/usr/include/net/if_dl.h	/^	char	sdl_data[244];	\/* contains both if name and ll address *\/$/;"	m	struct:sockaddr_dl
 sdl_family	/usr/include/net/if_dl.h	/^	ushort_t sdl_family;	\/* AF_LINK *\/$/;"	m	struct:sockaddr_dl
@@ -4138,6 +4396,7 @@ sdl_type	/usr/include/net/if_dl.h	/^	uchar_t	sdl_type;	\/* interface type *\/$/;
 seg_rw	/usr/include/vm/seg_enum.h	/^enum seg_rw {$/;"	g
 select	/usr/include/sys/select.h	80;"	d
 sema_t	/usr/include/synch.h	/^} sema_t;$/;"	t	typeref:struct:_sema
+send_directory_content	server.c	/^void send_directory_content(int fd, char *dir){$/;"	f	signature:(int fd, char *dir)
 send_file_descriptor	lserver.c	/^int send_file_descriptor(int socket, int fd_to_send) {$/;"	f	signature:(int socket, int fd_to_send)
 sendmsg	/usr/include/sys/socket.h	413;"	d
 sendto	/usr/include/sys/socket.h	414;"	d
@@ -4283,6 +4542,8 @@ size_t	/usr/include/iso/stdio_iso.h	/^typedef unsigned int	size_t;		\/* (histori
 size_t	/usr/include/iso/stdio_iso.h	/^typedef unsigned long	size_t;		\/* size of something in bytes *\/$/;"	t	namespace:std
 size_t	/usr/include/iso/string_iso.h	/^typedef unsigned long	size_t;		\/* size of something in bytes *\/$/;"	t	namespace:std
 size_t	/usr/include/iso/time_iso.h	/^typedef	unsigned long	size_t;		\/* size of something in bytes *\/$/;"	t	namespace:std
+size_t	/usr/include/limits.h	/^typedef	unsigned int  size_t;	\/* (historical version) *\/$/;"	t
+size_t	/usr/include/limits.h	/^typedef	unsigned long size_t;	\/* size of something in bytes *\/$/;"	t
 size_t	/usr/sfw/lib/gcc/i386-pc-solaris2.10/3.4.3/include/sys/types.h	/^typedef __SIZE_TYPE__ size_t;$/;"	t
 sn_index	/usr/include/sys/signal.h	/^	int	sn_index;		\/* index in preallocated pool	*\/$/;"	m	struct:signotify_id
 sn_index	/usr/include/sys/signal.h	/^	int32_t	sn_index;		\/* index in preallocated pool *\/$/;"	m	struct:signotify32_id
@@ -4349,7 +4610,7 @@ st_rdinit	/usr/include/sys/stream.h	/^	struct qinit *st_rdinit;$/;"	m	struct:str
 st_wrinit	/usr/include/sys/stream.h	/^	struct qinit *st_wrinit;$/;"	m	struct:streamtab	typeref:struct:streamtab::qinit
 stack32_t	/usr/include/sys/signal.h	/^} stack32_t;$/;"	t	typeref:struct:sigaltstack32
 stack_t	/usr/include/sys/signal.h	/^} stack_t;$/;"	t	typeref:struct:sigaltstack
-start_tcp	server.c	/^int start_tcp() {$/;"	f
+start_tcp	server.c	/^int start_tcp(char *addr, int port) {$/;"	f	signature:(char *addr, int port)
 start_time	/usr/include/sys/kstat.h	/^	hrtime_t	start_time;		\/* previous event start time *\/$/;"	m	struct:kstat_timer
 std	/usr/include/iso/signal_iso.h	/^namespace std {$/;"	n
 std	/usr/include/iso/stdarg_iso.h	/^namespace std {$/;"	n

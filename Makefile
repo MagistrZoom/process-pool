@@ -1,13 +1,13 @@
 CC=gcc
 LD=gcc
-CFLAGS=-c -o
-LFLAGS=-lsocket -o
+CFLAGS=-c -m64 -o
+LFLAGS=-m64 -lsocket -lnsl -o
 SRCS=$(wildcard *.c)
 
 build: ctags server client;
 
 server: server.o lserver.o
-	$(LD) $^ -lthread -lnsl $(LFLAGS) $@
+	$(LD) $^ -lthread $(LFLAGS) $@
 
 client: client.o
 	$(LD) $< $(LFLAGS) $@
