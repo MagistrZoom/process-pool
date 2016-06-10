@@ -13,7 +13,6 @@
 
 #include "../clab5/zassert.h"
 
-#define BUFSIZE 4096
 
 int main(int argc, char* argv[]) {
 	
@@ -30,7 +29,7 @@ int main(int argc, char* argv[]) {
 
 
 	struct sockaddr_in saddr;
-	char buf[BUFSIZE], dirbuf[BUFSIZE];
+	char buf[32*PATH_MAX], dirbuf[32*PATH_MAX];
 	int sock, i;
 	saddr = (struct sockaddr_in){
 		.sin_family = AF_INET,
@@ -46,8 +45,9 @@ int main(int argc, char* argv[]) {
 
 	for (i = 3; i < argc; i++) {
 		int wr = write(sock, argv[i], strlen(argv[i]));
+		printf("Client sent: %s\n", argv[i]);
 		zassert(wr < 0);
-		int rd = read(sock, buf, BUFSIZE);
+		int rd = read(sock, buf, 32*PATH_MAX);
 		zassert(rd < 0);
 		wr = write(STDOUT_FILENO, buf, rd);
 		zassert(wr < 0);

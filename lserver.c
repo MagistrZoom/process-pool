@@ -14,13 +14,10 @@
 #define MAX_PENDING 2
 
 int send_file_descriptor(int socket, int fd_to_send) {
-	struct msghdr message;
+	struct msghdr message = { 0 };
 	struct iovec iov[1];
 	struct cmsghdr *control_message = NULL;
-	char ctrl_buf[CMSG_SPACE(sizeof(int))];
-	
-	memset(&message, 0, sizeof(struct msghdr));
-	memset(ctrl_buf, 0, CMSG_SPACE(sizeof(int)));
+	char ctrl_buf[CMSG_SPACE(sizeof(int))] = { 0 };
 	
 	char data[1] = { ' ' };
 	iov[0].iov_base = data;
@@ -44,7 +41,7 @@ int send_file_descriptor(int socket, int fd_to_send) {
 }
 
 int create_server() {
-	struct sockaddr_un addr;
+	struct sockaddr_un saddr;
 	int fd;
 	
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
@@ -52,13 +49,13 @@ int create_server() {
 		return fd;
 	}
 	
-	memset(&addr, 0, sizeof(addr));
+	memset(&saddr, 0, sizeof(saddr));
 	
-	addr.sun_family = AF_UNIX;
+	saddr.sun_family = AF_UNIX;
 	unlink(SOCKET_PATH);
-	strcpy(addr.sun_path, SOCKET_PATH);
+	strcpy(saddr.sun_path, SOCKET_PATH);
 	
-	if (bind(fd, (struct sockaddr *) &(addr), sizeof(addr)) < 0) {
+	if (bind(fd, (struct sockaddr *) &(saddr), sizeof(saddr)) < 0) {
 		puts("Failed to bind server socket");
 		return -1;
 	}
@@ -72,7 +69,7 @@ int create_server() {
 }
 
 int connect_server() {
-	struct sockaddr_un addr;
+	struct sockaddr_un saddr;
 	int fd;
 	
 	if ((fd = socket(AF_UNIX, SOCK_STREAM, 0)) < 0) {
@@ -80,12 +77,12 @@ int connect_server() {
 		return fd;
 	}
 	
-	memset(&addr, 0, sizeof(addr));
+	memset(&saddr, 0, sizeof(saddr));
 	
-	addr.sun_family = AF_UNIX;
-	strcpy(addr.sun_path, SOCKET_PATH);
+	saddr.sun_family = AF_UNIX;
+	strcpy(saddr.sun_path, SOCKET_PATH);
 	
-	if (connect(fd, (struct sockaddr *) &(addr), sizeof(addr)) < 0) {
+	if (connect(fd, (struct sockaddr *) &(saddr), sizeof(saddr)) < 0) {
 		puts("Failed to connect to server");
 		return -1;
 	}
@@ -95,17 +92,16 @@ int connect_server() {
 
 int recv_file_descriptor(int socket) {
 	int sent_fd;
-	struct msghdr message;
+	struct msghdr message = { 0 };
 	struct iovec iov[1];
 	struct cmsghdr *control_message = NULL;
-	char ctrl_buf[CMSG_SPACE(sizeof(int))];
+	char ctrl_buf[CMSG_SPACE(sizeof(int))] = { 0 };
 	int res;
 	
-	memset(&message, 0, sizeof(struct msghdr));
-	memset(ctrl_buf, 0, CMSG_SPACE(sizeof(int)));
 	char data[1];
 	iov[0].iov_base = data;
 	iov[0].iov_len = 1;
+
 	message.msg_name = NULL;
 	message.msg_namelen = 0;
 	message.msg_control = ctrl_buf;

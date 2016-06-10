@@ -24,7 +24,7 @@
 
 #include "../clab5/zassert.h"
 
-#define MAX_WAITING_CONNECTIONS 8
+#define MAX_WAITING_CONNECTIONS 16
 #define MIN_WORKERS 2
 #define MAX_WORKERS 4
 
@@ -70,6 +70,7 @@ void free_handler(int sig){
 void send_directory_content(int fd, char *dir){
 	char buf[32*PATH_MAX] = { 0 };
 
+
 	struct dirent *dirent;
 	DIR *dirp = opendir(dir);
 	if(dirp == NULL){
@@ -84,11 +85,17 @@ void send_directory_content(int fd, char *dir){
 	int sz = strlen(dir)+3+1;
 	strcat(buf, dir);
 	strcat(buf, ":\n");
+
 	while((dirent = readdir(dirp)) != NULL){
 		if((sz + strlen(dirent->d_name) + 1) > 32*PATH_MAX){
 			printf("Bad directory\n");
 			break;
 		} else {
+		//	if(!strcmp(dirent->d_name, ".."))
+		//		continue;
+		//	if(!strcmp(dirent->d_name, "."))
+		//		continue;
+			
 			strcat(buf, dirent->d_name);
 			strcat(buf, "\n");
 		}
@@ -97,18 +104,24 @@ void send_directory_content(int fd, char *dir){
 	strcat(buf, "\n");
 
 	int wr = write(fd, buf, strlen(buf));
+	printf("%d\n", wr);
 
 }
 
 void parse_command(int fd){
 	char buf[PATH_MAX] = { 0 };
 
-	int rd = read(fd, buf, PATH_MAX - 1);	
-	zassert(rd < 0);
-	if(rd > 0){
-		//buf- name of file to print
+	int rd; 
+	while((rd = read(fd, buf, PATH_MAX - 1)) > 0){
+		puts(buf);
+		//telnet
+		char *cr = strchr(buf, '\r');
+		if(cr != NULL){
+			*cr = 0;
+		}
 		send_directory_content(fd, buf);
 	}
+	zassert(rd < 0);
 }
 
 void do_work(int id){
@@ -255,7 +268,7 @@ int first_free_in_list(struct worker *list, int limit){
 
 int main(int argc, char *argv[]) {
 	if(argc < 3){
-		printf("usage: ./server host port\n");
+		puts("usage: ./server host port\n");
 		return 0;
 	}
 
@@ -311,13 +324,14 @@ int main(int argc, char *argv[]) {
 		struct sockaddr_in sock_in = { 0 };
 		socklen_t slen = sizeof(struct sockaddr_in);
 
+		puts("Before accept");
 		int client_fd = accept(sock, (struct sockaddr*)&sock_in, &slen);
 		zassert(client_fd < 0);
 		printf("### Main loop just got a connection to fd #%d\n", client_fd);
 		
 
 		mutex_lock(&workers_protected->mutex_workerlist);
-		
+
 		int current_free = first_free_in_list(workers_protected->list, CFDS);
 		
 		mutex_unlock(&workers_protected->mutex_workerlist);
@@ -326,7 +340,10 @@ int main(int argc, char *argv[]) {
 		//that is easy. If there is no free processes, just create new one
 		if(current_free == -1){
 			mutex_lock(&workers_protected->mutex_workerlist);
-			int index = first_unused_in_list(workers_protected->list, CFDS);
+			int index; 
+			while((index = first_unused_in_list(workers_protected->list, CFDS)) == -1){
+				sleep(1);
+			}
 			mutex_unlock(&workers_protected->mutex_workerlist);
 
 			if(fork() == 0){

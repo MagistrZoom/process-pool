@@ -92,7 +92,6 @@ BSWAP_32	/usr/include/sys/byteorder.h	88;"	d
 BSWAP_64	/usr/include/sys/byteorder.h	89;"	d
 BSWAP_8	/usr/include/sys/byteorder.h	86;"	d
 BUFSIZ	/usr/include/iso/stdio_iso.h	104;"	d
-BUFSIZE	client.c	16;"	d	file:
 BUS_ADRALN	/usr/include/sys/machsig.h	93;"	d
 BUS_ADRERR	/usr/include/sys/machsig.h	94;"	d
 BUS_OBJERR	/usr/include/sys/machsig.h	96;"	d
