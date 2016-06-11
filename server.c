@@ -25,8 +25,8 @@
 #include "../clab5/zassert.h"
 
 #define MAX_WAITING_CONNECTIONS 16
-#define MIN_WORKERS 2
-#define MAX_WORKERS 4
+#define MIN_WORKERS 1
+#define MAX_WORKERS 2
 
 #define CFDS 256
 
@@ -265,6 +265,16 @@ int first_free_in_list(struct worker *list, int limit){
 }
 
 int main(int argc, char *argv[]) {
+	//TODO:
+	//rework with usage gethostbyname
+	//
+	//TODO:
+	//Optionally, i can replace shared memory with pipes
+	//and poll. But i dont want to do that
+	//
+	//TODO:
+	//Server must able to read large directories
+	
 	if(argc < 3){
 		puts("usage: ./server host port\n");
 		return 0;
