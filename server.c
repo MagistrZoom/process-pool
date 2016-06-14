@@ -1,20 +1,25 @@
 #include <stdio.h>
 
+#include <stdlib.h>
+
 #include <sys/types.h>
 #include <unistd.h>
 
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <sys/shm.h>
+#include <signal.h>
+
 
 #include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
 #include <thread.h>
 #include <synch.h>
 
 #include <errno.h>
-
-#include <signal.h>
 
 #include <string.h>
 
@@ -67,9 +72,23 @@ void free_handler(int sig){
 	exit(0);
 }
 
+void init_signal_handlers(){
+	struct sigaction f_act = (struct sigaction){
+		.sa_flags = SA_RESTART | SA_NOCLDWAIT
+	};
+	int sig_ret = sigaction(SIGCHLD, &f_act, NULL);
+	zassert(sig_ret < 0);
+
+	f_act = (struct sigaction){
+		.sa_flags = 0,
+		.sa_handler = &free_handler
+	};
+	sig_ret = sigaction(SIGINT, &f_act, NULL);
+	zassert(sig_ret < 0);
+}
+
 void send_directory_content(int fd, char *dir){
 	char buf[32*PATH_MAX] = { 0 };
-
 
 	struct dirent *dirent;
 	DIR *dirp = opendir(dir);
@@ -79,6 +98,10 @@ void send_directory_content(int fd, char *dir){
 		strcat(buf, "\n");
 
 		int w = write(fd, buf, strlen(buf));
+		if(w < 0){
+			puts("FAIL in worker");
+			exit(1);
+		}
 
 		return;
 	}
@@ -101,9 +124,11 @@ void send_directory_content(int fd, char *dir){
 		}
 	}
 
-	strcat(buf, "\n");
-
 	int wr = write(fd, buf, strlen(buf));
+	if(wr < 0){
+		puts("FAIL in worker");
+		exit(1);
+	}
 
 }
 
@@ -121,6 +146,28 @@ void parse_command(int fd){
 	}
 	zassert(rd < 0);
 }
+
+int first_unused_in_list(struct worker *list, int limit){
+	int i;
+	for(i = 0; i < limit; i++){
+		if(!list[i].used){
+			list[i].is_free = 1;
+			return i;
+		}
+	}
+	return -1;
+}
+
+int first_free_in_list(struct worker *list, int limit){
+	int i;
+	for(i = 0; i < limit; i++){
+		if(list[i].is_free && list[i].used){
+			return i;
+		}
+	}
+	return -1;
+}
+
 
 void do_work(int id){
 	mutex_lock(&workers_protected->mutex_workerlist);
@@ -142,7 +189,7 @@ void do_work(int id){
 	mutex_unlock(&workers_protected->mutex_free_counter);
 
 	
-	printf("Child started\n");
+	printf("Child %d started\n", id);
 	
 	while(1){
 		printf("PID #%d is waiting\n", id);
@@ -193,11 +240,10 @@ void do_work(int id){
 	mutex_unlock(&workers_protected->mutex_workerlist);
 
 
-
 	mutex_unlock(&workers_protected->mutex_free_counter);
 		
 
-	printf("Process #%d received kill message. Now %d free processes in the pool\n", 
+	printf("Process #%d recognized he must die. Now %d free processes in the pool\n", 
 			id, workers_protected->free_counter);
 	exit(0);
 }
@@ -221,11 +267,11 @@ void initialize_workers() {
 	}
 }
 
-int start_tcp(char *addr, int port) {
+int start_tcp(struct in_addr *addr, int port) {
 	struct sockaddr_in saddr = {
 		.sin_family = AF_INET,
 		.sin_port 	= htons(port),
-		.sin_addr.s_addr = inet_addr(addr)
+		.sin_addr.s_addr = addr->s_addr
 	};
 
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -242,56 +288,28 @@ int start_tcp(char *addr, int port) {
 	return sock;
 }
 
-int first_unused_in_list(struct worker *list, int limit){
-	int i;
-	for(i = 0; i < limit; i++){
-		if(!list[i].used){
-			list[i].is_free = 1;
-			return i;
-		}
-	}
-	return -1;
-}
-
-int first_free_in_list(struct worker *list, int limit){
-	int i;
-	for(i = 0; i < limit; i++){
-		if(list[i].is_free && list[i].used){
-			printf("WORKER %d: free %d, used %d, connect %d\n", i, list[i].is_free, list[i].used, list[i].local_fd);
-			return i;
-		}
-	}
-	return -1;
-}
-
 int main(int argc, char *argv[]) {
 	//TODO:
-	//rework with usage gethostbyname
-	//
-	//TODO:
-	//Optionally, i can replace shared memory with pipes
-	//and poll. But i dont want to do that
-	//
-	//TODO:
 	//Server must able to read large directories
+	//
+	//TODO:
+	//ipc erasure on failure ops
 	
 	if(argc < 3){
 		puts("usage: ./server host port\n");
 		return 0;
 	}
 
-	struct sigaction f_act = (struct sigaction){
-		.sa_flags = SA_RESTART | SA_NOCLDWAIT
-	};
-	int sig_ret = sigaction(SIGCHLD, &f_act, NULL);
-	zassert(sig_ret < 0);
+	struct hostent *host = gethostbyname(argv[1]);
+	if(host == NULL || *host->h_addr_list == NULL){
+		puts("Invalid hostname or unrecognized");
+		return 1;
+	}
 
-	f_act = (struct sigaction){
-		.sa_flags = 0,
-		.sa_handler = &free_handler
-	};
-	sig_ret = sigaction(SIGINT, &f_act, NULL);
-	zassert(sig_ret < 0);
+	struct in_addr *target_host = (struct in_addr*)*host->h_addr_list;
+
+	//initialize signal handlers
+	init_signal_handlers();
 
 	int shared_key = getuid()+8842;
 	shared_id = shmget(shared_key, sizeof(struct workers), IPC_CREAT | IPC_EXCL | 0600);
@@ -313,12 +331,16 @@ int main(int argc, char *argv[]) {
 	//now just init TCP listener
 	int port;
 	sscanf(argv[2], "%d", &port);
-	sock = start_tcp(argv[1], port);
+	sock = start_tcp(target_host, port);
 	
 	local_sock = create_server();
 
 	//MIN_WORKERS pool
 	initialize_workers();
+
+
+
+
 
 	//accept local socket MIN_WORKER times
 	int i;
@@ -340,8 +362,6 @@ int main(int argc, char *argv[]) {
 		mutex_lock(&workers_protected->mutex_workerlist);
 
 		int current_free = first_free_in_list(workers_protected->list, CFDS);
-		if(current_free == -1)
-			first_unused_in_list(workers_protected->list, CFDS);
 		
 		mutex_unlock(&workers_protected->mutex_workerlist);
 
@@ -349,12 +369,17 @@ int main(int argc, char *argv[]) {
 		//that is easy. If there is no free processes, just create new one
 		if(current_free == -1){
 			mutex_lock(&workers_protected->mutex_workerlist);
+
+			//All pool's slots used. Waiting for the end of one of the processes
+			//or freed processes
 			int index; 
 			while((index = first_unused_in_list(workers_protected->list, CFDS)) == -1){
 				sleep(1);
 			}
-			mutex_unlock(&workers_protected->mutex_workerlist);
 
+			mutex_unlock(&workers_protected->mutex_workerlist);
+			
+			//need to create new process
 			if(fork() == 0){
 				do_work(index);
 			} else{
@@ -372,23 +397,27 @@ int main(int argc, char *argv[]) {
 				printf("Accepted local connect from process #%d\n", index);
 			}
 		}
-
 			
-		//then push new client to be handled by one of pool's processes
 		int process_id;
-		mutex_lock(&workers_protected->mutex_workerlist);
-		while((process_id = first_free_in_list(workers_protected->list, CFDS)) < 0){
+		while(1){
+			mutex_lock(&workers_protected->mutex_workerlist);
+
+			process_id = first_free_in_list(workers_protected->list, CFDS);
+			if(process_id >= 0)
+				break;
+			
 			mutex_unlock(&workers_protected->mutex_workerlist);
+		
+			
 			sleep(1);
 		}
 		
-		//make it unfree
+		//make it unfree before dispatch
 		workers_protected->list[process_id].is_free = 0;
 
 		mutex_unlock(&workers_protected->mutex_workerlist);
 		
-		printf("--- Client #%d pushed to handle by process #%d\n", client_fd, process_id);
-		//now process_id is not free
+		printf("--- Client #%d passed to handle by process #%d\n", client_fd, process_id);
 		int sendfd_res = send_file_descriptor(
 			workers_protected->list[process_id].local_fd, client_fd);
 		zassert(sendfd_res < 0);

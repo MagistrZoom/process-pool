@@ -3,8 +3,11 @@
 #include <netinet/in.h>
 #include <sys/types.h>
 
+#include <string.h>
+
 #include <unistd.h>
 #include <fcntl.h>
+
 
 
 #include <stdio.h>
@@ -91,7 +94,6 @@ int connect_server() {
 }
 
 int recv_file_descriptor(int socket) {
-	int sent_fd;
 	struct msghdr message = { 0 };
 	struct iovec iov[1];
 	struct cmsghdr *control_message = NULL;

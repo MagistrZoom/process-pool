@@ -1,6 +1,6 @@
 CC=gcc
 LD=gcc
-CFLAGS=-c -m64 -o
+CFLAGS=-Wall -c -m64 -o
 LFLAGS=-m64 -lsocket -lnsl -o
 SRCS=$(wildcard *.c)
 

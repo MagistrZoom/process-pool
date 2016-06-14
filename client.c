@@ -1,9 +1,11 @@
 #include <stdio.h>
 
+#include <stdlib.h>
+
 #include <sys/types.h>
 #include <sys/socket.h>
-
 #include <arpa/inet.h> 
+#include <netdb.h>
 
 #include <string.h>
 
@@ -26,15 +28,23 @@ int main(int argc, char* argv[]) {
 		printf("Port must be integer\n");
 		return 2;
 	}
+	
+	struct hostent *host = gethostbyname(argv[1]);
+	if(host == NULL || *host->h_addr_list == NULL){
+		puts("Invalid hostname or unrecognized");
+		return 1;
+	}
+
+	struct in_addr *target_host = (struct in_addr*)*host->h_addr_list;
 
 
 	struct sockaddr_in saddr;
-	char buf[32*PATH_MAX], dirbuf[32*PATH_MAX];
+	char buf[32*PATH_MAX];
 	int sock, i;
 	saddr = (struct sockaddr_in){
 		.sin_family = AF_INET,
 		.sin_port = htons(port),
-		.sin_addr.s_addr = inet_addr(argv[1])
+		.sin_addr.s_addr = target_host->s_addr
 	};
 
 	sock = socket(AF_INET, SOCK_STREAM, 0);
