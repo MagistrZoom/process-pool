@@ -27,13 +27,18 @@
 
 #include <dirent.h>
 
-#include "../clab5/zassert.h"
+#include "zassert.h"
 
-#define MAX_WAITING_CONNECTIONS 16
+#define MAX_WAITING_CONNECTIONS 8
+
+//MAX_WORKERS MUST NOT BE GREATER THAN CFDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+//undefined behaviour
+
 #define MIN_WORKERS 1
 #define MAX_WORKERS 2
+#define CFDS 32
 
-#define CFDS 256
+#define WORKER_DIRECTORY_BUF 32*PATH_MAX
 
 
 int send_file_descriptor(int socket, int fd_to_send);
@@ -59,16 +64,18 @@ struct workers {
 	struct worker list[CFDS];
 };
 
-
 struct workers *workers_protected;
 
-int shared_id;
-int sock, local_sock;
+int shared_id = -1;
+int sock = -1, local_sock = -1;
 
 void free_handler(int sig){
-	shmctl(shared_id, IPC_RMID, 0);
-	close(sock);
-	close(local_sock);
+	if(shared_id >= 0)
+		shmctl(shared_id, IPC_RMID, 0);
+	if(sock >= 0)
+		close(sock);
+	if(local_sock >= 0)
+		close(local_sock);
 	exit(0);
 }
 
@@ -87,8 +94,8 @@ void init_signal_handlers(){
 	zassert(sig_ret < 0);
 }
 
-void send_directory_content(int fd, char *dir){
-	char buf[32*PATH_MAX] = { 0 };
+int send_directory_content(int fd, char *dir){
+	char buf[WORKER_DIRECTORY_BUF] = { 0 };
 
 	struct dirent *dirent;
 	DIR *dirp = opendir(dir);
@@ -99,40 +106,52 @@ void send_directory_content(int fd, char *dir){
 
 		int w = write(fd, buf, strlen(buf));
 		if(w < 0){
-			puts("FAIL in worker");
-			exit(1);
+			fputs("FAIL in worker", stderr);
+			return 1;
 		}
 
-		return;
+		//not an error, just warning. Dont need to finish worker
+		return 0;
 	}
 	int sz = strlen(dir)+3+1;
 	strcat(buf, dir);
 	strcat(buf, ":\n");
 
 	while((dirent = readdir(dirp)) != NULL){
-		if((sz + strlen(dirent->d_name) + 1) > 32*PATH_MAX){
-			printf("Bad directory\n");
-			break;
-		} else {
-		//	if(!strcmp(dirent->d_name, ".."))
-		//		continue;
-		//	if(!strcmp(dirent->d_name, "."))
-		//		continue;
-			
-			strcat(buf, dirent->d_name);
-			strcat(buf, "\n");
+		if((sz + strlen(dirent->d_name) + 1) > WORKER_DIRECTORY_BUF){
+			//then flush buffer
+			int wr = write(fd, buf, strlen(buf));
+			if(wr < 0){
+				fputs("Fail while writing", stderr);
+				return 1;
+			}
+
+			sz = strlen(dirent->d_name);
+			*buf = 0;
 		}
+		int len = strlen(dirent->d_name);
+		sz += len + 1; //plus \n
+
+		strncat(buf, dirent->d_name, len);
+		strcat(buf, "\n");
 	}
 
 	int wr = write(fd, buf, strlen(buf));
 	if(wr < 0){
-		puts("FAIL in worker");
-		exit(1);
+		fputs("Fail while writing", stderr);
+		return 1;
 	}
 
+	wr = write(fd, "\0\0", 2);
+	if(wr < 0){
+		fputs("Not able to finish transmitting directory", stderr);
+		return 1;
+	}
+
+	return 0;
 }
 
-void parse_command(int fd){
+int parse_command(int fd){
 	char buf[PATH_MAX] = { 0 };
 
 	int rd; 
@@ -142,9 +161,13 @@ void parse_command(int fd){
 		if(cr != NULL){
 			*cr = 0;
 		}
-		send_directory_content(fd, buf);
+		int ret = send_directory_content(fd, buf);
+		if(ret)
+			return ret;
 	}
 	zassert(rd < 0);
+
+	return 0;
 }
 
 int first_unused_in_list(struct worker *list, int limit){
@@ -178,7 +201,8 @@ void do_work(int id){
 	mutex_unlock(&workers_protected->mutex_workerlist);
 	
 	
-	//first of all need to became a client of localserver
+	//first of all need to became a client of localserver to be able to 
+	//handle connections
 	int source = connect_server();
 
 	
@@ -192,10 +216,10 @@ void do_work(int id){
 	printf("Child %d started\n", id);
 	
 	while(1){
-		printf("PID #%d is waiting\n", id);
+		printf("Worker #%d is waiting\n", id);
 		int recv_fd = recv_file_descriptor(source);
 		
-		printf("PID #%d received new client fd#%d\n", id, recv_fd);
+		printf("Worker #%d received new client fd#%d\n", id, recv_fd);
 
 	
 		mutex_lock(&workers_protected->mutex_free_counter);
@@ -205,24 +229,36 @@ void do_work(int id){
 		mutex_unlock(&workers_protected->mutex_free_counter);
 
 
-		parse_command(recv_fd);	
-
+		int ret = parse_command(recv_fd);	
+		//error occured during interacting with remote client
+		if(ret){
+			fprintf(stderr, "%d: error\n", __LINE__);
+			break;		
+		}
+		
 
 		int cls = close(recv_fd);
 		zassert(cls < 0);
-
 
 		mutex_lock(&workers_protected->mutex_workerlist);
 
 		workers_protected->list[id].is_free = 1;
 		
-		mutex_unlock(&workers_protected->mutex_workerlist);
-	
-		
 		mutex_lock(&workers_protected->mutex_free_counter);
 		
-		//if free_counter + 1 will be greater than MAX_WORKERS, it must die
+		//if free_counter + 1 will be greater than MAX_WORKERS, worker must die
+
 		if(workers_protected->free_counter + 1 > MAX_WORKERS){
+			//i know that there are duplicate below. There are case when 
+			//process is going to die, but it's used==1 and dispatcher can
+			//send new client to almost death worker
+			workers_protected->list[id].used = 0;
+		
+			mutex_unlock(&workers_protected->mutex_free_counter);
+
+			mutex_unlock(&workers_protected->mutex_workerlist);
+
+			
 			break;
 		}
 
@@ -230,7 +266,11 @@ void do_work(int id){
 
 		mutex_unlock(&workers_protected->mutex_free_counter);
 		
+
+		mutex_unlock(&workers_protected->mutex_workerlist);
+	
 	}
+
 
 
 	mutex_lock(&workers_protected->mutex_workerlist);
@@ -240,10 +280,7 @@ void do_work(int id){
 	mutex_unlock(&workers_protected->mutex_workerlist);
 
 
-	mutex_unlock(&workers_protected->mutex_free_counter);
-		
-
-	printf("Process #%d recognized he must die. Now %d free processes in the pool\n", 
+	printf("Worker #%d is going to die. Now %d free processes in the pool\n", 
 			id, workers_protected->free_counter);
 	exit(0);
 }
@@ -289,12 +326,6 @@ int start_tcp(struct in_addr *addr, int port) {
 }
 
 int main(int argc, char *argv[]) {
-	//TODO:
-	//Server must able to read large directories
-	//
-	//TODO:
-	//ipc erasure on failure ops
-	
 	if(argc < 3){
 		puts("usage: ./server host port\n");
 		return 0;
@@ -317,8 +348,7 @@ int main(int argc, char *argv[]) {
 
 	//init a interprocess mutex and  worker counter protected by them
 	workers_protected = shmat(shared_id, NULL, 0);
-
-	zassert(workers_protected < NULL);
+	zassert(workers_protected == (void*)-1);
 
 	memset(workers_protected, 0, sizeof(struct workers));
 
@@ -337,9 +367,6 @@ int main(int argc, char *argv[]) {
 
 	//MIN_WORKERS pool
 	initialize_workers();
-
-
-
 
 
 	//accept local socket MIN_WORKER times
@@ -367,20 +394,40 @@ int main(int argc, char *argv[]) {
 
 
 		//that is easy. If there is no free processes, just create new one
+		int flg = 0;
 		if(current_free == -1){
-			mutex_lock(&workers_protected->mutex_workerlist);
-
 			//All pool's slots used. Waiting for the end of one of the processes
 			//or freed processes
 			int index; 
-			while((index = first_unused_in_list(workers_protected->list, CFDS)) == -1){
+/*			while(1){
+				mutex_lock(&workers_protected->mutex_workerlist);
+				
+				index = first_unused_in_list(workers_protected->list, CFDS);
+				printf("%d: Current index %d\n", __LINE__, index);
+				
+				if(index >= 0)
+					break;
+				
+				mutex_unlock(&workers_protected->mutex_workerlist);
 				sleep(1);
 			}
+*/
 
+			mutex_lock(&workers_protected->mutex_workerlist);
+				
+			index = first_unused_in_list(workers_protected->list, CFDS);
+			//all CFDS threads is on now
+			//so just skip instaniate of new process (because pool is full)
+			//and wait for the freed worker
+			if(index < 0)
+				flg = 1;
+		
 			mutex_unlock(&workers_protected->mutex_workerlist);
 			
 			//need to create new process
-			if(fork() == 0){
+			if(flg) {
+				flg = 0;
+			} else if(fork() == 0){
 				do_work(index);
 			} else{
 				struct sockaddr_in local_in = { 0 };
@@ -408,8 +455,9 @@ int main(int argc, char *argv[]) {
 			
 			mutex_unlock(&workers_protected->mutex_workerlist);
 		
-			
-			sleep(1);
+			//to be honest, it's a hack. At this time i not yet invented
+			//some scheme of selecting free worker without sleep
+			usleep(60000);
 		}
 		
 		//make it unfree before dispatch

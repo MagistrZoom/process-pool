@@ -114,7 +114,7 @@ CANTMASK0	/usr/include/sys/signal.h	257;"	d
 CANTMASK1	/usr/include/sys/signal.h	258;"	d
 CDELAY	/usr/include/sys/param.h	292;"	d
 CDLIMIT	/usr/include/sys/param.h	149;"	d
-CFDS	server.c	36;"	d	file:
+CFDS	server.c	39;"	d	file:
 CHARCLASS_NAME_MAX	/usr/include/limits.h	179;"	d
 CHAR_BIT	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/limits.h	63;"	d
 CHAR_BIT	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/limits.h	64;"	d
@@ -1054,7 +1054,7 @@ MAX_MAXPID	/usr/include/sys/param.h	85;"	d
 MAX_PENDING	lserver.c	17;"	d	file:
 MAX_TASKID	/usr/include/sys/param.h	84;"	d
 MAX_WAITING_CONNECTIONS	server.c	32;"	d	file:
-MAX_WORKERS	server.c	34;"	d	file:
+MAX_WORKERS	server.c	38;"	d	file:
 MB_CUR_MAX	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/iso/stdlib_iso.h	47;"	d
 MB_CUR_MAX	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/iso/stdlib_iso.h	50;"	d
 MB_LEN_MAX	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/limits.h	68;"	d
@@ -1071,7 +1071,7 @@ MHZ_TO_HZ	/usr/include/sys/time.h	269;"	d
 MICROSEC	/usr/include/sys/time.h	186;"	d
 MILLISEC	/usr/include/sys/time.h	185;"	d
 MINSIGSTKSZ	/usr/include/sys/signal.h	151;"	d
-MIN_WORKERS	server.c	33;"	d	file:
+MIN_WORKERS	server.c	37;"	d	file:
 MMU_PAGEMASK	/usr/include/sys/param.h	366;"	d
 MMU_PAGEOFFSET	/usr/include/sys/param.h	365;"	d
 MMU_PAGESHIFT	/usr/include/sys/param.h	364;"	d
@@ -2152,6 +2152,8 @@ WCHAR_MIN	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixe
 WINT_MAX	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/sys/int_limits.h	185;"	d
 WINT_MIN	/home/s191941/gcc-5.3.0/lib/gcc/i386-pc-solaris2.10/5.3.0/include-fixed/sys/int_limits.h	260;"	d
 WORD_BIT	/usr/include/limits.h	190;"	d
+WORKER_DIRECTORY_BUF	client.c	18;"	d	file:
+WORKER_DIRECTORY_BUF	server.c	41;"	d	file:
 W_OK	/usr/include/unistd.h	29;"	d
 X_OK	/usr/include/unistd.h	30;"	d
 _ACL_ACE_ENABLED	/usr/include/sys/unistd.h	317;"	d
@@ -4023,7 +4025,7 @@ lloff_t	/usr/include/sys/types.h	/^} lloff_t;$/;"	t	typeref:union:__anon58
 lobyte	/usr/include/sys/param.h	156;"	d
 lobyte	/usr/include/sys/param.h	162;"	d
 local_fd	server.c	/^	char local_fd;$/;"	m	struct:worker	file:
-local_sock	server.c	/^int sock, local_sock;$/;"	v
+local_sock	server.c	/^int sock = -1, local_sock = -1;$/;"	v
 lock	/usr/include/sys/synch.h	/^	} lock;$/;"	m	struct:_lwp_mutex	typeref:union:_lwp_mutex::__anon176
 lock32	/usr/include/sys/synch.h	/^		} lock32;$/;"	m	union:_lwp_mutex::__anon176	typeref:struct:_lwp_mutex::__anon176::__anon178
 lock64	/usr/include/sys/synch.h	/^		} lock64;$/;"	m	union:_lwp_mutex::__anon176	typeref:struct:_lwp_mutex::__anon176::__anon177
@@ -4059,6 +4061,7 @@ max_time	/usr/include/sys/kstat.h	/^	hrtime_t	max_time;		\/* longest event durat
 mbcp_type_un	/usr/include/sys/synch.h	/^		} mbcp_type_un;$/;"	m	struct:_lwp_mutex::__anon173	typeref:union:_lwp_mutex::__anon173::__anon174
 mblk_t	/usr/include/sys/stream.h	/^} mblk_t;$/;"	t	typeref:struct:msgb
 memchr	/usr/include/iso/string_iso.h	/^	inline void *memchr(void * __s, int __c, size_t __n) {$/;"	f	signature:(void * __s, int __c, size_t __n)
+memmem	client.c	/^void * memmem(const void *l, size_t l_len, const void *s, size_t s_len) {$/;"	f	signature:(const void *l, size_t l_len, const void *s, size_t s_len)
 mi_hiwat	/usr/include/sys/stream.h	/^	size_t	mi_hiwat;		\/* hi-water mark *\/$/;"	m	struct:module_info
 mi_idname	/usr/include/sys/stream.h	/^	char 	*mi_idname;		\/* module name *\/$/;"	m	struct:module_info
 mi_idnum	/usr/include/sys/stream.h	/^	ushort_t mi_idnum;		\/* module id number *\/$/;"	m	struct:module_info
@@ -4284,9 +4287,10 @@ pad_mutex	/usr/include/sys/mutex.h	/^typedef struct pad_mutex {$/;"	s
 pad_mutex_t	/usr/include/sys/mutex.h	/^} pad_mutex_t;$/;"	t	typeref:struct:pad_mutex
 pad_pad	/usr/include/sys/mutex.h	/^	char		pad_pad[64 - sizeof (kmutex_t)];$/;"	m	struct:pad_mutex
 paddr_t	/usr/include/sys/types.h	/^typedef	uint64_t	paddr_t;$/;"	t
-parse_command	server.c	/^void parse_command(int fd){$/;"	f	signature:(int fd)
+parse_command	server.c	/^int parse_command(int fd){$/;"	f	signature:(int fd)
 perm	/usr/include/sys/signal.h	/^	int	perm;				\/* flag for EPERM	*\/$/;"	m	struct:__anon126
 perr	../clab5/zassert.h	/^int perr(int err){                                $/;"	f	signature:(int err)
+perr	zassert.h	/^int perr(int err){                                $/;"	f	signature:(int err)
 pfn_t	/usr/include/sys/types.h	/^typedef	ulong_t		pfn_t;		\/* page frame number *\/$/;"	t
 pgcnt_t	/usr/include/sys/types.h	/^typedef	ulong_t		pgcnt_t;	\/* number of pages *\/$/;"	t
 ph_list	/usr/include/sys/poll.h	/^	struct polldat		*ph_list;	\/* list of pollers *\/$/;"	m	struct:pollhead	typeref:struct:pollhead::polldat
@@ -4559,7 +4563,7 @@ sdl_type	/usr/include/net/if_dl.h	/^	uchar_t	sdl_type;	\/* interface type *\/$/;
 seg_rw	/usr/include/vm/seg_enum.h	/^enum seg_rw {$/;"	g
 select	/usr/include/sys/select.h	80;"	d
 sema_t	/usr/include/synch.h	/^} sema_t;$/;"	t	typeref:struct:_sema
-send_directory_content	server.c	/^void send_directory_content(int fd, char *dir){$/;"	f	signature:(int fd, char *dir)
+send_directory_content	server.c	/^int send_directory_content(int fd, char *dir){$/;"	f	signature:(int fd, char *dir)
 send_file_descriptor	lserver.c	/^int send_file_descriptor(int socket, int fd_to_send) {$/;"	f	signature:(int socket, int fd_to_send)
 sendmsg	/usr/include/sys/socket.h	413;"	d
 sendto	/usr/include/sys/socket.h	414;"	d
@@ -4568,7 +4572,7 @@ servent	/usr/include/netdb.h	/^struct	servent {$/;"	s
 setprocset	/usr/include/sys/procset.h	114;"	d
 setrlimit	/usr/include/sys/resource.h	214;"	d
 setrlimit64	/usr/include/sys/resource.h	229;"	d
-shared_id	server.c	/^int shared_id;$/;"	v
+shared_id	server.c	/^int shared_id = -1;$/;"	v
 shm_allocated	/usr/include/sys/shm.h	/^	uint64_t	shm_allocated;	\/* mem allocated, for OSM *\/$/;"	m	struct:shmid_ds
 shm_amp	/usr/include/sys/shm.h	/^	void		*shm_amp;	\/* unused *\/$/;"	m	struct:shmid_ds
 shm_atime	/usr/include/sys/shm.h	/^	time_t		shm_atime;	\/* last shmat time *\/$/;"	m	struct:shmid_ds
@@ -4733,7 +4737,7 @@ so_minpsz	/usr/include/sys/stream.h	/^	ssize_t	so_minpsz;		\/* minimum read pack
 so_readopt	/usr/include/sys/stream.h	/^	short	so_readopt;		\/* read option *\/$/;"	m	struct:stroptions
 so_tail	/usr/include/sys/stream.h	/^	ushort_t so_tail;		\/* space available at the end *\/$/;"	m	struct:stroptions
 so_wroff	/usr/include/sys/stream.h	/^	ushort_t so_wroff;		\/* write offset *\/$/;"	m	struct:stroptions
-sock	server.c	/^int sock, local_sock;$/;"	v
+sock	server.c	/^int sock = -1, local_sock = -1;$/;"	v
 sockaddr	/usr/include/sys/socket_impl.h	/^struct sockaddr {$/;"	s
 sockaddr_dl	/usr/include/net/if_dl.h	/^struct sockaddr_dl {$/;"	s
 sockaddr_in	/usr/include/netinet/in.h	/^struct sockaddr_in {$/;"	s
@@ -5145,5 +5149,6 @@ writercv	/usr/include/sys/synch.h	/^	lwp_cond_t	writercv;	\/* used only to indic
 writes	/usr/include/sys/kstat.h	/^	uint_t		writes;		\/* number of write operations *\/$/;"	m	struct:kstat_io
 wtime	/usr/include/sys/kstat.h	/^	hrtime_t wtime;		\/* cumulative wait (pre-service) time *\/$/;"	m	struct:kstat_io
 zassert	../clab5/zassert.h	13;"	d
+zassert	zassert.h	12;"	d
 zerotdelta	/usr/include/sys/strft.h	134;"	d
 zoneid_t	/usr/include/sys/types.h	/^typedef id_t	zoneid_t;$/;"	t
