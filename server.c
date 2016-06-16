@@ -63,16 +63,27 @@ struct workers {
 
 struct workers *workers_protected;
 
+int my_lovely_id;
 int shared_id = -1;
 int sock = -1, local_sock = -1;
 
 void free_handler(int sig){
-	if(shared_id >= 0)
-		shmctl(shared_id, IPC_RMID, 0);
-	if(sock >= 0)
-		close(sock);
-	if(local_sock >= 0)
-		close(local_sock);
+	if(sig == SIGPIPE){
+		mutex_lock(&workers_protected->mutex_workerlist);
+
+		fputs("Worker received SIGPIPE", stderr);
+		workers_protected->list[my_lovely_id].used = 0;
+	
+		mutex_unlock(&workers_protected->mutex_workerlist);
+	} else {
+		if(shared_id >= 0)
+			shmctl(shared_id, IPC_RMID, 0);
+		if(sock >= 0)
+			close(sock);
+		if(local_sock >= 0)
+			close(local_sock);
+	}
+
 	exit(0);
 }
 
@@ -88,6 +99,8 @@ void init_signal_handlers(){
 		.sa_handler = &free_handler
 	};
 	sig_ret = sigaction(SIGINT, &f_act, NULL);
+	zassert(sig_ret < 0);
+	sig_ret = sigaction(SIGPIPE, &f_act, NULL);
 	zassert(sig_ret < 0);
 }
 
@@ -119,7 +132,6 @@ int send_directory_content(int fd, char *dir){
 		if((sz + strlen(dirent->d_name) + 1) > WORKER_DIRECTORY_BUF){
 			//then flush buffer
 
-		
 			int wr = write(fd, buf, strlen(buf));
 			if(wr < 0){
 				fputs("Fail while writing", stderr);
@@ -166,7 +178,9 @@ int parse_command(int fd){
 		if(ret)
 			return ret;
 	}
-	zassert(rd < 0);
+	if(rd < 0){
+		return 1;
+	}
 
 	return 0;
 }
@@ -194,6 +208,7 @@ int first_free_in_list(struct worker *list, int limit){
 
 
 void do_work(int id){
+	my_lovely_id = id;
 	mutex_lock(&workers_protected->mutex_workerlist);
 
 	workers_protected->list[id].used = 1;
@@ -265,6 +280,7 @@ void do_work(int id){
 
 		workers_protected->free_counter++;
 
+
 		mutex_unlock(&workers_protected->mutex_free_counter);
 		
 
@@ -314,9 +330,11 @@ int start_tcp(struct in_addr *addr, int port) {
 
 	int sock = socket(AF_INET, SOCK_STREAM, 0);
 	zassert(sock < 0);
+
 	int sopt = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
     zassert(sopt < 0);
 
+	
 	int bnd = bind(sock, (struct sockaddr*)&saddr, sizeof(saddr));
 	zassert(bnd < 0);
 
@@ -347,6 +365,7 @@ int main(int argc, char *argv[]) {
 	init_signal_handlers();
 
 	int shared_key = getuid()+8842;
+
 	shared_id = shmget(shared_key, sizeof(struct workers), IPC_CREAT | IPC_EXCL | 0600);
 	zassert(shared_id < 0);
 
@@ -364,7 +383,14 @@ int main(int argc, char *argv[]) {
 
 	//now just init TCP listener
 	int port;
-	sscanf(argv[2], "%d", &port);
+	char *ptr;
+	port = strtol(argv[2], &ptr, 10);
+	if(argv[2] == ptr){
+		puts("Invalid port");
+		return 1;
+	}
+
+
 	sock = start_tcp(target_host, port);
 	
 	local_sock = create_server();
@@ -459,7 +485,9 @@ int main(int argc, char *argv[]) {
 		printf("--- Client #%d passed to handle by process #%d\n", client_fd, process_id);
 		int sendfd_res = send_file_descriptor(
 			workers_protected->list[process_id].local_fd, client_fd);
-		zassert(sendfd_res < 0);
+		if(sendfd_res < 0){
+			printf("Not able to delegate client #%d to worker #%d\n", client_fd, process_id);
+		}
 
 		int cls = close(client_fd);
 		zassert(cls < 0);

@@ -9,11 +9,15 @@
 #include <arpa/inet.h> 
 #include <netdb.h>
 
+#include <signal.h>
+
 #include <string.h>
 
 #include <errno.h>
 
 #include <limits.h>
+
+
 
 #define zassert(eq) if(eq){ printf("Err on line: %d\n", __LINE__); exit(perr(errno)); }
 
@@ -53,17 +57,33 @@ void * memmem(const void *l, size_t l_len, const void *s, size_t s_len) {
 	return NULL;
 }
 
+int sock = -1;
+
+void free_handler(int sig){
+	if(sock >= 0){
+		close(sock);
+	}
+	exit(0);
+}
 int main(int argc, char* argv[]) {
 	
 	if (argc < 4) { 
 		printf("Usage: host port dir [dir]\n");
 		return 0;
 	}
+	struct sigaction f_act = (struct sigaction){
+		.sa_flags = 0,
+		.sa_handler = &free_handler
+	};
+	int sig_ret = sigaction(SIGINT, &f_act, NULL);
+	zassert(sig_ret < 0);
+
 	int port;
-	int r = sscanf(argv[2], "%d", &port);
-	if(!r){
-		printf("Port must be integer\n");
-		return 2;
+	char *ptr;
+	port = strtol(argv[2], &ptr, 10);
+	if(argv[2] == ptr){
+		puts("Invalid port");
+		return 1;
 	}
 	
 	struct hostent *host = gethostbyname(argv[1]);
@@ -77,7 +97,7 @@ int main(int argc, char* argv[]) {
 
 	struct sockaddr_in saddr;
 	char buf[WORKER_DIRECTORY_BUF];
-	int sock, i;
+	int i;
 	saddr = (struct sockaddr_in){
 		.sin_family = AF_INET,
 		.sin_port = htons(port),
@@ -88,20 +108,32 @@ int main(int argc, char* argv[]) {
 	zassert(sock < 0);
 
 	int cnt = connect(sock, (struct sockaddr *)&saddr, sizeof(saddr));
-	zassert(cnt < 0);
+	if(cnt < 0){
+		perror("connect");
+		free_handler(-1);
+	}
 
 	for (i = 3; i < argc; i++) {
 		int wr = write(sock, argv[i], strlen(argv[i]));
-		zassert(wr < 0);
+		if(wr < 0){
+			perror("write dir to server");
+			free_handler(-1);
+		}
 		int rd;
 		while((rd = read(sock, buf, WORKER_DIRECTORY_BUF)) > 0){
 			wr = write(STDOUT_FILENO, buf, rd);
-			zassert(wr < 0);
-			if(memmem(buf, rd, "\0\0", 2)){
+			if(wr < 0){
+				perror("out dir");
+				free_handler(-1);
+			}
+			if(memmem(buf, rd, "\0", 2)){
 				break;
 			}
 		}
-		zassert(rd < 0);
+		if(rd < 0){
+			perror("read dir from server");
+			free_handler(-1);
+		}
 	}
 	
 	int cls = close(sock); 
