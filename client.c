@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include <unistd.h>
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h> 
@@ -13,9 +15,15 @@
 
 #include <limits.h>
 
-#include "../clab5/zassert.h"
+#define zassert(eq) if(eq){ printf("Err on line: %d\n", __LINE__); exit(perr(errno)); }
 
 #define WORKER_DIRECTORY_BUF 32*PATH_MAX
+
+int perr(int err){                                
+    char *err_ptr = strerror(err); 
+    fprintf(stderr, "%s\n", err_ptr);     
+    return err;                                   
+}
 
 /* opensource.apple.org */
 void * memmem(const void *l, size_t l_len, const void *s, size_t s_len) {
@@ -84,7 +92,6 @@ int main(int argc, char* argv[]) {
 
 	for (i = 3; i < argc; i++) {
 		int wr = write(sock, argv[i], strlen(argv[i]));
-		printf("Client sent: %s\n", argv[i]);
 		zassert(wr < 0);
 		int rd;
 		while((rd = read(sock, buf, WORKER_DIRECTORY_BUF)) > 0){

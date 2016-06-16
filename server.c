@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 
+#include <fcntl.h>
+
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -29,14 +31,14 @@
 
 #include "zassert.h"
 
-#define MAX_WAITING_CONNECTIONS 8
+#define MAX_WAITING_CONNECTIONS 32
 
 //MAX_WORKERS MUST NOT BE GREATER THAN CFDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 //undefined behaviour
 
-#define MIN_WORKERS 1
-#define MAX_WORKERS 2
-#define CFDS 32
+#define MIN_WORKERS 2
+#define MAX_WORKERS 4
+#define CFDS 64
 
 #define WORKER_DIRECTORY_BUF 32*PATH_MAX
 
@@ -45,11 +47,6 @@ int send_file_descriptor(int socket, int fd_to_send);
 int recv_file_descriptor(int socket);
 int create_server();
 int connect_server();
-
-struct msg_buf {
-	int mtype;
-	int a;
-};
 
 struct worker {
 	char used:4;
@@ -103,8 +100,9 @@ int send_directory_content(int fd, char *dir){
 		strcat(buf, "Invalid argument: ");
 		strcat(buf, dir);
 		strcat(buf, "\n");
+		strcat(buf, "\0\0");
 
-		int w = write(fd, buf, strlen(buf));
+		int w = write(fd, buf, strlen(buf) + 2);
 		if(w < 0){
 			fputs("FAIL in worker", stderr);
 			return 1;
@@ -120,13 +118,14 @@ int send_directory_content(int fd, char *dir){
 	while((dirent = readdir(dirp)) != NULL){
 		if((sz + strlen(dirent->d_name) + 1) > WORKER_DIRECTORY_BUF){
 			//then flush buffer
+
+		
 			int wr = write(fd, buf, strlen(buf));
 			if(wr < 0){
 				fputs("Fail while writing", stderr);
 				return 1;
 			}
 
-			sz = strlen(dirent->d_name);
 			*buf = 0;
 		}
 		int len = strlen(dirent->d_name);
@@ -142,6 +141,7 @@ int send_directory_content(int fd, char *dir){
 		return 1;
 	}
 
+
 	wr = write(fd, "\0\0", 2);
 	if(wr < 0){
 		fputs("Not able to finish transmitting directory", stderr);
@@ -156,6 +156,7 @@ int parse_command(int fd){
 
 	int rd; 
 	while((rd = read(fd, buf, PATH_MAX - 1)) > 0){
+		buf[rd] = 0;
 		//telnet
 		char *cr = strchr(buf, '\r');
 		if(cr != NULL){
@@ -294,7 +295,7 @@ void initialize_workers() {
 			mutex_lock(&workers_protected->mutex_workerlist);
 			
 			int index = first_unused_in_list(workers_protected->list, CFDS);
-			printf("Instaniate: generated process PID #%d\n", index);
+			printf("Instaniate: generated worker PID #%d\n", index);
 			
 			mutex_unlock(&workers_protected->mutex_workerlist);
 
@@ -315,7 +316,7 @@ int start_tcp(struct in_addr *addr, int port) {
 	zassert(sock < 0);
 	int sopt = setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, &(int){ 1 }, sizeof(int));
     zassert(sopt < 0);
-	
+
 	int bnd = bind(sock, (struct sockaddr*)&saddr, sizeof(saddr));
 	zassert(bnd < 0);
 
@@ -326,6 +327,9 @@ int start_tcp(struct in_addr *addr, int port) {
 }
 
 int main(int argc, char *argv[]) {
+	//TODO:
+	//select in worker to kill by timeout
+	
 	if(argc < 3){
 		puts("usage: ./server host port\n");
 		return 0;
@@ -368,7 +372,6 @@ int main(int argc, char *argv[]) {
 	//MIN_WORKERS pool
 	initialize_workers();
 
-
 	//accept local socket MIN_WORKER times
 	int i;
 	for(i = 0; i < MIN_WORKERS; i++){
@@ -399,19 +402,6 @@ int main(int argc, char *argv[]) {
 			//All pool's slots used. Waiting for the end of one of the processes
 			//or freed processes
 			int index; 
-/*			while(1){
-				mutex_lock(&workers_protected->mutex_workerlist);
-				
-				index = first_unused_in_list(workers_protected->list, CFDS);
-				printf("%d: Current index %d\n", __LINE__, index);
-				
-				if(index >= 0)
-					break;
-				
-				mutex_unlock(&workers_protected->mutex_workerlist);
-				sleep(1);
-			}
-*/
 
 			mutex_lock(&workers_protected->mutex_workerlist);
 				
@@ -455,8 +445,9 @@ int main(int argc, char *argv[]) {
 			
 			mutex_unlock(&workers_protected->mutex_workerlist);
 		
-			//to be honest, it's a hack. At this time i not yet invented
-			//some scheme of selecting free worker without sleep
+			//to be honest, it's a hack, i think. At this time i have no idea
+			//about some scheme of selecting free worker without sleep
+			//async mb
 			usleep(60000);
 		}
 		
