@@ -4,7 +4,7 @@ This is my study repository for six programming work in dispicpline "System soft
 
 There you can see my implementation of multithreading server written in C with usage of Solaris libthread (just for interprocess mutexes)
 
-## Pool logic
+## Pool`s logic
 
 After start server creates MIN_WORKERS processes to handle user connections. After that it is starting to listen incomming port to delegate connections to worker through the Unix socket filedescriptor passing (SCM_RIGHTS).
 Also it manages pool (if there is no free processes to handle connection server just start new one).  
