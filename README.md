@@ -15,14 +15,20 @@ In the end of handling of connection by worker it checks for amount of free proc
 ## Building
 
 To build this project put 
-     $ make
+```sh
+make
+```
 in CLI inside project root. You must use GNU make (on Solaris gmake)
   
   
 ## Usage
 To run server on host 'hostname' put 
-     $ server hostname port
+```sh
+server hostname port
+```
 
 To run client
-     $ client hostname port dir [dir...]
+```sh
+client hostname port dir [dir...]
+```
 
