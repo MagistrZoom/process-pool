@@ -23,4 +23,4 @@ ctags: $(SRCS)
 		gsed -e "/\.o:/d; /^$$/d;" | ctags --fields=+S -L -
 
 clean:                                                                         
-	rm -f *.o client server
+	rm -f *.o client server tags t
