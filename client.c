@@ -17,7 +17,7 @@
 
 #include <limits.h>
 
-
+#define PORT 12345
 
 #define zassert(eq) if(eq){ printf("Err on line: %d\n", __LINE__); exit(perr(errno)); }
 
@@ -67,8 +67,8 @@ void free_handler(int sig){
 }
 int main(int argc, char* argv[]) {
 	
-	if (argc < 4) { 
-		printf("Usage: host port dir [dir]\n");
+	if (argc < 3) { 
+		printf("Usage: host dir [dir]\n");
 		return 0;
 	}
 	struct sigaction f_act = (struct sigaction){
@@ -78,14 +78,15 @@ int main(int argc, char* argv[]) {
 	int sig_ret = sigaction(SIGINT, &f_act, NULL);
 	zassert(sig_ret < 0);
 
-	int port;
-	char *ptr;
+	int port = PORT;
+/*	char *ptr;
 	port = strtol(argv[2], &ptr, 10);
 	if(argv[2] == ptr){
 		puts("Invalid port");
 		return 1;
 	}
-	
+*/	
+
 	struct hostent *host = gethostbyname(argv[1]);
 	if(host == NULL || *host->h_addr_list == NULL){
 		puts("Invalid hostname or unrecognized");
@@ -113,7 +114,7 @@ int main(int argc, char* argv[]) {
 		free_handler(-1);
 	}
 
-	for (i = 3; i < argc; i++) {
+	for (i = 2; i < argc; i++) {
 		int wr = write(sock, argv[i], strlen(argv[i]));
 		if(wr < 0){
 			perror("write dir to server");

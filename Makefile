@@ -2,7 +2,7 @@ CC=gcc
 LD=gcc
 CFLAGS=-Wall -Werror -pedantic-errors -c -m64 -o
 LFLAGS=-m64 -lsocket -lnsl -o
-SRCS=$(wildcard *.c)
+SRCS=server.c client.c lserver.c
 
 build: ctags server client;
 

@@ -31,14 +31,16 @@
 
 #include "zassert.h"
 
-#define MAX_WAITING_CONNECTIONS 32
+#define MAX_WAITING_CONNECTIONS 1024
+
+#define PORT 12345
 
 //MAX_WORKERS MUST NOT BE GREATER THAN CFDS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 //undefined behaviour
 
-#define MIN_WORKERS 2
-#define MAX_WORKERS 4
-#define CFDS 64
+#define MIN_WORKERS 0
+#define MAX_WORKERS 16
+#define CFDS 256
 
 #define WORKER_DIRECTORY_BUF 32*PATH_MAX
 
@@ -209,6 +211,7 @@ int first_free_in_list(struct worker *list, int limit){
 
 void do_work(int id){
 	my_lovely_id = id;
+	int real_free = -1;
 	mutex_lock(&workers_protected->mutex_workerlist);
 
 	workers_protected->list[id].used = 1;
@@ -256,21 +259,24 @@ void do_work(int id){
 		int cls = close(recv_fd);
 		zassert(cls < 0);
 
-		mutex_lock(&workers_protected->mutex_workerlist);
-
-		workers_protected->list[id].is_free = 1;
-		
 		mutex_lock(&workers_protected->mutex_free_counter);
 		
 		//if free_counter + 1 will be greater than MAX_WORKERS, worker must die
 
-		if(workers_protected->free_counter + 1 > MAX_WORKERS){
+		real_free = workers_protected->free_counter;
+
+		mutex_unlock(&workers_protected->mutex_free_counter);
+		
+
+		mutex_lock(&workers_protected->mutex_workerlist);
+
+		workers_protected->list[id].is_free = 1;
+		
+		if(real_free + 1 > MAX_WORKERS){
 			//i know that there are duplicate below. There are case when 
 			//process is going to die, but it's used==1 and dispatcher can
 			//send new client to almost death worker
 			workers_protected->list[id].used = 0;
-		
-			mutex_unlock(&workers_protected->mutex_free_counter);
 
 			mutex_unlock(&workers_protected->mutex_workerlist);
 
@@ -278,13 +284,14 @@ void do_work(int id){
 			break;
 		}
 
+		mutex_unlock(&workers_protected->mutex_workerlist);
+
+		mutex_lock(&workers_protected->mutex_free_counter);
+
 		workers_protected->free_counter++;
 
-
 		mutex_unlock(&workers_protected->mutex_free_counter);
-		
 
-		mutex_unlock(&workers_protected->mutex_workerlist);
 	
 	}
 
@@ -298,7 +305,7 @@ void do_work(int id){
 
 
 	printf("Worker #%d is going to die. Now %d free processes in the pool\n", 
-			id, workers_protected->free_counter);
+			id, real_free);
 	exit(0);
 }
 
@@ -348,8 +355,8 @@ int main(int argc, char *argv[]) {
 	//TODO:
 	//select in worker to kill by timeout
 	
-	if(argc < 3){
-		puts("usage: ./server host port\n");
+	if(argc < 2){
+		puts("usage: ./server host\n");
 		return 0;
 	}
 
@@ -382,14 +389,16 @@ int main(int argc, char *argv[]) {
 
 
 	//now just init TCP listener
-	int port;
+/*	int port;
 	char *ptr;
 	port = strtol(argv[2], &ptr, 10);
 	if(argv[2] == ptr){
 		puts("Invalid port");
 		return 1;
 	}
-
+*/
+	int port = PORT;
+	printf("server listening on %d\n", port);
 
 	sock = start_tcp(target_host, port);
 	
