@@ -14,7 +14,7 @@
 
 #define SOCKET_PATH "/tmp/izoomko"
 
-#define MAX_PENDING 512
+#define MAX_PENDING 2
 
 int send_file_descriptor(int socket, int fd_to_send) {
 	struct msghdr message = { 0 };

@@ -9,15 +9,11 @@
 #include <arpa/inet.h> 
 #include <netdb.h>
 
-#include <signal.h>
-
 #include <string.h>
 
 #include <errno.h>
 
 #include <limits.h>
-
-#define PORT 12345
 
 #define zassert(eq) if(eq){ printf("Err on line: %d\n", __LINE__); exit(perr(errno)); }
 
@@ -57,36 +53,19 @@ void * memmem(const void *l, size_t l_len, const void *s, size_t s_len) {
 	return NULL;
 }
 
-int sock = -1;
-
-void free_handler(int sig){
-	if(sock >= 0){
-		close(sock);
-	}
-	exit(0);
-}
 int main(int argc, char* argv[]) {
 	
-	if (argc < 3) { 
-		printf("Usage: host dir [dir]\n");
+	if (argc < 4) { 
+		printf("Usage: host port dir [dir]\n");
 		return 0;
 	}
-	struct sigaction f_act = (struct sigaction){
-		.sa_flags = 0,
-		.sa_handler = &free_handler
-	};
-	int sig_ret = sigaction(SIGINT, &f_act, NULL);
-	zassert(sig_ret < 0);
-
-	int port = PORT;
-/*	char *ptr;
-	port = strtol(argv[2], &ptr, 10);
-	if(argv[2] == ptr){
-		puts("Invalid port");
-		return 1;
+	int port;
+	int r = sscanf(argv[2], "%d", &port);
+	if(!r){
+		printf("Port must be integer\n");
+		return 2;
 	}
-*/	
-
+	
 	struct hostent *host = gethostbyname(argv[1]);
 	if(host == NULL || *host->h_addr_list == NULL){
 		puts("Invalid hostname or unrecognized");
@@ -98,7 +77,7 @@ int main(int argc, char* argv[]) {
 
 	struct sockaddr_in saddr;
 	char buf[WORKER_DIRECTORY_BUF];
-	int i;
+	int sock, i;
 	saddr = (struct sockaddr_in){
 		.sin_family = AF_INET,
 		.sin_port = htons(port),
@@ -109,32 +88,20 @@ int main(int argc, char* argv[]) {
 	zassert(sock < 0);
 
 	int cnt = connect(sock, (struct sockaddr *)&saddr, sizeof(saddr));
-	if(cnt < 0){
-		perror("connect");
-		free_handler(-1);
-	}
+	zassert(cnt < 0);
 
-	for (i = 2; i < argc; i++) {
+	for (i = 3; i < argc; i++) {
 		int wr = write(sock, argv[i], strlen(argv[i]));
-		if(wr < 0){
-			perror("write dir to server");
-			free_handler(-1);
-		}
+		zassert(wr < 0);
 		int rd;
 		while((rd = read(sock, buf, WORKER_DIRECTORY_BUF)) > 0){
 			wr = write(STDOUT_FILENO, buf, rd);
-			if(wr < 0){
-				perror("out dir");
-				free_handler(-1);
-			}
-			if(memmem(buf, rd, "\0", 2)){
+			zassert(wr < 0);
+			if(memmem(buf, rd, "\0\0", 2)){
 				break;
 			}
 		}
-		if(rd < 0){
-			perror("read dir from server");
-			free_handler(-1);
-		}
+		zassert(rd < 0);
 	}
 	
 	int cls = close(sock); 
